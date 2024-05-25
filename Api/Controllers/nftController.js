@@ -5,7 +5,7 @@ exports.getAllNFTs = async (req, res, next) => {
   const NFTs = await NFTModel.find();
 
   // Send Response
-  res.staus(200).json({
+  res.status(200).json({
     status: "Success",
     results: NFTs.length,
     data: {
