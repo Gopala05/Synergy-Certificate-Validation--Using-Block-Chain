@@ -1,7 +1,85 @@
 import React from "react";
 
-const Form = () => {
-  return <div>Form</div>;
+import { FormSVG, Lock } from "../SVG/index";
+import style from "./Form.module.css";
+import { CheckBox } from "../index";
+
+const Form = ({
+  setFile,
+  setDisplay,
+  handleFormFieldChange,
+  handleSubmit,
+  setCategory,
+}) => {
+  const categories = ["Nature", "Artifical", "Animal"];
+  return (
+    <div className={style.card}>
+      <div className={style.card2}>
+        <form className={style.form}>
+          <p id="heading" className={style.heading}>
+            Upload Image Deatils
+          </p>
+
+          <div className={style.fiels}>
+            <FormSVG styleClass={style.input_icon} />
+            <input
+              type="text"
+              className={style.input_field}
+              placeholder="Title"
+              autoComplete="off"
+              onChange={(e) => handleFormFieldChange("title", e)}
+            />
+          </div>
+
+          <div className={style.field}>
+            <Lock styleClass={style.input_icon} />
+            <textarea
+              className={`${style.textarea} ${style.input_field}`}
+              placeholder="Description"
+              onChange={() => handleFormFieldChange("description", e)}
+            ></textarea>
+          </div>
+
+          <div className={style.field}>
+            <FormSVG styleClass={style.input_icon} />
+            <input
+              type="email"
+              className={style.input_field}
+              placeholder="Email"
+              onChange={(e) => handleFormFieldChange("email", e)}
+            />
+          </div>
+
+          <p className={style.second}>Category</p>
+
+          <div className={style.category}>
+            {categories.map((category, index) => (
+              <CheckBox
+                setCategory={setCategory}
+                key={index + 1}
+                category={category}
+              />
+            ))}
+          </div>
+
+          <div className={style.btn}>
+            <button
+              className={style.button1}
+              onClick={() => (setFile(null), setDisplay(null))}
+            >
+              Close
+            </button>
+
+            <button className={style.button2}>Sign Up</button>
+          </div>
+
+          <button onClick={(e) => handleSubmit(e)} className={style.button3}>
+            Create
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default Form;
