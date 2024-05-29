@@ -23,7 +23,7 @@ const createToken = (user, status, req, res) => {
   user.password = undefined;
 
   res.status(status).json({
-    status: "Created",
+    status: "Success",
     token,
     data: {
       user,
