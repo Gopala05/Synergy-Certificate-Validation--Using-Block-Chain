@@ -36,7 +36,7 @@ const Form = ({
             <textarea
               className={`${style.textarea} ${style.input_field}`}
               placeholder="Description"
-              onChange={() => handleFormFieldChange("description", e)}
+              onChange={(e) => handleFormFieldChange("description", e)}
             ></textarea>
           </div>
 
@@ -67,7 +67,7 @@ const Form = ({
               className={style.button1}
               onClick={() => (setFile(null), setDisplay(null))}
             >
-              Close
+              &nbsp; &nbsp; &nbsp; Close &nbsp; &nbsp; &nbsp;
             </button>
 
             <button className={style.button2}>Sign Up</button>
