@@ -34,6 +34,8 @@ contract nftsIPFS {
         address,
         string memory
     ) {
+        require(msg.value >= listingPrice, "Insufficient funds to pay listing price");
+        
         imagesCount++;
         NFTs storage nft = nftImages[imagesCount];
         
