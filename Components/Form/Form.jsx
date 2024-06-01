@@ -20,7 +20,7 @@ const Form = ({
             Upload Image Deatils
           </p>
 
-          <div className={style.fiels}>
+          <div className={style.field}>
             <FormSVG styleClass={style.input_icon} />
             <input
               type="text"
@@ -50,7 +50,7 @@ const Form = ({
             />
           </div>
 
-          <p className={style.second}>Category</p>
+          {/* <p className={style.second}>Category</p>
 
           <div className={style.category}>
             {categories.map((category, index) => (
@@ -60,7 +60,7 @@ const Form = ({
                 category={category}
               />
             ))}
-          </div>
+          </div> */}
 
           <div className={style.btn}>
             <button
