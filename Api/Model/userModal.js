@@ -1,21 +1,16 @@
 const Mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const authSchema = new Mongoose.Schema({
+const userSchema = new Mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please provide your Name!"], // Required, If not given trow the message
   },
-  email: {
+  userEmail: {
     type: String,
     required: [true, "Please provide your email"],
     unique: true, // Unique value in database
     lowercase: true, // Transform to LowerCase
-  },
-  role: {
-    type: String,
-    enum: ["user", "admin"], // Enum is a list of values that can be used
-    default: "user",
   },
   password: {
     type: String,
@@ -34,7 +29,7 @@ const authSchema = new Mongoose.Schema({
   },
 });
 
-authSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   // Only run this function if password was actually modified
   if (!this.isModified("password")) {
     return next();
@@ -49,27 +44,27 @@ authSchema.pre("save", async function (next) {
 });
 
 // Method to compare a plain text password against the hashed one stored in the database
-authSchema.pre("save", function (next) {
+userSchema.pre("save", function (next) {
   if (!this.isModified("passowrd") || this.isNew) return next();
 
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
-authSchema.pre(/^find/, function (next) {
+userSchema.pre(/^find/, function (next) {
   // This points the current query
   this.find({ active: { $ne: false } });
   next();
 });
 
-authSchema.methods.validatePassword = async function (
+userSchema.methods.validatePassword = async function (
   candidatePassword,
-  userPassword
+  authPassword
 ) {
-  return await bcrypt.compare(candidatePassword, userPassword);
+  return await bcrypt.compare(candidatePassword, authPassword);
 };
 
-authSchema.methods.passwordChangesAfter = function (JWTTimeStamp) {
+userSchema.methods.passwordChangesAfter = function (JWTTimeStamp) {
   if (this.passwordChangedAt) {
     const TimeStanpChanged = parseInt(
       this.passwordChangedAt.getTime() / 1000,
@@ -83,6 +78,6 @@ authSchema.methods.passwordChangesAfter = function (JWTTimeStamp) {
   return false;
 };
 
-const userModal = Mongoose.model("User", authSchema);
+const userModal = Mongoose.model("User", userSchema);
 
 module.exports = userModal;
