@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const nftRouter = require("./Api/Routers/nftRouter");
 const userRouter = require("./Api/Routers/userRouter");
+const authRouter = require("./Api/Routers/authRouter");
 
 //Middleware
 const app = express();
@@ -13,6 +14,7 @@ app.use(cors());
 app.options("*", cors());
 
 //Routes
+app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/nfts", nftRouter);
 
