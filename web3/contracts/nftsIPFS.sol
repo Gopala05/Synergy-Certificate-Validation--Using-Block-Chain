@@ -3,16 +3,17 @@ pragma solidity ^0.8.9;
 
 contract nftsIPFS {
     address payable contractOwner = payable(0xD031aD995A12390f0D4e4b85d46C120d08fd8ea4);
-    uint256 public listingPrice = 0.025 ether;
+    uint256 public listingPrice = 15000000000000000; // 0.015 ETH in wei;
 
     struct NFTs {
         string title;
-        string description;
-        string email;
-        string category;
+        string certificateID;
+        string userEmail;
+        string organisation;
+        string creatorID;
         uint256 fundraised;
         address creator;
-        string image;
+        string certificate;
         uint256 timestamp;
         uint256 id;
     }
@@ -21,39 +22,46 @@ contract nftsIPFS {
     uint256 public imagesCount = 0;
 
     function uploadIPFS(
-        address _creator, 
-        string memory _image, 
         string memory _title, 
-        string memory _description, 
-        string memory _email, 
-        string memory _category
-    ) public payable returns(
+        string memory _certificateID,
+        string memory _userEmail,
+        string memory _organisation,
+        string memory _creatorID,
+        address _creator, 
+        string memory _certificate 
+    ) public payable returns (
+        string memory,
+        string memory,
         string memory,
         string memory,
         string memory,
         address,
         string memory
     ) {
-        require(msg.value >= listingPrice, "Insufficient funds to pay listing price");
-        
+        // Increment the image count
         imagesCount++;
         NFTs storage nft = nftImages[imagesCount];
         
+        // Set NFT properties
         nft.title = _title;
+        nft.certificateID = _certificateID;
+        nft.userEmail = _userEmail;
+        nft.organisation = _organisation;
+        nft.creatorID = _creatorID;
         nft.creator = _creator;
-        nft.description = _description;
-        nft.email = _email;
-        nft.category = _category;
-        nft.image = _image;
+        nft.certificate = _certificate;
         nft.timestamp = block.timestamp;
         nft.id = imagesCount;
 
+        // Return the details of the uploaded image
         return (
             _title,
-            _description,
-            _category,
+            _certificateID,
+            _userEmail,
+            _organisation,
+            _creatorID,
             _creator,
-            _image
+            _certificate
         );
     }
 
@@ -72,27 +80,11 @@ contract nftsIPFS {
     }
 
     function getImage(uint256 id) external view returns (
-        string memory,
-        string memory,
-        string memory,
-        string memory,
-        uint256,
-        address,
-        string memory,
-        uint256,
-        uint256
+        NFTs memory
     ) {
         NFTs memory nfts = nftImages[id];
         return (
-            nfts.title,
-            nfts.description,
-            nfts.email,
-            nfts.category,
-            nfts.fundraised,
-            nfts.creator,
-            nfts.image,
-            nfts.timestamp,
-            nfts.id
+            nfts
         );
     }
 
