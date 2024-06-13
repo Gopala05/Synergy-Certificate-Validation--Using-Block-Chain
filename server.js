@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 const next = require("next");
 const dotenv = require("dotenv");
 const app = require("./app");
-const User = require("./Api/Model/userModel"); // Import User model
-const NFT = require("./Api/Model/nftModel"); // Import NFT model
+const User = require("./Api/Model/userModal"); // Import User model
+const NFT = require("./Api/Model/nftModal"); // Import NFT model
+const Auth = require("./Api/Model/authModal"); // Import NFT model
 
 // Configuring the env
 dotenv.config({ path: "./config.env" });
