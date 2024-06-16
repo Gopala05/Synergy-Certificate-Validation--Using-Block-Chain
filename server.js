@@ -4,10 +4,10 @@ const dotenv = require("dotenv");
 const app = require("./app");
 const User = require("./Api/Model/userModal"); // Import User model
 const NFT = require("./Api/Model/nftModal"); // Import NFT model
-const Auth = require("./Api/Model/authModal"); // Import NFT model
+const Auth = require("./Api/Model/authModal"); // Import Auth model
 
 // Configuring the env
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./.env" });
 
 // Defining the Development or Production Environment
 const development = process.env.NODE_ENV !== "production";
