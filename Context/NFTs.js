@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 import axios from "axios";
 import {
   useAddress,
-  useContract,
   useMetamask,
   useDisconnect,
   useSigner,
@@ -20,24 +19,21 @@ import { createWallet } from "thirdweb/wallets";
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-
   // Create the client with your clientId or secretKey if in a server environment
   const client = createThirdwebClient({
-    clientId: "8002c45f6d7a966cd8c620311d57f4f6",
-    secretKey:
-      "Ojx1OoeewFSm0-EZKCiV6gCa2TwF5q1W1Bw088fvzvrMouPn83EveDiTg3tlC49ZjhqdkLNkJaLXxMDzKFsPag",
+    clientId: process.env.THIRDWEB_CLIENT_ID,
+    secretKey: process.env.THIRDWEB_SECRET_KEY,
   });
 
-  // Connect to your contract
+  // Connect to your contractTHIRDWEB_DEPLOYEMENT_ADDRESS
   const contract = getContract({
     client,
     chain: defineChain(84532),
-    address: "0x0502Bf2C8eB0CcbBA49cc2648C345388eAf736eF",
+    address: process.env.THIRDWEB_DEPLOYEMENT_ADDRESS,
   });
 
   // initialize the wallet, you can pick any of the 300+ wallet connectors supported
-// wallet ids are typed, let your TS editor autocomplete them for you
-// ex: "io.metamask", "com.coinbase.wallet", "me.rainbow", etc...
+  // ex: "io.metamask", "com.coinbase.wallet", "me.rainbow", etc...
   const wallet = createWallet("io.metamask");
 
   // Get the user address by using "useAddress" hook
@@ -77,30 +73,35 @@ export const StateContextProvider = ({ children }) => {
 
   // Upload image function
   const UploadImage = async (imageInfo) => {
+    const AuthInfo = JSON.parse(localStorage.getItem("auth-info"));
 
-    const { title, description, email, category, image } = imageInfo;
+    const {
+      title,
+      description,
+      certificateID,
+      userEmail,
+      organisation,
+      certificate,
+    } = imageInfo;
 
-      // connect the wallet, this returns a promise that resolves to the connected account
-const account = await wallet.connect({
-  // pass the client you created with `createThirdwebClient()`
-  client,
-});
-console.log(account, imageInfo)
+    // connect the wallet, this returns a promise that resolves to the connected account
+    const account = await wallet.connect({
+      // pass the client you created with `createThirdwebClient()`
+      client,
+    });
+
     if (!address) {
       console.log("User is not connected");
       return;
     }
-    console.log("User Address:", address);
+    // console.log("User Address:", address);
 
     try {
       // Initialize provider
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      console.log({ signer });
-      console.log(provider.getCode(address));
 
       const code = await provider.getCode(contract.address);
-      console.log("Contract Code:", code);
+      // console.log("Contract Code:", code);
       if (code === "0x") {
         throw new Error("Contract code not found on chain.");
       }
@@ -110,28 +111,27 @@ console.log(account, imageInfo)
         method: resolveMethod("listingPrice"),
         params: [],
       });
-      console.log("Listing Price (wei):", price.toString());
-
-      // const preparedEvent = prepareEvent({
-      //   contract,
-      //   signature: "UploadAttempt",
-      // });
-      // const events = await getContractEvents({
-      //   contract,
-      //   events: [preparedEvent],
-      // });
-
-      // console.log(events)
+      // console.log("Listing Price (wei):", price.toString());
 
       const transaction = await prepareContractCall({
         contract,
         method: resolveMethod("uploadIPFS"),
-        params: [address, image, title, description, email, category],
+        params: [
+          title,
+          certificateID,
+          userEmail,
+          organisation,
+          AuthInfo.authID,
+          address,
+          certificate,
+        ],
         overrides: {
           value: price.toString(),
-          gasLimit: ethers.utils.hexlify(217138), // Gas limit set here
+          gasLimit: ethers.utils.hexlify(300000), // Gas limit set here
         },
       });
+
+      console.log("Prepared Transaction:", transaction);
 
       const { transactionHash } = await sendTransaction({
         // assuming you have called `prepareTransaction()` or `prepareContractCall()` before which returns the prepared transaction to send
@@ -140,45 +140,24 @@ console.log(account, imageInfo)
         account,
       });
 
-      console.log(transactionHash)
-      console.log("Prepared Transaction:", transaction);
+      // console.log(transactionHash);
 
-      const gasPrice = await provider.getGasPrice();
-      const tx = {
-        to: transaction.to,
-        data: transaction.data,
-        value: transaction.overrides.value,
-        gasLimit: transaction.overrides.gasLimit,
-        gasPrice: gasPrice, // Set gas price here
-      };
-
-      console.log(tx);
-
-      // const response = await signer.sendTransaction(tx);
-      // console.log("Transaction Response:", response);
-
-      // const receipt = await response.wait();
-      // console.log("Transaction Receipt:", receipt);
-      // console.log("Transaction Receipt:", receipt.status);
-
-      // if (receipt.status === 0) {
-      //   console.log("Transaction Receipt:", receipt);
-      // }
-
-      // if (receipt.status === 0) {
-      //   throw new Error("Transaction failed");
-      // }
+      // console.log(title, description, certificateID, userEmail, organisation, AuthInfo.authID, AuthInfo.authEmail, address, transactionHash, certificate )
 
       const apiResponse = await axios.post("/api/v1/nfts", {
         title: title,
         description: description,
-        category: category,
-        image: image,
+        certificateID: certificateID,
+        userEmail: userEmail,
+        organisation: organisation,
+        creatorID: AuthInfo.authID,
+        creatorEmail: AuthInfo.authEmail,
         address: address,
-        email: email,
+        transactionHash: transactionHash,
+        certificate: certificate,
       });
-      console.log("API Response:", apiResponse);
-      console.log(`Contract Call Successful: ${transaction}`);
+
+      // console.log(apiResponse)
 
       setIsLoading(false);
       window.location.reload();
