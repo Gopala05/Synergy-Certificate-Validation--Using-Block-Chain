@@ -26,43 +26,48 @@ const Nav = () => {
   );
 
   return (
-    <div className="bg-[#02291B] w-full flex px-5 pt-2 pb-2 justify-center items-center z-50 fixed border-b-2 border-gray-500">
-      <div className="flex justify-start items-center mr-52 font-extrabold text-3xl">
-        <span>
-          <img src="./Logo.png" alt="Logo" className="w-24" />
-        </span>
-        Synergy
-      </div>
-      <nav className="mr-52">
-        <div className="flex justify-center gap-10 font-bold">
-          <ScrollLink to="home" smooth={true} duration={500}>
-            Home
-          </ScrollLink>
-          <ScrollLink to="about" smooth={true} duration={500}>
-            About
-          </ScrollLink>
-          <ScrollLink to="blog" smooth={true} duration={500}>
-            Blog
-          </ScrollLink>
-          <ScrollLink to="contact" smooth={true} duration={500}>
-            Contact Us
-          </ScrollLink>
+    <div className="w-full fixed items-baseline z-50 bg-[#02291B]">
+      <div className="bg-[#02291B] w-full flex px-5 pt-2 pb-0 justify-center items-center z-50 ">
+        <div className="flex justify-start items-center mr-52 font-extrabold text-3xl">
+          <span>
+            <img src="./Logo.png" alt="Logo" className="w-24" />
+          </span>
+          Synergy
         </div>
-      </nav>
+        <nav className="mr-52 mt-5">
+          <div className="flex justify-center gap-10 font-bold">
+            <ScrollLink to="home" smooth={true} duration={500}>
+              Home
+            </ScrollLink>
+            <ScrollLink to="about" smooth={true} duration={500}>
+              About
+            </ScrollLink>
+            <ScrollLink to="blog" smooth={true} duration={500}>
+              Blog
+            </ScrollLink>
+            <ScrollLink to="contact" smooth={true} duration={500}>
+              Contact Us
+            </ScrollLink>
+          </div>
+        </nav>
 
-      <Dropdown
-        overlay={menu}
-        className="hover:cursor-pointer "
-        trigger={["hover"]}
-      >
-        <a className="flex justify-end mr-10 font-bold align-middle items-center ant-dropdown-link">
-          Log In <RiArrowDropDownLine className="text-3xl" />
-        </a>
-      </Dropdown>
+        <Dropdown
+          overlay={menu}
+          className="hover:cursor-pointer mt-5"
+          trigger={["hover"]}
+        >
+          <a className="flex justify-end mr-10 font-bold align-middle items-center ant-dropdown-link">
+            Log In <RiArrowDropDownLine className="text-3xl" />
+          </a>
+        </Dropdown>
 
-      <Button className="border-[#22674E] rounded-md p-6 bg-transparent text-white font-bold border-2 border-solid">
-        Sign Up
-      </Button>
+        <Button className="border-[#22674E] rounded-md p-6 bg-transparent text-white font-bold border-2 border-solid mt-5">
+          Sign Up
+        </Button>
+      </div>
+      <div className="flex justify-center">
+        <img src="./Nav.svg" alt="svg" className="w-[84vw] ml-10" />
+      </div>
     </div>
   );
 };
