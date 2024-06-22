@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-import images from "../Image/index";
+// import images from "../Image/index";
 import style from "./Filter.module.css";
 
 const Filter = ({
@@ -72,7 +72,9 @@ const Filter = ({
   return (
     <div className={style.Filter}>
       <div className={style.Filter_box}>
-        <Image src={images.search} width={20} height={20} />
+        <Image 
+        // src={images.search}
+         width={20} height={20} />
         <input
           type="text"
           placeholder="Search Address"

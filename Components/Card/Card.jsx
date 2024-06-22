@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import style from "./Card.module.css";
-import images from "../Image/client/index";
-import imageNFT from "../Image/index";
+// import images from "../Image/client/index";
+// import imageNFT from "../Image/index";
 
 const Card = ({ setNotification, details, index }) => {
   return (
@@ -17,7 +17,7 @@ const Card = ({ setNotification, details, index }) => {
             <Image
               className={style.image}
               // src={details.image}
-              src={imageNFT.img1}
+              // src={imageNFT.img1}
               alt="image"
               width={250}
               height={200}
@@ -28,7 +28,7 @@ const Card = ({ setNotification, details, index }) => {
         <span className={style.para}>
           <Image
             className="avatar_img"
-            src={images[`client1`]}
+            // src={images[`client1`]}
             // src={images[`client${index + 1}`]}
             width={40}
             height={40}

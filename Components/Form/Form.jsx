@@ -9,9 +9,8 @@ const Form = ({
   setDisplay,
   handleFormFieldChange,
   handleSubmit,
-  setCategory,
+  // setCategory,
 }) => {
-  const categories = ["Nature", "Artifical", "Animal"];
   return (
     <div className={style.card}>
       <div className={style.card2}>
@@ -43,10 +42,30 @@ const Form = ({
           <div className={style.field}>
             <FormSVG styleClass={style.input_icon} />
             <input
+              type="text"
+              className={style.input_field}
+              placeholder="Certificate ID"
+              onChange={(e) => handleFormFieldChange("certificateID", e)}
+            />
+          </div>
+
+          <div className={style.field}>
+            <FormSVG styleClass={style.input_icon} />
+            <input
               type="email"
               className={style.input_field}
-              placeholder="Email"
-              onChange={(e) => handleFormFieldChange("email", e)}
+              placeholder="User Email"
+              onChange={(e) => handleFormFieldChange("userEmail", e)}
+            />
+          </div>
+
+          <div className={style.field}>
+            <FormSVG styleClass={style.input_icon} />
+            <input
+              type="text"
+              className={style.input_field}
+              placeholder="Organisation"
+              onChange={(e) => handleFormFieldChange("organisation", e)}
             />
           </div>
 
@@ -70,7 +89,7 @@ const Form = ({
               &nbsp; &nbsp; &nbsp; Close &nbsp; &nbsp; &nbsp;
             </button>
 
-            <button className={style.button2}>Sign Up</button>
+            {/* <button className={style.button2}>Sign Up</button> */}
           </div>
 
           <button onClick={(e) => handleSubmit(e)} className={style.button3}>
