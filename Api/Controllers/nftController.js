@@ -26,21 +26,47 @@ exports.getNFT = async (req, res, next) => {
   });
 };
 
-exports.verifyCertificate = async (req, res, next) => {
-  const ID = req.params.id;
-  const NFT = await NFTModal.findOne({ certificateID: ID });
+exports.checkCertificate = async (req, res, next) => {
+  try {
+    const ID = req.params.id;
+    const NFT = await NFTModal.findOne({ certificateID: ID });
 
-  res.status(200).json({
-    status: "Success",
-    data: {
-      NFT,
-    },
-  });
+    if (!NFT) {
+      return res.json({ exists: true });
+    }
+
+    return res.json({ exists: true });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.verifyCertificate = async (req, res, next) => {
+  try {
+    const ID = req.body.certificateID;
+    const Email = req.body.userEmail;
+    const NFT = await NFTModal.findOne({ certificateID: ID, userEmail: Email });
+
+    if (!NFT) {
+      return res.status(404).json({
+        status: "NOT FOUND",
+        message: "Certificate not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "OK",
+      data: {
+        NFT,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // Creating the createNFT method
 exports.createNFT = async (req, res, next) => {
-  console.log(req.body);
   const newNFT = await NFTModal.create(req.body);
 
   res.status(201).json({
