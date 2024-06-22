@@ -20,7 +20,7 @@ contract Synergy {
 
     uint256 public imagesCount = 0;
 
-    function uploadIPFS(
+    function uploadCertificate(
         string memory _title, 
         string memory _certificateID,
         string memory _userEmail,
