@@ -13,7 +13,6 @@ import { createThirdwebClient, getContract } from "thirdweb";
 import { defineChain } from "thirdweb/chains";
 import { readContract, resolveMethod } from "thirdweb";
 import { prepareContractCall, sendTransaction } from "thirdweb";
-import { prepareEvent, getContractEvents } from "thirdweb";
 import { createWallet } from "thirdweb/wallets";
 
 const StateContext = createContext();
@@ -72,7 +71,7 @@ export const StateContextProvider = ({ children }) => {
   }, [signer]);
 
   // Upload image function
-  const UploadImage = async (imageInfo) => {
+  const UploadCertificate = async (imageInfo) => {
     const AuthInfo = JSON.parse(localStorage.getItem("auth-info"));
 
     const {
@@ -83,6 +82,8 @@ export const StateContextProvider = ({ children }) => {
       organisation,
       certificate,
     } = imageInfo;
+
+    // console.log(imageInfo)
 
     // connect the wallet, this returns a promise that resolves to the connected account
     const account = await wallet.connect({
@@ -115,13 +116,13 @@ export const StateContextProvider = ({ children }) => {
 
       const transaction = await prepareContractCall({
         contract,
-        method: resolveMethod("uploadIPFS"),
+        method: resolveMethod("uploadCertificate"),
         params: [
           title,
           certificateID,
           userEmail,
           organisation,
-          AuthInfo.authID,
+          "gk",
           address,
           certificate,
         ],
@@ -131,7 +132,8 @@ export const StateContextProvider = ({ children }) => {
         },
       });
 
-      console.log("Prepared Transaction:", transaction);
+      // console.log("Prepared Transaction:", transaction);
+      // console.log("Account:", account);
 
       const { transactionHash } = await sendTransaction({
         // assuming you have called `prepareTransaction()` or `prepareContractCall()` before which returns the prepared transaction to send
@@ -150,14 +152,14 @@ export const StateContextProvider = ({ children }) => {
         certificateID: certificateID,
         userEmail: userEmail,
         organisation: organisation,
-        creatorID: AuthInfo.authID,
-        creatorEmail: AuthInfo.authEmail,
+        creatorID: "gk",
+        creatorEmail: "gk@gmail.com",
         address: address,
         transactionHash: transactionHash,
         certificate: certificate,
       });
 
-      // console.log(apiResponse)
+      console.log(apiResponse);
 
       setIsLoading(false);
       window.location.reload();
@@ -174,88 +176,35 @@ export const StateContextProvider = ({ children }) => {
   };
 
   // Get Contracts
-  const getAllImages = async () => {
+  const getAllCertificates = async () => {
     // All Images by call "getAllNFTs" defined in Solidity Code
-    const images = await readContract({
-      contract,
-      method: resolveMethod("getAllNFTs"),
-      params: [],
-    });
-
-    // Upload Count
-    const uploadCount = await readContract({
-      contract,
-      method: resolveMethod("imagesCount"),
-      params: [],
-    });
-    // Price
-    const price = await readContract({
-      contract,
-      method: resolveMethod("listingPrice"),
-      params: [],
-    });
-
-    const allImages = images.map((image, index) => ({
-      id: index + 1,
-      owner: image.creator,
-      title: image.title,
-      description: image.description,
-      category: image.category,
-      fundraised: image.fundraised,
-      image: image.image,
-      imageID: image.id,
-      createdAt: image.timestamp,
-      listedAmount: ethers.utils.formatEther(price.toString()),
-      totalUploads: uploadCount,
-    }));
-    return allImages;
-  };
-
-  // Fetch Single Image
-  const singleImage = async (id) => {
     try {
       const data = await readContract({
         contract,
-        method: resolveMethod("listingPrice"),
-        params: [id],
+        method: resolveMethod("getAllCertificates"),
+        params: [],
+      });
+      return { "No. of Certificates": data.length, certificates: data };
+    } catch (error) {
+      console.log(`Error in Fetching all Certificates: ${error}`);
+    }
+  };
+
+  // Fetch Single Image
+  const getCertificate = async (certificateID) => {
+    try {
+      const data = await readContract({
+        contract,
+        method: resolveMethod("fetchNFTByCertificateID"),
+        params: [certificateID],
       });
 
-      const image = {
-        title: data[0],
-        description: data[1],
-        email: data[2],
-        category: data[3],
-        fundRaised: ethers.utils.formatEther(data[4].toString()),
-        creator: data[5],
-        imageURL: data[6],
-        createdAt: data[7].toNumber(),
-        imageID: data[8].toNumber(),
-      };
-      return image;
+      return data;
     } catch (error) {
       console.log(`Error in Fetching Image: ${error}`);
     }
   };
 
-  // Donate Function
-  const donation = async ({ id, amount }) => {
-    try {
-      // const transaction = await contract.call("donateToImage", [id], {
-      //   value: amount.toString(),
-      // });
-      const transaction = await prepareContractCall({
-        contract,
-        method: resolveMethod("donateToImage"),
-        params: [id],
-      });
-      console.log(transaction);
-      window.location.reload();
-    } catch (error) {
-      console.log(`Error in Donation: ${error}`);
-    }
-  };
-
-  // Interaction with Contract
   // All NFTs API
   const getAllNFTsAPI = async () => {
     const response = await axios({
@@ -265,10 +214,23 @@ export const StateContextProvider = ({ children }) => {
   };
 
   // Single NFT API
-  const getSingleNFTAPI = async (id) => {
-    const res = await axios({
-      method: "get",
-      url: `/api/v1/nfts/${id}`,
+  const getSingleNFTAPI = async (req) => {
+    try {
+      const data = JSON.parse(req);
+      const response = await axios.post("/api/v1/nfts/verify", {
+        certificateID: data.certificateID,
+        userEmail: data.userEmail,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(`Error in Fetching the Specific Certificate: ${error}`);
+    }
+  };
+
+  const checkCertIDPresent = async (certID) => {
+    const response = await axios({
+      method: "GET",
+      url: `/api/v1/nfts/check/$${certID}`,
     });
   };
 
@@ -286,10 +248,10 @@ export const StateContextProvider = ({ children }) => {
         setIsLoading,
 
         // Functions
-        UploadImage,
-        getAllImages,
-        singleImage,
-        donation,
+        UploadCertificate,
+        getAllCertificates,
+        getCertificate,
+        checkCertIDPresent,
 
         // APIs
         getAllNFTsAPI,
