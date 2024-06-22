@@ -12,8 +12,8 @@ import Form from "./Form/Form";
 import CheckBox from "./CheckBox/CheckBox";
 import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
-import Product from "./Product/Product";
-import Donate from "./Donate/Donate";
+// import Product from "./Product/Product";
+// import Donate from "./Donate/Donate";
 export {
   Card,
   Upload,
@@ -29,6 +29,6 @@ export {
   CheckBox,
   Login,
   SignUp,
-  Product,
-  Donate,
+  // Product,
+  // Donate,
 };
