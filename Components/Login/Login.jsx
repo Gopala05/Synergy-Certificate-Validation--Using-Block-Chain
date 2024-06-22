@@ -7,36 +7,36 @@ import { Notification } from "../index";
 
 const Login = ({ notification, setLogin, setSignup, setNotification }) => {
   // API Login
-  const [user, setUser] = useState({
-    email: "",
+  const [auth, setAuth] = useState({
+    authID: "",
     password: "",
   });
 
   const handleFormFieldChange = (fieldName, e) => {
-    setUser({ ...user, [fieldName]: e.target.value });
+    setAuth({ ...auth, [fieldName]: e.target.value });
   };
 
   const apiLogin = async (e) => {
     e.preventDefault();
 
-    if (user.email == "" || user.password == "") {
+    if (auth.authID == "" || auth.password == "") {
       return setNotification("Please fill out all fields");
     }
 
     try {
       const response = await axios({
         method: "POST",
-        url: "/api/v1/users/sign-in",
+        url: "/api/v1/auth/sign-in",
         withCredentials: true,
         data: {
-          email: user.email,
-          password: user.password,
+          authID: auth.authID,
+          password: auth.password,
         },
       });
-      console.log(response.data)
 
       if (response.data.status == "Success") {
         setNotification("Signed in Successfully");
+        localStorage.setItem("auth-info", JSON.stringify(response.data.data.auth));
         localStorage.setItem("NFTApi Token", response.data.token);
         setLogin(false);
         setNotification("");
@@ -62,9 +62,9 @@ const Login = ({ notification, setLogin, setSignup, setNotification }) => {
               <input
                 type="text"
                 className={style.input_field}
-                placeholder="Email"
+                placeholder="User ID"
                 autoComplete="off"
-                onChange={(e) => handleFormFieldChange("email", e)}
+                onChange={(e) => handleFormFieldChange("authID", e)}
               />
             </div>
 

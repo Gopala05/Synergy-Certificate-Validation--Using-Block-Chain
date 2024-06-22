@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { YouTube, Twitter, Instagram, GitHub, FormSVG } from "../SVG";
 import style from "./Profile.module.css";
-import images from "../Image/client/index";
+// import images from "../Image/client/index";
 
 const Profile = ({ userBalance, setOpenProfile, address }) => {
   return (
@@ -12,7 +12,7 @@ const Profile = ({ userBalance, setOpenProfile, address }) => {
         <div className={style.img}>
           <Image
             className="avatar_img"
-            src={images.client1}
+            // src={images.client1}
             width={80}
             height={80}
             onClick={() => setOpenProfile(true)}

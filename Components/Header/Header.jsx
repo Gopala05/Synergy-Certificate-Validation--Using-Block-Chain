@@ -41,6 +41,7 @@ const Header = ({ notification, setNotification }) => {
 
   const logout = () => {
     localStorage.removeItem("NFTApi Token");
+    localStorage.removeItem("auth-info");
     window.location.reload();
   };
 
