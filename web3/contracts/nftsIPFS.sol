@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-contract nftsIPFS {
-    address payable public contractOwner;
-    uint256 public listingPrice = 0.015 ether;
+contract Synergy {
+    address payable contractOwner = payable(0xD031aD995A12390f0D4e4b85d46C120d08fd8ea4);
+    uint256 public listingPrice = 15000000000000000; // 0.015 ETH in wei;
 
     struct NFTs {
         string title;
@@ -11,19 +11,14 @@ contract nftsIPFS {
         string userEmail;
         string organisation;
         string creatorID;
-        uint256 fundraised;
         address creator;
         string certificate;
         uint256 timestamp;
         uint256 id;
     }
+    mapping (uint256 => NFTs) public nftImages;
 
-    mapping(uint256 => NFTs) public nftImages;
-    uint256 public imagesCount;
-
-    constructor() {
-        contractOwner = payable(0xD031aD995A12390f0D4e4b85d46C120d08fd8ea4);
-    }
+    uint256 public imagesCount = 0;
 
     function uploadIPFS(
         string memory _title, 
@@ -42,8 +37,6 @@ contract nftsIPFS {
         address,
         string memory
     ) {
-        require(msg.value >= listingPrice, "Insufficient funds to upload IPFS");
-
         // Increment the image count
         imagesCount++;
         NFTs storage nft = nftImages[imagesCount];
@@ -59,9 +52,6 @@ contract nftsIPFS {
         nft.timestamp = block.timestamp;
         nft.id = imagesCount;
 
-        // Transfer listing fee to contract owner
-        contractOwner.transfer(msg.value);
-
         // Return the details of the uploaded image
         return (
             _title,
@@ -74,7 +64,7 @@ contract nftsIPFS {
         );
     }
 
-    function getAllNFTs() public view returns (NFTs[] memory) {
+    function getAllCertificates() public view returns (NFTs[] memory) {
         uint256 itemCount = imagesCount;
         uint256 currentIndex = 0;
 
