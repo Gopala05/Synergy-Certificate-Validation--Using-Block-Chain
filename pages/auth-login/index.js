@@ -17,7 +17,7 @@ const AuthLogin = () => {
             <label className="text-black text-2xl font-bold">User ID</label>
             <br />
             <input
-              className="w-full mt-1 h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
+              className="w-full text-black mt-1 h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
               placeholder="User ID.."
             />
           </div>
@@ -26,7 +26,7 @@ const AuthLogin = () => {
             <label className="text-black text-2xl font-bold">Password</label>
             <br />
             <input
-              className="w-full mt-1 h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
+              className="w-full mt-1 text-black h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
               placeholder="Password..."
             />
           </div>
@@ -36,7 +36,7 @@ const AuthLogin = () => {
           </div>
 
           <div className="flex justify-center">
-            <Button className="mt-8 bg-[#3A5B22] text-xl w-full border-0 text-white rounded-2xl font-bold py-5">
+            <Button className="mt-8 bg-[#3A5B22] text-xl w-full border-0 text-white rounded-2xl font-bold py-5" >
               Login
             </Button>
           </div>
