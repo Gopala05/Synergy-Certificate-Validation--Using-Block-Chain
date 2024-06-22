@@ -2,8 +2,8 @@
 pragma solidity ^0.8.9;
 
 contract nftsIPFS {
-    address payable contractOwner = payable(0xD031aD995A12390f0D4e4b85d46C120d08fd8ea4);
-    uint256 public listingPrice = 15000000000000000; // 0.015 ETH in wei;
+    address payable public contractOwner;
+    uint256 public listingPrice = 0.015 ether;
 
     struct NFTs {
         string title;
@@ -17,9 +17,13 @@ contract nftsIPFS {
         uint256 timestamp;
         uint256 id;
     }
-    mapping (uint256 => NFTs) public nftImages;
 
-    uint256 public imagesCount = 0;
+    mapping(uint256 => NFTs) public nftImages;
+    uint256 public imagesCount;
+
+    constructor() {
+        contractOwner = payable(0xD031aD995A12390f0D4e4b85d46C120d08fd8ea4);
+    }
 
     function uploadIPFS(
         string memory _title, 
@@ -38,6 +42,8 @@ contract nftsIPFS {
         address,
         string memory
     ) {
+        require(msg.value >= listingPrice, "Insufficient funds to upload IPFS");
+
         // Increment the image count
         imagesCount++;
         NFTs storage nft = nftImages[imagesCount];
@@ -52,6 +58,9 @@ contract nftsIPFS {
         nft.certificate = _certificate;
         nft.timestamp = block.timestamp;
         nft.id = imagesCount;
+
+        // Transfer listing fee to contract owner
+        contractOwner.transfer(msg.value);
 
         // Return the details of the uploaded image
         return (
@@ -70,51 +79,20 @@ contract nftsIPFS {
         uint256 currentIndex = 0;
 
         NFTs[] memory items = new NFTs[](itemCount);
-        for(uint i=1; i <= itemCount; i++) {
-            uint256 currentId = i +1;
-            NFTs storage currentItem = nftImages[currentId];
+        for (uint256 i = 1; i <= itemCount; i++) {
+            NFTs storage currentItem = nftImages[i];
             items[currentIndex] = currentItem;
             currentIndex += 1;
         }
         return items;
     }
 
-    function getImage(uint256 id) external view returns (
-        NFTs memory
-    ) {
-        NFTs memory nfts = nftImages[id];
-        return (
-            nfts
-        );
-    }
-
-    /* Updates the listing price for the Contract */
-    function updateListingPrice(uint256 _listingPrice, address owner) public payable {
-        require(
-            contractOwner == owner,
-            "Only Contract owner can update listing Price."
-        );
-        listingPrice = _listingPrice;
-    }
-
-    // Donate function
-    function donateToImage(uint256 _id) public payable {
-        uint256 amount = msg.value;
-
-        NFTs storage nft = nftImages[_id];
-
-        (bool sent,) = payable(nft.creator).call{value: amount}("");
-
-        if(sent) {
-            nft.fundraised = nft.fundraised + amount;
+    function fetchNFTByCertificateID(string memory _certificateID) public view returns (NFTs memory) {
+        for (uint256 i = 1; i <= imagesCount; i++) {
+            if (keccak256(abi.encodePacked(nftImages[i].certificateID)) == keccak256(abi.encodePacked(_certificateID))) {
+                return nftImages[i];
+            }
         }
-    }
-
-    function withdraw(address _owner) external {
-        require(_owner == contractOwner, "Only owner can withdraw");
-        uint256 balance = address(this).balance;
-        require(balance > 0, "No funds available");
-
-        contractOwner.transfer(balance);
+        revert("NFT with the given certificate ID does not exist");
     }
 }
