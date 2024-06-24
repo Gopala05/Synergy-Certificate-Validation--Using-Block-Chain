@@ -46,7 +46,7 @@ const DashNav = () => {
         </div>
       </nav>
 
-      <UserButton afterSignOutUrl="/" className="w-full h-full" />
+      <UserButton fallbackRedirectUrl="/" className="w-full h-full" />
     </div>
   );
 };
