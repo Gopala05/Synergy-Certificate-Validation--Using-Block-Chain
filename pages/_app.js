@@ -1,12 +1,13 @@
 import "../styles/globals.css";
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { StateContextProvider } from "../Context/NFTs";
-import { ClerkProvider } from "@clerk/nextjs";
-import Head from 'next/head';
+// import { ClerkProvider } from "@clerk/nextjs";
+import Head from "next/head";
+import { Toaster } from "react-hot-toast";
 
 export default function App({ Component, pageProps }) {
   return (
-    <ClerkProvider>
+    // <ClerkProvider>
       <ThirdwebProvider activeChain={ChainId.Mumbai}>
         <StateContextProvider>
           <Head>
@@ -17,9 +18,10 @@ export default function App({ Component, pageProps }) {
             />
             <link rel="icon" href="/Logo.png" />
           </Head>
+          <Toaster />
           <Component {...pageProps} />
         </StateContextProvider>
       </ThirdwebProvider>
-    </ClerkProvider>
+    // </ClerkProvider>
   );
 }
