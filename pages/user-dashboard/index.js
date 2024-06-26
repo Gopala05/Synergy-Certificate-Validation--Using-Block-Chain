@@ -60,10 +60,10 @@ const DashboardPage = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     setCloseForm(false);
-    setIsLoading(true);
     if (imageInfo.certificateID) {
+      setIsLoading(true);
       try {
-        const isPresent = checkCertIDPresent(imageInfo.certificateID);
+        const isPresent = await checkCertIDPresent(imageInfo.certificateID);
 
         if (!isPresent && file) {
           try {
@@ -82,6 +82,7 @@ const DashboardPage = () => {
             });
 
             const image = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+            console.log(image)
 
             await UploadCertificate({
               ...imageInfo,
@@ -92,6 +93,10 @@ const DashboardPage = () => {
           } catch (error) {
             console.log("Error in Uploading Image: ", error);
           }
+        } else {
+          setIsLoading(false)
+          setFile(null)
+          toast.error("Certificate ID is already Present")
         }
         setFile(null);
       } catch (error) {
