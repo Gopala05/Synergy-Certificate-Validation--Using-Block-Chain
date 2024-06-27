@@ -228,10 +228,16 @@ export const StateContextProvider = ({ children }) => {
   };
 
   const checkCertIDPresent = async (certID) => {
-    const response = await axios({
-      method: "GET",
-      url: `/api/v1/nfts/check/$${certID}`,
-    });
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `/api/v1/nfts/check/$${certID}`,
+      });
+      console.log(response.data);
+      return response.data.exists;
+    } catch (error) {
+      console.log(`Error in Checking Certificate ID: ${error}`);
+    }
   };
 
   return (
