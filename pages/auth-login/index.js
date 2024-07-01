@@ -1,7 +1,59 @@
 import { Button, Card, Col, Row } from "antd";
 import React from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const AuthLogin = () => {
+  const router = useRouter();
+  const [auth, setAuth] = React.useState({
+    authID: "",
+    password: "",
+  });
+
+  const handleFormFieldChange = (fieldName, e) => {
+    setAuth({ ...auth, [fieldName]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (auth.authID === "" || auth.password === "") {
+      toast.error("Please fill out all fields");
+      return;
+    }
+
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "/api/v1/auth/sign-in",
+        withCredentials: true,
+        data: {
+          authID: auth.authID,
+          password: auth.password,
+        },
+      });
+
+      if (response.data.status === "Success") {
+        toast.success("Signed in Successfully");
+        localStorage.setItem(
+          "auth-info",
+          JSON.stringify(response.data.data.auth)
+        );
+        localStorage.setItem("NFTApi Token", response.data.token);
+        setAuth({ authID: "", password: "" });
+        router.push("/user-dashboard");
+      } else if (response.data.status === "Bad Request") {
+        toast.error(response.data.message);
+      } else {
+        toast.error("Unknown response status");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Internal Server Error");
+      console.error("Error in Login: ", error);
+    }
+  };
+
   return (
     <div className="h-[100vh] bg-white">
       <Row className="flex justify-center items-center">
@@ -19,6 +71,8 @@ const AuthLogin = () => {
             <input
               className="w-full text-black mt-1 h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
               placeholder="User ID.."
+              value={auth.authID}
+              onChange={(e) => handleFormFieldChange("authID", e)}
             />
           </div>
 
@@ -26,8 +80,11 @@ const AuthLogin = () => {
             <label className="text-black text-2xl font-bold">Password</label>
             <br />
             <input
+              type="password"
               className="w-full mt-1 text-black h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
               placeholder="Password..."
+              value={auth.password}
+              onChange={(e) => handleFormFieldChange("password", e)}
             />
           </div>
 
@@ -36,7 +93,10 @@ const AuthLogin = () => {
           </div>
 
           <div className="flex justify-center">
-            <Button className="mt-8 bg-[#3A5B22] text-xl w-full border-0 text-white rounded-2xl font-bold py-5" >
+            <Button
+              onClick={handleLogin}
+              className="mt-8 bg-[#3A5B22] text-xl w-full border-0 text-white rounded-2xl font-bold py-5"
+            >
               Login
             </Button>
           </div>
