@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import DashNav from "../../Components/Nav/DashNav";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
@@ -123,7 +122,6 @@ const DashboardPage = () => {
       setDisplay(URL.createObjectURL(event.target.files[0]));
     }
   };
-  const navigate = useRouter();
   return (
     <div className="h-[100vh]">
       <DashNav />
