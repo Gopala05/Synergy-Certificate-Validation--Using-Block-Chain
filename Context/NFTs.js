@@ -14,6 +14,7 @@ import { defineChain } from "thirdweb/chains";
 import { readContract, resolveMethod } from "thirdweb";
 import { prepareContractCall, sendTransaction } from "thirdweb";
 import { createWallet } from "thirdweb/wallets";
+import toast from "react-hot-toast";
 
 const StateContext = createContext();
 
@@ -221,8 +222,9 @@ export const StateContextProvider = ({ children }) => {
         certificateID: data.certificateID,
         userEmail: data.userEmail,
       });
-      return response.data;
+      return response;
     } catch (error) {
+      toast.error(error.response?.data?.message || "Internal Server Error")
       console.log(`Error in Fetching the Specific Certificate: ${error}`);
     }
   };
@@ -231,9 +233,8 @@ export const StateContextProvider = ({ children }) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `/api/v1/nfts/check/$${certID}`,
+        url: `/api/v1/nfts/check/${certID}`,
       });
-      console.log(response.data);
       return response.data.exists;
     } catch (error) {
       console.log(`Error in Checking Certificate ID: ${error}`);

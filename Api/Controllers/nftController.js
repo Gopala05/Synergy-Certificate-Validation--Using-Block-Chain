@@ -30,7 +30,6 @@ exports.checkCertificate = async (req, res, next) => {
   try {
     const ID = req.params.id;
     const NFT = await NFTModal.findOne({ certificateID: ID });
-
     if (!NFT) {
       return res.json({ exists: false });
     }
