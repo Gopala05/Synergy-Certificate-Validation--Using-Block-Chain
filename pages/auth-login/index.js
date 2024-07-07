@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import React from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -40,9 +40,9 @@ const AuthLogin = () => {
           "auth-info",
           JSON.stringify(response.data.data.auth)
         );
-        localStorage.setItem("NFTApi Token", response.data.token);
+        localStorage.setItem("Auth-Token", response.data.token);
         setAuth({ authID: "", password: "" });
-        router.push("/user-dashboard");
+        router.push("/auth-home");
       } else if (response.data.status === "Bad Request") {
         toast.error(response.data.message);
       } else {
@@ -93,19 +93,19 @@ const AuthLogin = () => {
           </div>
 
           <div className="flex justify-center">
-            <Button
+            <button
               onClick={handleLogin}
-              className="mt-8 bg-[#3A5B22] text-xl w-full border-0 text-white rounded-2xl font-bold py-5"
+              className="mt-8 bg-[#3A5B22] text-xl w-full border-0 text-white rounded-2xl font-bold py-3"
             >
               Login
-            </Button>
+            </button>
           </div>
         </Col>
         <Col lg={12} className="h-[100vh]">
           <img
-            src="./Login.jpg"
+            src="./Auth_SignIn.png"
             alt="Login Image"
-            className="h-[100vh] w-full rounded-3xl rounded-e-none"
+            className="h-[100vh] py-10 px-12 w-full rounded-3xl rounded-e-none"
           />
         </Col>
       </Row>
