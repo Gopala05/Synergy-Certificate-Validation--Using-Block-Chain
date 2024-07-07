@@ -60,10 +60,11 @@ const Nav = () => {
             Log In <RiArrowDropDownLine className="text-3xl" />
           </a>
         </Dropdown>
-
-        <Button className="border-[#22674E] rounded-md p-6 bg-transparent text-white font-bold border-2 border-solid mt-5">
-          Sign Up
-        </Button>
+        <Link href="/user-signup" passHref>
+          <Button className="border-[#22674E] rounded-md p-6 bg-transparent text-white font-bold border-2 border-solid mt-5">
+            Sign Up
+          </Button>
+        </Link>
       </div>
       <div className="flex justify-center">
         <img src="./Nav.svg" alt="svg" className="w-[84vw] ml-10" />
