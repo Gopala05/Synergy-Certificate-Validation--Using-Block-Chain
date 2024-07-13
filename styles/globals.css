@@ -269,3 +269,21 @@ body {
 .ant-dropdown-menu {
   width: fit-content;
 }
+
+.Card {
+  transform-style: preserve-3d;
+  transition: all 0.6s ease;
+}
+
+.front {
+  backface-visibility: hidden;
+}
+
+.back {
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.cardFlip {
+  transform: rotateY(180deg);
+}
