@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.5",
+    "@emailjs/browser": "^4.3.3",
     "@next/font": "13.4.4",
     "@thirdweb-dev/react": "^3",
     "@thirdweb-dev/sdk": "^4.0.86",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
+    "daisyui": "^4.12.10",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "react-hot-toast": "^2.4.1",
