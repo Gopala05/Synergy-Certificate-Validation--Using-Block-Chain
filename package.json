@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "nodemon server.js",
-    "lint": "next lint"
+    "lint": "next lint",
+    "install:force": "npm install --force"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.5",
