@@ -1,38 +1,21 @@
 # netlify.toml
 
 [build]
-  # The command to install dependencies and build your project
-  command = "npm run install:force && npm run build"
-  
-  # The directory to publish, typically `.next` for Next.js
+  command = "npm install --legacy-peer-deps && npm run build"
   publish = "out"
 
 [build.environment]
   # Define environment variables here if needed
-  # For example, NODE_ENV = "production"
   # NODE_ENV = "production"
 
 [context.production.environment]
-  # Environment variables specific to the production context
-  # Example: API_KEY = "your-production-api-key"
+  # Environment variables for production
+  # API_KEY = "your-production-api-key"
 
 [context.deploy-preview.environment]
-  # Environment variables specific to deploy previews
-  # Example: API_KEY = "your-preview-api-key"
+  # Environment variables for deploy previews
+  # API_KEY = "your-preview-api-key"
 
 [context.branch-deploy.environment]
-  # Environment variables specific to branch deploys
-  # Example: API_KEY = "your-branch-api-key"
-
-# Optionally define redirects, headers, and other settings
-[[redirects]]
-  from = "/old-path"
-  to = "/new-path"
-  status = 301
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
+  # Environment variables for branch deploys
+  # API_KEY = "your-branch-api-key"
