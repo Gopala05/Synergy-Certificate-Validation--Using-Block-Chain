@@ -10,14 +10,14 @@ const Nav = () => {
     <Menu>
       <Menu.Item key="0">
         <Link href="/user-login" passHref>
-          <Button className=" bg-[#15C586] border-0 text-black font-bold p-5">
+          <Button className="bg-[#15C586] hover:bg-[#15C586] btn border-0 text-black font-bold px-5">
             Login as User <RiUser3Fill className="font-bold text-xl" />
           </Button>
         </Link>
       </Menu.Item>
       <Menu.Item key="1">
         <Link href="/auth-login" passHref>
-          <Button className=" bg-[#15C586] border-0 text-black font-bold p-5 mt-1">
+          <Button className="bg-[#15C586] hover:bg-[#15C586] btn border-0 text-black font-bold px-5 mt-1">
             Login as Auth <RiAdminFill className="font-bold text-xl" />
           </Button>
         </Link>
@@ -61,7 +61,7 @@ const Nav = () => {
           </a>
         </Dropdown>
         <Link href="/user-signup" passHref>
-          <Button className="border-[#22674E] rounded-md p-6 bg-transparent text-white font-bold border-2 border-solid mt-5">
+          <Button className="border-[#22674E] hover:bg-[#15C586] btn rounded-md px-6 bg-transparent text-white font-bold border-2 border-solid mt-5">
             Sign Up
           </Button>
         </Link>

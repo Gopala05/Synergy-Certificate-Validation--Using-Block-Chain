@@ -56,7 +56,7 @@ const DashNav = () => {
       <Menu.Item key="0">
         <button
           onClick={(e) => handleLogout(e)}
-          className="bg-[#15C586] border-0 text-black flex font-bold p-3"
+          className="bg-gradient-to-r from-green-400 to-green-600 hover:bg-[#15C586] border-none btn flex items-center text-black font-bold text-lg px-5"
         >
           Log Out <RiLogoutBoxRLine className="font-bold text-xl" />
         </button>
