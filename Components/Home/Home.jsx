@@ -27,6 +27,13 @@ const Home = () => {
                 className="lg:w-[28vw]"
               />
             </Col>
+            {/* <Col lg={11} className="gap-y-16 items-center justify-center flex mt-14">
+              <img
+                src="/Metamask_Astro.png"
+                alt="Astronaut Image"
+                className="lg:w-[25vw]"
+              />
+            </Col> */}
           </Row>
         </div>
       </div>
