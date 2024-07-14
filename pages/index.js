@@ -264,8 +264,6 @@
 
 // export default Home;
 
-
-
 import React, { useEffect } from "react";
 import Nav from "../Components/Nav/Nav";
 import Home from "../Components/Home/Home";
@@ -273,10 +271,19 @@ import About from "../Components/About/About";
 import UploadandVerify from "../Components/Upload-and-Verify/UploadandVerify";
 import Blog from "../Components/Blog/Blog";
 import Contactus from "../Components/ContactUs/Contactus";
+import Footer from "../Components/Footer/Footer";
 
 const Landing = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (localStorage.getItem("user-info")) {
+      localStorage.removeItem("user-info");
+      localStorage.removeItem("User-Token");
+    }
+    if (localStorage.getItem("auth-info")) {
+      localStorage.removeItem("auth-info");
+      localStorage.removeItem("Auth-Token");
+    }
   }, []);
   return (
     <>
@@ -289,13 +296,7 @@ const Landing = () => {
       <UploadandVerify />
       <Blog />
       <Contactus />
-      <hr />
-      <footer className="text-center bg-[#02291B] p-3 relative">
-        <p className="font-semibold text-white m-1 text-xl">
-          © Copyright 2024 |
-          <span className="ml-1">All Copyrights Reserved </span>| SYNERGY
-        </p>
-      </footer>
+      <Footer />
     </>
   );
 };
