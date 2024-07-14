@@ -7,7 +7,6 @@ import {
   Card,
   Footer,
   Form,
-  Login,
   Upload,
 } from "../Components";
 
@@ -20,7 +19,6 @@ const layout = () => {
       <Card />
       <Footer />
       <Form />
-      <Login />
       <Upload />
     </div>
   );
