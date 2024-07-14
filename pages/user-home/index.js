@@ -1,7 +1,11 @@
-import React from "react";
-import DashNav from "../../Components/Nav/DashNav";
-import { Col, Input, Row } from "antd";
-import HomeButton from "../../Components/Button/HomeButton";
+"use client";
+import React, { useEffect, useState, useRef } from "react";
+import { Col, Row } from "antd";
+import DashNav from "../../components/nav/DashNav";
+import HomeButton from "../../components/button/HomeButton";
+import { useRouter } from "next/router";
+import { Logo } from "../../Components";
+import toast, { clearAll } from "react-hot-toast";
 
 const backgroundImages = {
   verify: "/Verify.png",
@@ -10,16 +14,41 @@ const backgroundImages = {
   support: "/Support.png",
 };
 
-const AuthHome = () => {
-  const [user, setUser] = React.useState("");
+const UserHome = () => {
+  const [user, setUser] = useState(null);
+  const toastShownRef = useRef(false);
+  const router = useRouter();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const userData = localStorage.getItem("user-info");
-    setUser(JSON.parse(userData));
-  }, []);
+    if (!userData) {
+      if (!toastShownRef.current) {
+        toast("Please Login First", {
+          icon: "🚫",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+        toastShownRef.current = true;
+      }
+      router.replace("/user-login");
+    } else {
+      setUser(JSON.parse(userData));
+    }
+  }, [router]);
+
+  if (!user) {
+    return (
+      <div className="loader">
+        <Logo />
+      </div>
+    );
+  }
 
   return (
-    <div className="flex h-[100vh] w-full">
+    <div className="flex h-screen">
       <DashNav />
       <Row className="flex w-full items-center lg:mt-10 py-20">
         <Col lg={11} className="flex justify-center flex-col gap-y-10 lg:pl-16">
@@ -37,7 +66,7 @@ const AuthHome = () => {
             </Col>
             <Col className="flex flex-grow pl-5">
               <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                {user?.name}
+                {user.name}
               </div>
             </Col>
           </Row>
@@ -53,7 +82,7 @@ const AuthHome = () => {
             </Col>
             <Col className="flex flex-grow pl-5">
               <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                {user?.userName}
+                {user.userName}
               </div>
             </Col>
           </Row>
@@ -69,7 +98,7 @@ const AuthHome = () => {
             </Col>
             <Col className="flex flex-grow pl-5">
               <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                {user?.userEmails?.[0]}
+                {user.userEmails?.[0]}
               </div>
             </Col>
           </Row>
@@ -106,4 +135,4 @@ const AuthHome = () => {
   );
 };
 
-export default AuthHome;
+export default UserHome;
