@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import DashNav from "../../components/nav/DashNav";
 import { Button, Col, Row } from "antd";
@@ -9,9 +8,11 @@ import { Logo } from "../../Components";
 
 const Valid = () => {
   const [info, setInfo] = React.useState("");
+  const [sayCongrats, setSayCongrats] = React.useState(true);
   const router = useRouter();
   const toastShownRef = React.useRef(false);
 
+  // Route Protection
   React.useEffect(() => {
     const NFTdata = localStorage.getItem("NFT");
     if (!NFTdata) {
@@ -30,6 +31,12 @@ const Valid = () => {
     } else {
       setInfo(JSON.parse(NFTdata));
     }
+
+    const hideGifTimer = setTimeout(() => {
+      setSayCongrats(false);
+    }, 2700);
+
+    return () => clearTimeout(hideGifTimer);
   }, [router]);
 
   if (!info) {
@@ -40,6 +47,7 @@ const Valid = () => {
     );
   }
 
+  // Handling Back Button Click
   const handleBack = () => {
     try {
       localStorage.removeItem("NFT");
@@ -53,22 +61,29 @@ const Valid = () => {
   return (
     <>
       <DashNav />
+      {sayCongrats && (
+        <img
+          src="./Congrats.gif"
+          alt="Congrats GIF"
+          className="fixed h-full w-full inset-0 grid place-content-center z-50"
+        />
+      )}
       <Row className="flex w-full h-full items-center">
         <Col
           lg={13}
-          className="flex items-center h-full lg:h-[93vh] justify-center flex-col gap-y-10 lg:pl-16 pt-10"
+          className="flex items-center h-full lg:h-[93vh] justify-center flex-col lg:pl-16 pt-10"
         >
-          <div className="flex justify-start w-full ">
+          <div className="flex justify-start w-full mt-5">
             <Button onClick={handleBack} type="primary">
               Back
             </Button>
           </div>
 
-          <div className="border-dashed -z-20 border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl">
+          <div className="border-dashed border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl mb-10">
             <img
               src={info?.certificate}
               alt="Certificate Image"
-              className="max-w-[35vw]"
+              className="max-w-[50vw] max-h-[50vh]"
             />
           </div>
           <div className="flex w-full gap-x-5 justify-center items-center">
