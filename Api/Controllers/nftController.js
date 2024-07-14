@@ -14,18 +14,7 @@ exports.getAllNFTs = async (req, res, next) => {
   });
 };
 
-// Creating the getNFT method, Update the GetNFT by Certificate ID
-exports.getNFT = async (req, res, next) => {
-  const NFT = await NFTModal.findById(req.params.id);
-
-  res.status(200).json({
-    status: "Success",
-    data: {
-      NFT,
-    },
-  });
-};
-
+// Checking the Presence of Certificate ID
 exports.checkCertificate = async (req, res, next) => {
   try {
     const ID = req.params.id;
@@ -34,12 +23,13 @@ exports.checkCertificate = async (req, res, next) => {
       return res.json({ exists: false });
     }
 
-    return res.json({ exists: true });
+    return res.status(200).json({ exists: true });
   } catch (error) {
     next(error);
   }
 };
 
+// Verifying the Presense of Certificate on DB
 exports.verifyCertificate = async (req, res, next) => {
   try {
     const ID = req.body.certificateID;
@@ -64,14 +54,18 @@ exports.verifyCertificate = async (req, res, next) => {
   }
 };
 
-// Creating the createNFT method
+// Creating NFT entry in the DB
 exports.createNFT = async (req, res, next) => {
-  const newNFT = await NFTModal.create(req.body);
+  try {
+    const newNFT = await NFTModal.create(req.body);
 
-  res.status(201).json({
-    status: "Created",
-    data: {
-      NFT: newNFT,
-    },
-  });
+    res.status(201).json({
+      status: "Created",
+      data: {
+        NFT: newNFT,
+      },
+    });
+  } catch (error) {
+    console.log("Error In Creating record in the DB: ", error);
+  }
 };

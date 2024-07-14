@@ -74,6 +74,7 @@ exports.SignIn = async (req, res, next) => {
       message: "Pleasen provide the email and password!",
     });
   }
+  
   // Checking if the user exists or not
   let user = await UserModal.findOne({ userName: userName }).select(
     "+password"
@@ -83,7 +84,7 @@ exports.SignIn = async (req, res, next) => {
   if (!user || !(await user.validatePassword(password, user.password))) {
     return res.status(401).json({
       status: "Unauthorized",
-      message: "Invalid Email or Password.",
+      message: "Invalid Username or Password.",
     });
   }
 
