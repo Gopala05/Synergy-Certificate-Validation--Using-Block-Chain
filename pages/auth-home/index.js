@@ -2,7 +2,7 @@
 import React from "react";
 import DashNav from "../../Components/Nav/DashNav";
 import { Col, Row } from "antd";
-import HomeButton from "../../components/button/HomeButton";
+import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/navigation";
 import { Logo } from "../../Components";
 import toast from "react-hot-toast";
