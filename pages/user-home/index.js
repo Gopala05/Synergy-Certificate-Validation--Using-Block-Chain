@@ -117,16 +117,16 @@ const UserHome = () => {
               VERIFY
             </HomeButton>
             <HomeButton
-              navigate="/blog"
-              backgroundImage={backgroundImages.blog}
-            >
-              BLOG
-            </HomeButton>
-            <HomeButton
               navigate="/support"
               backgroundImage={backgroundImages.support}
             >
               SUPPORT
+            </HomeButton>
+            <HomeButton
+              navigate="/guide"
+              backgroundImage={backgroundImages.blog}
+            >
+              Guide
             </HomeButton>
           </div>
         </Col>
