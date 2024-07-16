@@ -1,10 +1,11 @@
 import { Col, Input, Row } from "antd";
+import Link from "next/link";
 import React from "react";
 import { RiCalendar2Line, RiSearchLine } from "react-icons/ri";
 
 const Blog = () => {
   return (
-    <div id="blog" className="h-[100vh] p-20 xl:pt-32 lg:pt-32">
+    <div id="blog" className="h-[100vh] p-20 flex flex-col justify-center">
       <label className="text-5xl font-extrabold flex justify-center">
         See our Blog
       </label>
@@ -13,17 +14,19 @@ const Blog = () => {
       </p>
       <div className="flex justify-center items-center mt-10">
         <div className="relative flex justify-center items-center w-full">
-          <Input
-            className="w-[50vw] h-14 rounded-full pr-10 bg-[#02291B] hover:bg-[#02291B] border-2 border-[#22674E] hover:border-[#22674E] placeholder-white placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
+          <input
+            className="w-[50vw] h-14 rounded-full pr-10 bg-[#02291B] text-start hover:bg-[#02291B] border-2 border-[#22674E] hover:border-[#22674E] placeholder-white placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
             placeholder="Search..."
           />
-          <RiSearchLine className="absolute right-72 text-white font-bold" />
+          <Link href="/user-login">
+            <RiSearchLine className="absolute right-[27rem] text-white font-bold" />
+          </Link>
         </div>
       </div>
       <div>
-        <Row className="flex justify-center mt-12 gap-10 ">
+        <Row className="flex justify-center mt-20 gap-10 ">
           <Col lg={6}>
-            <div className="bg-[#02291B] rounded-lg">
+            <div className="bg-[#02291B] rounded-lg hover:shadow-2xl hover:shadow-green-600 transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 src="./Blog1.jpg"
                 alt="Blog 1 Image"
@@ -48,7 +51,7 @@ const Blog = () => {
           </Col>
 
           <Col lg={6}>
-            <div className="bg-[#02291B] rounded-lg">
+            <div className="bg-[#02291B] rounded-lg hover:shadow-2xl hover:shadow-green-600 transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 src="./Blog2.jpg"
                 alt="Blog 2 Image"
@@ -73,7 +76,7 @@ const Blog = () => {
           </Col>
 
           <Col lg={6}>
-            <div className="bg-[#02291B] rounded-lg">
+            <div className="bg-[#02291B] rounded-lg hover:shadow-2xl hover:shadow-green-600 transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
                 src="./Blog3.jpg"
                 alt="Blog 3 Image"
