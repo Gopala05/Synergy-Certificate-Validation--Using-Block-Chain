@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Col, Row } from "antd";
 import axios from "axios";
-import DashNav from "../../components/nav/DashNav";
+import DashNav from "../../Components/Nav/DashNav";
 import { Button, Form, Logo, Upload, Footer } from "../../Components";
 import { useStateContext } from "../../Context/NFTs";
 import generateCertificateID from "../../utils/IDGenerator";

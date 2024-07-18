@@ -149,7 +149,7 @@ const AuthLogin = () => {
             >
               <label className="text-black text-2xl font-bold">Password</label>
               <br />
-              <Input
+              <Input.Password
                 type="password"
                 className="w-full mt-1 text-black h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
                 placeholder="Password..."

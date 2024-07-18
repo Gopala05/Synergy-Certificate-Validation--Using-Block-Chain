@@ -1,4 +1,5 @@
 import { Button, Col, Row } from "antd";
+import Link from "next/link";
 import React from "react";
 
 const UploadandVerify = () => {
@@ -15,12 +16,16 @@ const UploadandVerify = () => {
             unauthorized access and tampering.
           </p>
           <div>
-            <Button className="mt-8 bg-[#15C586] border-0 text-black font-bold py-5">
-              Validate Certificate
-            </Button>
-            <Button className="ml-8 mt-8 bg-[#15C586] border-0 text-black font-bold py-5">
-              Upload Certificate
-            </Button>
+            <Link href="/user-login">
+              <Button className="mt-8 btn bg-[#15C586] border-0 text-black font-bold">
+                Validate Certificate
+              </Button>
+            </Link>
+            <Link href="/auth-login">
+              <Button className="ml-8 btn mt-8 bg-[#15C586] border-0 text-black font-bold">
+                Upload Certificate
+              </Button>
+            </Link>
           </div>
         </Col>
         <Col lg={8} className="flex justify-center">

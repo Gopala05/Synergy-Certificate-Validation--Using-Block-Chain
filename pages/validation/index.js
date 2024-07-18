@@ -4,7 +4,7 @@ import { Input, Row, Col, Radio, Card, Form, Button } from "antd";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import { Footer, Logo } from "../../Components";
-import DashNav from "../../components/nav/DashNav";
+import DashNav from "../../Components/Nav/DashNav";
 import { useStateContext } from "../../Context/NFTs";
 
 const ValidationPage = () => {

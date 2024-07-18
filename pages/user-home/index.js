@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import { Col, Row } from "antd";
-import DashNav from "../../components/nav/DashNav";
-import HomeButton from "../../components/button/HomeButton";
+import DashNav from "../../Components/Nav/DashNav";
+import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/router";
 import { Logo } from "../../Components";
 import toast, { clearAll } from "react-hot-toast";
@@ -117,16 +117,16 @@ const UserHome = () => {
               VERIFY
             </HomeButton>
             <HomeButton
-              navigate="/blog"
-              backgroundImage={backgroundImages.blog}
-            >
-              BLOG
-            </HomeButton>
-            <HomeButton
               navigate="/support"
               backgroundImage={backgroundImages.support}
             >
               SUPPORT
+            </HomeButton>
+            <HomeButton
+              navigate="/guide"
+              backgroundImage={backgroundImages.blog}
+            >
+              Guide
             </HomeButton>
           </div>
         </Col>

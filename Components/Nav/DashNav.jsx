@@ -78,6 +78,7 @@ const DashNav = () => {
         </span>
         Synergy
       </div>
+      
       {router.pathname == "/user-home" ||
       router.pathname == "/auth-home" ? null : (
         <nav className="flex flex-grow justify-center">

@@ -1,5 +1,5 @@
 import React from "react";
-import DashNav from "../../components/nav/DashNav";
+import DashNav from "../../Components/Nav/DashNav";
 import { Button, Col, Row } from "antd";
 import Footer from "../../Components/Footer/Footer";
 import { useRouter } from "next/navigation";

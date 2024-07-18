@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import DashNav from "../../components/nav/DashNav";
+import DashNav from "../../Components/Nav/DashNav";
 import { Col, Row } from "antd";
-import HomeButton from "../../components/button/HomeButton";
+import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/navigation";
 import { Logo } from "../../Components";
 import toast from "react-hot-toast";
@@ -139,16 +139,16 @@ const AuthHome = () => {
               UPLOAD
             </HomeButton>
             <HomeButton
-              navigate="/blog"
-              backgroundImage={backgroundImages.blog}
-            >
-              BLOG
-            </HomeButton>
-            <HomeButton
               navigate="/support"
               backgroundImage={backgroundImages.support}
             >
               SUPPORT
+            </HomeButton>
+            <HomeButton
+              navigate="/guide"
+              backgroundImage={backgroundImages.blog}
+            >
+              Guide
             </HomeButton>
           </div>
         </Col>
