@@ -39,7 +39,7 @@ const Form = ({
             ></textarea>
           </div>
 
-          <div className={style.field}>
+          {/* <div className={style.field}>
             <FormSVG styleClass={style.input_icon} />
             <input
               type="text"
@@ -47,7 +47,7 @@ const Form = ({
               placeholder="Certificate ID"
               onChange={(e) => handleFormFieldChange("certificateID", e)}
             />
-          </div>
+          </div> */}
 
           <div className={style.field}>
             <FormSVG styleClass={style.input_icon} />

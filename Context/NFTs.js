@@ -14,10 +14,14 @@ import { defineChain } from "thirdweb/chains";
 import { readContract, resolveMethod } from "thirdweb";
 import { prepareContractCall, sendTransaction } from "thirdweb";
 import { createWallet } from "thirdweb/wallets";
+import toast from "react-hot-toast";
+import emailjs from "@emailjs/browser";
+import { useRouter } from "next/navigation";
 
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
+  const router = useRouter();
   // Create the client with your clientId or secretKey if in a server environment
   const client = createThirdwebClient({
     clientId: process.env.THIRDWEB_CLIENT_ID,
@@ -60,6 +64,8 @@ export const StateContextProvider = ({ children }) => {
         : "";
       setUserBalance(userBalance);
     } catch (error) {
+      setIsLoading(false);
+      toast.error(error.response?.data?.message || "Internal Server Error");
       console.log(`Error in fetching User Data: ${error}`);
     }
   };
@@ -72,7 +78,14 @@ export const StateContextProvider = ({ children }) => {
 
   // Upload image function
   const UploadCertificate = async (imageInfo) => {
-    const AuthInfo = JSON.parse(localStorage.getItem("auth-info"));
+    let AuthInfo;
+    if (localStorage.getItem("auth-info")) {
+      AuthInfo = JSON.parse(localStorage.getItem("auth-info"));
+    } else {
+      setIsLoading(false);
+      toast.error("Authorized User not found");
+      return;
+    }
 
     const {
       title,
@@ -92,7 +105,8 @@ export const StateContextProvider = ({ children }) => {
     });
 
     if (!address) {
-      console.log("User is not connected");
+      setIsLoading(false);
+      toast.error("User is not connected with Metamask!");
       return;
     }
     // console.log("User Address:", address);
@@ -122,7 +136,7 @@ export const StateContextProvider = ({ children }) => {
           certificateID,
           userEmail,
           organisation,
-          "gk",
+          AuthInfo.authID,
           address,
           certificate,
         ],
@@ -152,32 +166,72 @@ export const StateContextProvider = ({ children }) => {
         certificateID: certificateID,
         userEmail: userEmail,
         organisation: organisation,
-        creatorID: "gk",
-        creatorEmail: "gk@gmail.com",
+        creatorID: AuthInfo.authID,
+        creatorEmail: AuthInfo.authEmail,
         address: address,
         transactionHash: transactionHash,
         certificate: certificate,
       });
 
-      console.log(apiResponse);
+      if (apiResponse) {
+        const MailParams = {
+          from: "SYNERGY",
+          from_mail: "team.synergy.ksit@gmail.com",
+          to_mail: userEmail,
+          recipient_name: userEmail,
+          certificate_id: certificateID,
+          site_name: "team.synergy.ksit",
+          certificate_link: certificate,
+          link_url: "/link-now",
+          singup_url: "/sign-up",
+          year: new Date().getFullYear(),
+        };
+
+        try {
+          const response = await emailjs.send(
+            process.env.NEXT_PUBLIC_SERVICE_ID_FOR_UPLOAD,
+            process.env.NEXT_PUBLIC_TEMPLATE_ID_FOR_UPLOAD,
+            MailParams,
+            process.env.NEXT_PUBLIC_USER_ID_FOR_UPLOAD
+          );
+
+          if (response.status == 200) {
+            setIsLoading(false);
+            toast.success("Email sent successfully!");
+          }
+        } catch (error) {
+          setIsLoading(false);
+          console.error("Error in sending email: ", error);
+          toast.error("Something went wrong, please try again later.");
+        }
+      }
 
       setIsLoading(false);
       window.location.reload();
     } catch (error) {
       setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push({
+          pathname: "/404",
+          query: {
+            message: error?.response?.data?.message,
+            state: error?.response?.data?.status,
+          },
+        });
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
       console.error("Error in Uploading Image:", error);
-      if (error.data && error.data.message) {
-        console.error("Smart Contract Error:", error.data.message);
-      }
-      if (error.error && error.error.message) {
-        console.error("Transaction Error:", error.error.message);
-      }
     }
   };
 
-  // Get Contracts
+  // Work Here
+
+  // Fetch all the Certifcates on the Net
   const getAllCertificates = async () => {
-    // All Images by call "getAllNFTs" defined in Solidity Code
     try {
       const data = await readContract({
         contract,
@@ -186,11 +240,48 @@ export const StateContextProvider = ({ children }) => {
       });
       return { "No. of Certificates": data.length, certificates: data };
     } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push("/404");
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
       console.log(`Error in Fetching all Certificates: ${error}`);
     }
   };
 
-  // Fetch Single Image
+  // Work Here
+
+  // All NFTs API
+  const getAllNFTsAPI = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "/api/v1/nfts",
+      });
+    } catch (error) {
+      console.log("Error in Fetching All NFTs: ", error);
+      if (error.response?.status === 404) {
+        router.push({
+          pathname: "/404",
+          query: {
+            message: error?.response?.data?.message,
+            state: error?.response?.data?.status,
+          },
+        });
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
+    }
+  };
+
+  // Fetch Certifcate By ID from Block Chain NET
   const getCertificate = async (certificateID) => {
     try {
       const data = await readContract({
@@ -201,19 +292,20 @@ export const StateContextProvider = ({ children }) => {
 
       return data;
     } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push("/404");
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
       console.log(`Error in Fetching Image: ${error}`);
     }
   };
 
-  // All NFTs API
-  const getAllNFTsAPI = async () => {
-    const response = await axios({
-      method: "GET",
-      url: "/api/v1/nfts",
-    });
-  };
-
-  // Single NFT API
+  // Fetch Certifcate By ID from MongoDB
   const getSingleNFTAPI = async (req) => {
     try {
       const data = JSON.parse(req);
@@ -221,21 +313,46 @@ export const StateContextProvider = ({ children }) => {
         certificateID: data.certificateID,
         userEmail: data.userEmail,
       });
-      return response.data;
+      console.log(response);
+      return response;
     } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push({
+          pathname: "/404",
+          query: {
+            message: error?.response?.data?.message,
+            state: error?.response?.data?.status,
+          },
+        });
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
       console.log(`Error in Fetching the Specific Certificate: ${error}`);
     }
   };
 
+  // Checking the Presence of ID
   const checkCertIDPresent = async (certID) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `/api/v1/nfts/check/$${certID}`,
+        url: `/api/v1/nfts/check/${certID}`,
       });
-      console.log(response.data);
       return response.data.exists;
     } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push("/404");
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
       console.log(`Error in Checking Certificate ID: ${error}`);
     }
   };

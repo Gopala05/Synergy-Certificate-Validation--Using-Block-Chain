@@ -264,40 +264,58 @@
 
 // export default Home;
 
-
-
-import React, { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Nav from "../Components/Nav/Nav";
 import Home from "../Components/Home/Home";
 import About from "../Components/About/About";
 import UploadandVerify from "../Components/Upload-and-Verify/UploadandVerify";
 import Blog from "../Components/Blog/Blog";
 import Contactus from "../Components/ContactUs/Contactus";
+import Footer from "../Components/Footer/Footer";
 
 const Landing = () => {
+  const sectionRefs = {
+    home: useRef(null),
+    about: useRef(null),
+    uploadandverify: useRef(null),
+    blog: useRef(null),
+    contact: useRef(null),
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (localStorage.getItem("user-info")) {
+      localStorage.removeItem("user-info");
+      localStorage.removeItem("User-Token");
+    }
+    if (localStorage.getItem("auth-info")) {
+      localStorage.removeItem("auth-info");
+      localStorage.removeItem("Auth-Token");
+    }
   }, []);
+
   return (
     <>
-      <Nav />
-      {/* <div className="justify-center flex fixed">
-        <hr className="w-[90vw]" />
-      </div> */}
-      <Home />
-      <About />
-      <UploadandVerify />
-      <Blog />
-      <Contactus />
-      <hr />
-      <footer className="text-center bg-[#02291B] p-3 relative">
-        <p className="font-semibold text-white m-1 text-xl">
-          © Copyright 2024 |
-          <span className="ml-1">All Copyrights Reserved </span>| SYNERGY
-        </p>
-      </footer>
+      <Nav sectionRefs={sectionRefs} />
+      <div ref={sectionRefs.home} id="home">
+        <Home />
+      </div>
+      <div ref={sectionRefs.about} id="about">
+        <About />
+      </div>
+      <div ref={sectionRefs.uploadandverify} id="uploadandverify">
+        <UploadandVerify />
+      </div>
+      <div ref={sectionRefs.blog} id="blog">
+        <Blog />
+      </div>
+      <div ref={sectionRefs.contact} id="contact">
+        <Contactus />
+      </div>
+      <Footer />
     </>
   );
 };
 
 export default Landing;
+

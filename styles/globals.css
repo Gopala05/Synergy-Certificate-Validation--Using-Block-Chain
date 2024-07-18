@@ -28,14 +28,14 @@ body {
 
 /* Upload */
 
-.upload {
+/* .upload {
   width: 100%;
   background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
   border-radius: 1rem;
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 4rem;
-}
+} */
 
 .upload-info h1 {
   margin-top: 8rem;
@@ -266,11 +266,24 @@ body {
   padding: 0 !important;
 }
 
+.ant-dropdown-menu {
+  width: fit-content;
+}
+
+.Card {
+  transform-style: preserve-3d;
+  transition: all 0.6s ease;
+}
+
+.front {
+  backface-visibility: hidden;
+}
+
 .back {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-blend-mode: multiply;
-  background-color: rgba(0, 0, 0, 0.3);
-  background-image: url("../public/Back2.jpg") !important;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.cardFlip {
+  transform: rotateY(180deg);
 }

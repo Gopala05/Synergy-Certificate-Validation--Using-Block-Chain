@@ -9,8 +9,7 @@ nftRouter
   .get(nftController.getAllNFTs)
   .post(nftController.createNFT);
 
-// On "/:id" route we need to fetch the Specfic NFT based on id
-nftRouter.route("/:id").get(nftController.getNFT);
+// On route we need to fetch the NFT
 nftRouter.route("/verify").post(nftController.verifyCertificate);
 nftRouter.route("/check/:id").get(nftController.checkCertificate);
 

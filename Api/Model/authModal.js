@@ -24,8 +24,6 @@ const authSchema = new Mongoose.Schema({
   },
   role: {
     type: String,
-    // enum: ["user", "admin"], // Enum is a list of values that can be used
-    // default: "user",
   },
   password: {
     type: String,
@@ -49,10 +47,8 @@ authSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
   }
-
   // Hash the password with cost 12
   this.password = await bcrypt.hash(this.password, 12);
-
   // Delete the confirmPassword since we dont want to store that in the database
   this.confirmPassword = undefined;
   next();
@@ -61,7 +57,6 @@ authSchema.pre("save", async function (next) {
 // Method to compare a plain text password against the hashed one stored in the database
 authSchema.pre("save", function (next) {
   if (!this.isModified("passowrd") || this.isNew) return next();
-
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
@@ -85,11 +80,8 @@ authSchema.methods.passwordChangesAfter = function (JWTTimeStamp) {
       this.passwordChangedAt.getTime() / 1000,
       10
     );
-
     return JWTTimeStamp < TimeStanpChanged;
   }
-
-  // False means Not Changed
   return false;
 };
 

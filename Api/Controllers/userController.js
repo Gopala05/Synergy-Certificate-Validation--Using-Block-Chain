@@ -33,28 +33,50 @@ const createToken = (user, status, req, res) => {
 
 // Create the "SignUp" method
 exports.SignUp = async (req, res, next) => {
+  const { name, userName, userEmails, password, confirmPassword } = req.body;
+
+  // Check if any user already exists with the provided email or userName
+  const existingUser = await UserModal.findOne({
+    $or: [{ userName: userName }, { userEmails: userEmails }],
+  });
+
+  if (existingUser) {
+    // Determine if it's the email or userName that already exists
+    let errorField = "";
+    if (existingUser.userName === userName) {
+      errorField = "UserName";
+    } else if (existingUser.userEmails.includes(userEmails)) {
+      errorField = "Email";
+    }
+
+    return res.status(400).json({ message: `${errorField} already exists` });
+  }
+
+  // Create new user if email and userName are not already in use
   const newUser = await UserModal.create({
-    name: req.body.name,
-    userEmail: req.body.userEmail,
-    password: req.body.password,
-    confirmPassword: req.body.confirmPassword,
+    name,
+    userName,
+    userEmails: [userEmails], // Store as an array with a single email
+    password,
+    confirmPassword,
   });
 
   createToken(newUser, 201, req, res);
 };
 
 exports.SignIn = async (req, res, next) => {
-  const { userEmail, password } = req.body;
+  const { userName, password } = req.body;
 
-  // Check if userEmail and password are passed from user
-  if (!userEmail || !password) {
+  // Check if userName and password are passed from user
+  if (!userName || !password) {
     res.status(400).json({
       status: "Bad Request",
       message: "Pleasen provide the email and password!",
     });
   }
+  
   // Checking if the user exists or not
-  let user = await UserModal.findOne({ userEmail: userEmail }).select(
+  let user = await UserModal.findOne({ userName: userName }).select(
     "+password"
   );
 
@@ -62,7 +84,7 @@ exports.SignIn = async (req, res, next) => {
   if (!user || !(await user.validatePassword(password, user.password))) {
     return res.status(401).json({
       status: "Unauthorized",
-      message: "Invalid Email or Password.",
+      message: "Invalid Username or Password.",
     });
   }
 

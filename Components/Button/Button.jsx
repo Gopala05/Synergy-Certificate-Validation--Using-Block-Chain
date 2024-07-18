@@ -8,13 +8,12 @@ const Button = ({ disconnect, connect, address, file }) => {
       {address ? (
         <button onClick={() => disconnect()} className={style.button}>
           <span className={style.button_content}>
-            {" "}
             {file ? "Upload" : "Disconnect"}
           </span>
         </button>
       ) : (
         <button onClick={() => connect()} className={style.button}>
-          <span className={style.button_content}>Connect</span>
+          <span className={style.button_content}>Connect Metamask Wallet</span>
         </button>
       )}
     </>
