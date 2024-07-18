@@ -9,6 +9,7 @@ const DashNav = () => {
   const router = useRouter();
   const [auth, setAuth] = React.useState("");
   const [user, setUser] = React.useState("");
+  const [activeSection, setActiveSection] = React.useState(router.pathname);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -51,6 +52,10 @@ const DashNav = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setActiveSection(router.pathname);
+  }, [router]);
+
   const menu = (
     <Menu>
       <Menu.Item key="0">
@@ -78,24 +83,79 @@ const DashNav = () => {
         </span>
         Synergy
       </div>
-      
+
       {router.pathname == "/user-home" ||
       router.pathname == "/auth-home" ? null : (
-        <nav className="flex flex-grow justify-center">
+        <nav className="flex flex-grow text-xl justify-center">
           <div className="flex flex-grow justify-center gap-10 font-bold">
-            <Link href={auth ? "/auth-home" : "/user-home"} duration={500}>
+            <Link
+              className={`relative cursor-pointer ${
+                activeSection === "/auth-home" || activeSection === "/user-home"
+                  ? "text-green-500"
+                  : "text-white/80"
+              }`}
+              href={auth ? "/auth-home" : "/user-home"}
+              duration={500}
+            >
               Home
+              <span
+                className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
+                  activeSection === "/auth-home" ||
+                  activeSection === "/user-home"
+                    ? "scale-x-100"
+                    : "scale-x-0"
+                }`}
+              ></span>
             </Link>
             {auth ? (
-              <Link href="/upload" duration={500}>
+              <Link
+                className={`relative cursor-pointer ${
+                  activeSection === "/upload"
+                    ? "text-green-500"
+                    : "text-white/80"
+                }`}
+                href="/upload"
+                duration={500}
+              >
                 Upload
+                <span
+                  className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
+                    activeSection === "/upload" ? "scale-x-100" : "scale-x-0"
+                  }`}
+                ></span>
               </Link>
             ) : null}
-            <Link href="/validation" duration={500}>
+            <Link
+              className={`relative cursor-pointer ${
+                activeSection === "/validation"
+                  ? "text-green-500"
+                  : "text-white/80"
+              }`}
+              href="/validation"
+              duration={500}
+            >
               Validate
+              <span
+                className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
+                  activeSection === "/validation" ? "scale-x-100" : "scale-x-0"
+                }`}
+              ></span>
             </Link>
-            <Link href="/support" duration={500}>
+            <Link
+              className={`relative cursor-pointer ${
+                activeSection === "/support"
+                  ? "text-green-500"
+                  : "text-white/80"
+              }`}
+              href="/support"
+              duration={500}
+            >
               Support
+              <span
+                className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
+                  activeSection === "/support" ? "scale-x-100" : "scale-x-0"
+                }`}
+              ></span>
             </Link>
           </div>
         </nav>
