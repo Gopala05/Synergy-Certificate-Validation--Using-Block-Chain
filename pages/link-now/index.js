@@ -91,8 +91,8 @@ const LinkNow = () => {
             const MailParams = {
               from_user: emailDecrypt,
               to_mail: response.data.data.user.userEmails[0],
-              confirm_url: `https://synergy-certificate-validation-using-block-chain.vercel.app/confirm?id=${id}`,
-              reject_url: `https://synergy-certificate-validation-using-block-chain.vercel.app/reject?id=${id}`,
+              confirm_url: `${process.env.NEXT_PUBLIC_WEB_URL}/confirm?id=${id}`,
+              reject_url: `${process.env.NEXT_PUBLIC_WEB_URL}/reject?id=${id}`,
               year: new Date().getFullYear(),
             };
 

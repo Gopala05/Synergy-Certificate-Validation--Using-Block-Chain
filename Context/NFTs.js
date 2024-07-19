@@ -182,12 +182,10 @@ export const StateContextProvider = ({ children }) => {
           to_mail: userEmail,
           recipient_name: userEmail,
           certificate_id: certificateID,
-          site_name:
-            "https://synergy-certificate-validation-using-block-chain.vercel.app",
+          site_name: process.env.NEXT_PUBLIC_WEB_URL,
           certificate_link: certificate,
-          link_url: `https://synergy-certificate-validation-using-block-chain.vercel.app/link-now?email=${encryptedMail}`,
-          singup_url:
-            "https://synergy-certificate-validation-using-block-chain.vercel.app/user-signup",
+          link_url: `${process.env.NEXT_PUBLIC_WEB_URL}/link-now?email=${encryptedMail}`,
+          singup_url: `${process.env.NEXT_PUBLIC_WEB_URL}/user-signup`,
           year: new Date().getFullYear(),
         };
 
