@@ -25,6 +25,7 @@ exports.checkCertificate = async (req, res, next) => {
 
     return res.status(200).json({ exists: true });
   } catch (error) {
+    console.log("Error In Check Certificate: ", error);
     next(error);
   }
 };
@@ -50,6 +51,7 @@ exports.verifyCertificate = async (req, res, next) => {
       },
     });
   } catch (error) {
+    console.log("Error In Certificate VErification: ", error);
     next(error);
   }
 };
@@ -67,5 +69,6 @@ exports.createNFT = async (req, res, next) => {
     });
   } catch (error) {
     console.log("Error In Creating record in the DB: ", error);
+    next(error);
   }
 };
