@@ -15,7 +15,8 @@ const Nav = ({ sectionRefs }) => {
 
     const scrollPosition = window.scrollY + window.innerHeight / 2;
     const currentSection = offsets.reduce((closest, section) => {
-      return Math.abs(section.offsetTop - scrollPosition) < Math.abs(closest.offsetTop - scrollPosition)
+      return Math.abs(section.offsetTop - scrollPosition) <
+        Math.abs(closest.offsetTop - scrollPosition)
         ? section
         : closest;
     });

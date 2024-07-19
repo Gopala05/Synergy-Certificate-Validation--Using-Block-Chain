@@ -29,7 +29,7 @@ const ValidationPage = () => {
   const handleFlip = async (e) => {
     const selectedOption = e.target.value;
     setOption(selectedOption);
-    console.log(selectedOption);
+
     if (selectedOption === "Evault") {
       setFirstField("");
     } else {
@@ -95,7 +95,7 @@ const ValidationPage = () => {
   const fetchDatabaseData = async (body) => {
     try {
       const response = await getSingleNFTAPI(body);
-      console.log(response)
+
       return response.data;
     } catch (error) {
       setIsInValid(true);
