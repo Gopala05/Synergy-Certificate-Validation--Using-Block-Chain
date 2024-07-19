@@ -32,15 +32,14 @@ mongoose
   })
   .then(() => console.log("DB Connected Successfully!"))
   .catch((err) => console.log("DB Connection Error: ", err));
+app.get("*", (req, res) => {
+  return handle(req, res);
+});
 
 const port = process.env.PORT || 3000;
 
 // Handle the Requests and Responses
 nextServer.prepare().then(() => {
-  app.get("*", (req, res) => {
-    return handle(req, res);
-  });
-
   app.listen(port, () => {
     console.log("Server is Running on port: ", port);
     // createTestEntries(); // Create test entries on server start
