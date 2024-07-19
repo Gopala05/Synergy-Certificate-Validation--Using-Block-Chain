@@ -1,6 +1,7 @@
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { Footer } from "../Components";
+import { RiHome4Fill } from "react-icons/ri";
 
 export default function Custom404() {
   const router = useRouter();
@@ -16,11 +17,18 @@ export default function Custom404() {
             </span>
             Synergy
           </div>
+          <div className="flex w-full justify-end items-start">
+            <Link href="/">
+              <button className="btn bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600">
+                Home <RiHome4Fill />
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="flex-grow flex flex-col justify-center gap-y-2 items-center">
         <div className="text-5xl font-sans font-bold">
-          404 - {state || 'PAGE NOT FOUND'}
+          404 - {state || "PAGE NOT FOUND"}
         </div>
         <p className="text-xl font-sans font-bold">
           {message || "The requested URL was not found"}

@@ -17,6 +17,7 @@ import { createWallet } from "thirdweb/wallets";
 import toast from "react-hot-toast";
 import emailjs from "@emailjs/browser";
 import { useRouter } from "next/navigation";
+import encrypt from "../utils/Encrypt";
 
 const StateContext = createContext();
 
@@ -174,16 +175,19 @@ export const StateContextProvider = ({ children }) => {
       });
 
       if (apiResponse) {
+        const encryptedMail = encrypt(userEmail);
         const MailParams = {
           from: "SYNERGY",
           from_mail: "team.synergy.ksit@gmail.com",
           to_mail: userEmail,
           recipient_name: userEmail,
           certificate_id: certificateID,
-          site_name: "team.synergy.ksit",
+          site_name:
+            "https://synergy-certificate-validation-using-block-chain.vercel.app",
           certificate_link: certificate,
-          link_url: "/link-now",
-          singup_url: "/sign-up",
+          link_url: `https://synergy-certificate-validation-using-block-chain.vercel.app/link-now?email=${encryptedMail}`,
+          singup_url:
+            "https://synergy-certificate-validation-using-block-chain.vercel.app/user-signup",
           year: new Date().getFullYear(),
         };
 
@@ -313,7 +317,7 @@ export const StateContextProvider = ({ children }) => {
         certificateID: data.certificateID,
         userEmail: data.userEmail,
       });
-      console.log(response);
+
       return response;
     } catch (error) {
       setIsLoading(false);
