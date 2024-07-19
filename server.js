@@ -25,17 +25,25 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("DB Connected Successfully!"))
-  .catch((err) => console.log("DB Connection Error: ", err));
+  .catch((err) => {
+    console.error("DB Connection Error: ", err);
+    process.exit(1); // Exit the process if DB connection fails
+  });
 
 const port = process.env.PORT || 3000;
 
-nextServer.prepare().then(() => {
-  // Handle all other requests with Next.js
-  app.all("*", (req, res) => {
-    return handle(req, res);
-  });
+nextServer.prepare()
+  .then(() => {
+    // Handle all other requests with Next.js
+    app.all("*", (req, res) => {
+      return handle(req, res);
+    });
 
-  app.listen(port, () => {
-    console.log("Server is Running on port: ", port);
+    app.listen(port, () => {
+      console.log("Server is Running on port: ", port);
+    });
+  })
+  .catch((err) => {
+    console.error("Next.js server preparation error: ", err);
+    process.exit(1); // Exit the process if Next.js server preparation fails
   });
-});
