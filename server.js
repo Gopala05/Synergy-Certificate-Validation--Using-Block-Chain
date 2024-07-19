@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const next = require("next");
 const dotenv = require("dotenv");
 const app = require("./app");
-const User = require("./Api/Model/userModal"); // Import User model
-const NFT = require("./Api/Model/nftModal"); // Import NFT model
-const Auth = require("./Api/Model/authModal"); // Import Auth model
-const Request = require("./Api/Model/requestModal"); // Import Request model
 
 // Configuring the env
 dotenv.config({ path: "./.env" });
@@ -26,22 +22,20 @@ const DB = process.env.DATABASE.replace(
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
     useUnifiedTopology: true,
   })
   .then(() => console.log("DB Connected Successfully!"))
   .catch((err) => console.log("DB Connection Error: ", err));
-app.get("*", (req, res) => {
-  return handle(req, res);
-});
 
 const port = process.env.PORT || 3000;
 
-// Handle the Requests and Responses
 nextServer.prepare().then(() => {
+  // Handle all other requests with Next.js
+  app.all("*", (req, res) => {
+    return handle(req, res);
+  });
+
   app.listen(port, () => {
     console.log("Server is Running on port: ", port);
-    // createTestEntries(); // Create test entries on server start
   });
 });
