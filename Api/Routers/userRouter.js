@@ -9,5 +9,5 @@ userRouter.post("/sign-up", userController.SignUp);
 // Sign In on route "/sign-in" with POST method
 userRouter.post("/sign-in", userController.SignIn);
 
-// Export the authRouter
+// Export the userRouter
 module.exports = userRouter;
