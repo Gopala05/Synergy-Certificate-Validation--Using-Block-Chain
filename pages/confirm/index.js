@@ -1,0 +1,215 @@
+import { Checkbox, Col, Form, Input, Row } from "antd";
+import { useRouter } from "next/router";
+import React from "react";
+import { RiHome4Fill } from "react-icons/ri";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useStateContext } from "../../Context/NFTs";
+import { Logo } from "../../Components";
+
+const Confirm = () => {
+  const { isLoading, setIsLoading } = useStateContext();
+  const router = useRouter();
+
+  const [checked, setChecked] = React.useState(false);
+  const [id, setID] = React.useState("");
+  const [request, setRequest] = React.useState("");
+  const toastShownRef = React.useRef(false);
+
+  const CheckID = async (id) => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `/api/v1/link/check/${id}`,
+        withCredentials: true,
+      });
+      if (response.data.status == "OK") {
+        setID(router.query.id);
+        return response;
+      } else {
+        return undefined;
+      }
+    } catch (error) {
+      console.log(`Error in Fetching the Request: ${error}`);
+    }
+  };
+
+  React.useEffect(() => {
+    if (router.query && router.query.id) {
+      const fetchData = async () => {
+        try {
+          const response = await CheckID(router.query.id);
+          setRequest(response?.data.Request || "");
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [router.query]);
+
+  // Key Borad Listener
+  const handleEnterKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleConfirm(event);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("keydown", handleEnterKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleEnterKeyPress);
+    };
+  }, [handleEnterKeyPress]);
+
+  // Handling Confirm
+  const handleConfirm = async (e) => {
+    e.preventDefault();
+
+    if (id) {
+      setIsLoading(true);
+      try {
+        const response = await axios({
+          method: "PUT",
+          url: `/api/v1/link/confirm/${request._id}`,
+          withCredentials: true,
+        });
+
+        if (response.data.status === "OK") {
+          setIsLoading(false);
+          setChecked(false);
+          toast.success(response?.data?.message);
+          router.push("/");
+        } else if (response.data.status === "Bad Request") {
+          setIsLoading(false);
+          toast.error(response.data.message);
+        } else {
+          setIsLoading(false);
+          toast.error(error.response?.data?.message || "Internal Server Error");
+        }
+      } catch (error) {
+        setIsLoading(false);
+        toast.error(error.response?.data?.message || "Internal Server Error");
+        console.error("Error in Link Now: ", error);
+      }
+    } else {
+      setIsLoading(false);
+      toast.error("Invalid request");
+    }
+  };
+
+  // Handling Route Protection
+  React.useEffect(() => {
+    const navigate = () => {
+      if (!id) {
+        router.replace("/404");
+        if (!toastShownRef.current) {
+          toast.error("Invalid Request", {
+            icon: "🚫",
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
+          toastShownRef.current = true;
+        }
+      }
+    };
+
+    const intervalId = setInterval(navigate, 3000); // Fetch data every 3 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval
+  }, [router.query, id]);
+
+  if (!id) {
+    return (
+      <div className="loader">
+        <Logo />
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-[100vh] bg-white">
+      <Row className="flex justify-center items-center">
+        <Col lg={12} className="h-[100vh] hidden lg:block">
+          <img
+            src="./Confirm_Metamask.png"
+            alt="Confirm Image"
+            className="h-[100vh] text-black w-full rounded-[10rem] rounded-s-none"
+          />
+        </Col>
+        <Col
+          lg={12}
+          className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
+        >
+          <div className="flex justify-end items-start">
+            <button
+              onClick={() => router.push("/")}
+              className="btn bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600"
+            >
+              Home <RiHome4Fill />
+            </button>
+          </div>
+
+          <div className="flex flex-col justify-center h-[100vh]">
+            <label className="text-black flex justify-center font-bold text-5xl">
+              Confirm
+              <span className="text-[#f6851b]">&nbsp;Account</span>!
+            </label>
+            <p className="text-black text-xl flex justify-center mt-3">
+              Confirm linking of accounts
+            </p>
+
+            <div className="mt-5 flex justify-center">
+              <Checkbox
+                className={`text-lg ${checked ? "font-bold" : "font-semibold"}`}
+                onChange={(e) => setChecked(e.target.checked)}
+              >
+                By Checking, you confirm that you are linking the accounts.
+              </Checkbox>
+            </div>
+
+            <div className="flex justify-center">
+              <button
+                disabled={!checked}
+                onClick={handleConfirm}
+                className={`mt-8 btn hover:text-black bg-gradient-to-r from-green-400 to-green-600 text-xl w-full border-0 text-white rounded-2xl font-bold transition-transform duration-300 ease-in-out ${
+                  checked
+                    ? "hover:shadow-2xl hover:shadow-green-600 hover:-translate-y-2"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
+              >
+                Confirm
+              </button>
+            </div>
+            <div className="flex justify-center">
+              <p className="text-black text-base mt-2">
+                If not sure go back to
+                <a href="/">
+                  <u className="ml-2 text-blue-800">Home</u>
+                </a>
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <p className="text-black text-base mt-2">
+                By clicking on <i>confirm</i> you agree to
+                <u className="ml-2 text-blue-800">Terms of Services</u> |{" "}
+                <u className="text-blue-800">Privacy Policy</u>
+              </p>
+            </div>
+          </div>
+        </Col>
+      </Row>
+      {isLoading && (
+        <div className="loader">
+          <Logo />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Confirm;
