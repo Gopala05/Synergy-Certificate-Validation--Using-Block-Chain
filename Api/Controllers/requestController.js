@@ -100,30 +100,30 @@ exports.Reject = async (req, res, next) => {
 // Creating the Request
 exports.Create = async (req, res, next) => {
   try {
-    const sender = req.body.senderEmail;
-    const receiver = req.body.receiverEmail;
+    const { senderEmail, receiverEmail } = req.body;
 
     // Check if sender and receiver are the same
-    if (sender === receiver) {
+    if (senderEmail === receiverEmail) {
       return res.status(400).json({
         status: "Bad Request",
-        message: "Sender and receiver emails are Same.",
+        message: "Sender and receiver emails are the same.",
       });
     }
 
-    // Query UserModel to find if both emails belong to the same user
-    const user = await UserModel.findOne({
-      userEmails: { $all: [sender, receiver] },
+    // Check if a request already exists with the same sender and receiver
+    const existingRequest = await RequestModel.findOne({
+      senderEmail: senderEmail,
+      receiverEmail: receiverEmail,
     });
 
-    if (user) {
+    if (existingRequest) {
       return res.status(400).json({
         status: "Bad Request",
-        message: "Accounts are already linked.",
+        message: "Request with sender and receiver already exists.",
       });
     }
 
-    // If not linked, proceed to create the request
+    // Proceed to create the request
     const request = await RequestModel.create(req.body);
 
     res.status(201).json({
@@ -133,7 +133,7 @@ exports.Create = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.log("Error in creating record in the DB: ", error);
+    console.error("Error in creating record in the DB: ", error);
     next(error);
   }
 };
