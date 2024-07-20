@@ -97,14 +97,14 @@ const LinkNow = () => {
             };
 
             try {
-              const response = await emailjs.send(
+              const resp = await emailjs.send(
                 process.env.NEXT_PUBLIC_SERVICE_ID_FOR_LINKNOW,
                 process.env.NEXT_PUBLIC_TEMPLATE_ID_FOR_LINKNOW,
                 MailParams,
                 process.env.NEXT_PUBLIC_USER_ID_FOR_LINKNOW
               );
 
-              if (response.status == 200) {
+              if (resp.status == 200) {
                 setIsLoading(false);
                 toast.success(
                   `Conformation Email sent to ${response.data.data.user.userEmails[0]} Successfully`

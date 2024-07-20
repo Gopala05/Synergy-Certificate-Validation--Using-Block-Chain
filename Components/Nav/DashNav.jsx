@@ -38,9 +38,10 @@ const DashNav = () => {
 
   useEffect(() => {
     if (router.pathname !== "/valid") {
-      if (localStorage.getItem("NFT")) {
-        localStorage.removeItem("NFT");
-      }
+      if (localStorage.getItem("cert-user"))
+        localStorage.removeItem("cert-user");
+      if (localStorage.getItem("NFT")) localStorage.removeItem("NFT");
+      if (localStorage.getItem("NFTs")) localStorage.removeItem("NFTs");
     }
     if (localStorage.getItem("auth-info")) {
       const authData = localStorage.getItem("auth-info");

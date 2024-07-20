@@ -5,7 +5,7 @@ import DashNav from "../../Components/Nav/DashNav";
 import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/router";
 import { Logo } from "../../Components";
-import toast, { clearAll } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const backgroundImages = {
   verify: "/Verify.png",
