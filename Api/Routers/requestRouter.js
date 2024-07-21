@@ -12,6 +12,9 @@ requestRouter.put("/confirm/:id", requestController.Confirm);
 // Route "/reject/:id" with POST method
 requestRouter.put("/reject/:id", requestController.Reject);
 
+// Route "/block/:id" with POST method
+requestRouter.put("/block/:id", requestController.Block);
+
 // Route "/check/:id" with POST method
 requestRouter.get("/check/:id", requestController.CheckID);
 

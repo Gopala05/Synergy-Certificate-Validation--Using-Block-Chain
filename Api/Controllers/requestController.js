@@ -97,6 +97,47 @@ exports.Reject = async (req, res, next) => {
   }
 };
 
+// Blocking the Request
+exports.Block = async (req, res, next) => {
+  try {
+    const ID = req.params.id;
+
+    // Fetch request details from RequestModel based on ID
+    const request = await RequestModel.findById(ID);
+
+    if (!request) {
+      return res.status(404).json({
+        status: "NOT FOUND",
+        message: "Request not found",
+      });
+    }
+
+    // Check if the request status is Pending
+    if (request.status !== "Pending") {
+      return res.status(400).json({
+        status: "BAD REQUEST",
+        message: "Request has been closed",
+      });
+    }
+
+    // Update RequestModel to set status to true
+    const updated = await RequestModel.findByIdAndUpdate(
+      ID,
+      { $set: { status: "Block" } },
+      { new: true }
+    );
+
+    res.status(200).json({
+      status: "OK",
+      message: "Blocked the Request Successfully",
+      updatedRequest: updated,
+    });
+  } catch (error) {
+    console.log("Error in Rejecting record in the DB: ", error);
+    next(error);
+  }
+};
+
 // Creating the Request
 exports.Create = async (req, res, next) => {
   try {
@@ -111,17 +152,17 @@ exports.Create = async (req, res, next) => {
     }
 
     // Check if a request already exists with the same sender and receiver
-    const existingRequest = await RequestModel.findOne({
-      senderEmail: senderEmail,
-      receiverEmail: receiverEmail,
-    });
+    // const existingRequest = await RequestModel.findOne({
+    //   senderEmail: senderEmail,
+    //   receiverEmail: receiverEmail,
+    // });
 
-    if (existingRequest) {
-      return res.status(400).json({
-        status: "Bad Request",
-        message: "Request with sender and receiver already exists.",
-      });
-    }
+    // if (existingRequest) {
+    //   return res.status(400).json({
+    //     status: "Bad Request",
+    //     message: "Request with sender and receiver already exists.",
+    //   });
+    // }
 
     // Proceed to create the request
     const request = await RequestModel.create(req.body);
