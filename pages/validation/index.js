@@ -242,7 +242,6 @@ const ValidationPage = () => {
         }
         setIsLoading(true);
         const certificates = await evault();
-        console.log("Cert", certificates);
         if (certificates.length > 0) {
           localStorage.setItem("NFTs", JSON.stringify(certificates));
           setEmail("");
