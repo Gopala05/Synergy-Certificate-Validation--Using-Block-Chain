@@ -37,7 +37,7 @@ const DashNav = () => {
   };
 
   useEffect(() => {
-    if (router.pathname !== "/valid") {
+    if (router.pathname !== "/valid" && router.pathname !== "/evault") {
       if (localStorage.getItem("cert-user"))
         localStorage.removeItem("cert-user");
       if (localStorage.getItem("NFT")) localStorage.removeItem("NFT");
