@@ -132,7 +132,7 @@ const AuthForm = () => {
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh]">
           <img
-            src="./Request_Metamask.jpg"
+            src="./Request_Metamask.png"
             alt="Request Image"
             className="h-[100vh] w-full rounded-s-none rounded-[10rem]"
           />
