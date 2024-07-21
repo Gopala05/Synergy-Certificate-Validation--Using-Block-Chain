@@ -157,19 +157,18 @@ const Reject = () => {
           </div>
 
           <div className="flex flex-col justify-center h-[100vh]">
-            <label className="text-black flex justify-center font-bold text-5xl">
+            <label className="text-black flex justify-center font-bold text-6xl">
               Reject
               <span className="text-[#f6851b]">&nbsp;Account</span>!
             </label>
-            <p className="text-black text-xl flex justify-center mt-3">
-              Reject linking of accounts
+            <p className="text-black font-bold text-[1.3rem] text-center flex justify-center mt-3">
+              Please ensure you have rejected the linking of both accounts to
+              avoid any errors. If not, please report it to us.
             </p>
 
             <div className="mt-5 flex justify-center">
               <Checkbox
-                className={`text-base ${
-                  checked ? "font-bold" : "font-semibold"
-                }`}
+                className={`text-xl ${checked ? "font-bold" : "font-semibold"}`}
                 onChange={(e) => setChecked(e.target.checked)}
               >
                 By Checking, you confirm that you are rejecting the linking of
@@ -191,18 +190,25 @@ const Reject = () => {
               </button>
             </div>
             <div className="flex justify-center">
-              <p className="text-black text-base mt-2">
-                If not sure go back to
-                <a href="/">
-                  <u className="ml-2 text-blue-800">Home</u>
+              <p className="text-black font-semibold text-base mt-2">
+                By clicking on <i>confirm</i> you agree to &nbsp;
+                <a
+                  href="/Terms_and_Conditions.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Terms of Services
                 </a>
-              </p>
-            </div>
-            <div className="flex justify-center">
-              <p className="text-black text-base mt-2">
-                By clicking on <i>confirm</i> you agree to
-                <u className="ml-2 text-blue-800">Terms of Services</u> |{" "}
-                <u className="text-blue-800">Privacy Policy</u>
+                &nbsp;|&nbsp;
+                <a
+                  href="/Privacy_Policy.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Privacy Policy
+                </a>
               </p>
             </div>
           </div>

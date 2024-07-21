@@ -87,11 +87,18 @@ const AuthLogin = () => {
   return (
     <div className="h-[100vh] bg-white">
       <Row className="flex justify-center items-center">
+        <Col lg={12} className="h-[100vh]">
+          <img
+            src="./Auth_SignIn.png"
+            alt="Login Image"
+            className="h-[100vh] w-full rounded-s-none rounded-[10rem]"
+          />
+        </Col>
         <Col
           lg={12}
           className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
         >
-          <div className="flex justify-start items-start">
+          <div className="flex justify-end items-start">
             <button
               onClick={() => router.push("/")}
               className="btn bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600"
@@ -122,7 +129,9 @@ const AuthLogin = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">User ID</label>
+              <label className="text-black text-2xl font-bold">
+                User ID<span className="text-red-600">*</span>
+              </label>
               <br />
               <Input
                 className="w-full text-black mt-1 h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
@@ -147,7 +156,9 @@ const AuthLogin = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">Password</label>
+              <label className="text-black text-2xl font-bold">
+                Password<span className="text-red-600">*</span>
+              </label>
               <br />
               <Input.Password
                 type="password"
@@ -170,21 +181,29 @@ const AuthLogin = () => {
                 Login
               </button>
             </div>
-            <div className="flex justify-center">
+            <div className="flex font-semibold justify-center">
               <p className="text-black text-base mt-2">
-                By clicking on <i>Login</i> you agree to
-                <u className="ml-2 text-blue-800">Terms of Services</u> |{" "}
-                <u className="text-blue-800">Privacy Policy</u>
+                By clicking on <i>Login</i> you agree to &nbsp;
+                <a
+                  href="/Terms_and_Conditions.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Terms of Services
+                </a>
+                &nbsp;|&nbsp;
+                <a
+                  href="/Privacy_Policy.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Privacy Policy
+                </a>
               </p>
             </div>
           </div>
-        </Col>
-        <Col lg={12} className="h-[100vh]">
-          <img
-            src="./Auth_SignIn.png"
-            alt="Login Image"
-            className="h-[100vh] py-10 px-12 w-full rounded-3xl rounded-e-none"
-          />
         </Col>
       </Row>
     </div>

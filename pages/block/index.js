@@ -4,10 +4,12 @@ import React from "react";
 import { RiHome4Fill } from "react-icons/ri";
 import toast from "react-hot-toast";
 import axios from "axios";
+import decryptText from "../../utils/Decrypt";
+import emailjs from "@emailjs/browser";
 import { useStateContext } from "../../Context/NFTs";
 import { Logo } from "../../Components";
 
-const Confirm = () => {
+const Block = () => {
   const { isLoading, setIsLoading } = useStateContext();
   const router = useRouter();
 
@@ -72,7 +74,7 @@ const Confirm = () => {
       try {
         const response = await axios({
           method: "PUT",
-          url: `/api/v1/link/confirm/${request._id}`,
+          url: `/api/v1/link/block/${request._id}`,
           withCredentials: true,
         });
 
@@ -136,14 +138,14 @@ const Confirm = () => {
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./Confirm_Metamask.png"
-            alt="Confirm Image"
-            className="h-[100vh] text-black w-full rounded-[10rem] rounded-s-none"
+            src="./Block_Metamask.png"
+            alt="Block Image"
+            className="h-[100vh] text-black w-full rounded-full rounded-s-none"
           />
         </Col>
         <Col
           lg={12}
-          className="p-20 pr-10 pt-10 h-[100vh] w-full justify-start flex flex-col"
+          className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
@@ -154,22 +156,53 @@ const Confirm = () => {
             </button>
           </div>
 
-          <div className="flex flex-col w-full justify-center h-[100vh]">
-            <label className="text-black flex justify-center font-bold text-6xl">
-              Confirm
-              <span className="text-[#f6851b]">&nbsp;Account</span>!
+          <div className="flex flex-col justify-center h-[100vh]">
+            <label className="text-black flex justify-center font-bold text-5xl">
+              BLOCK
+              <span className="text-[#f6851b]">&nbsp;SPAM ACCOUNT</span>!
             </label>
-            <p className="text-black text-[1.3rem] flex w-full font-bold justify-center mt-3">
-              Please ensure you have confirmed the linking of both accounts to
-              avoid any errors.
+            <p className="text-black font-bold text-justify text-[1.3rem] flex flex-col justify-center mt-3">
+              Once you block this account, it will be permanently disabled from
+              sending you any mail linking requests. Please ensure that you have
+              reviewed the details of the email account you intend to block.
+              <br />
+              <br />
+              <span className="text-[1.5rem] p-0 m-0">
+                EMAIL ID :
+                <span className="text-[#f6851b]">
+                  &nbsp;{request.senderEmail}
+                </span>
+              </span>
+              <br />
+              Important Notice: <br />
+              <br />
+              <ul className="list-disc ml-10">
+                <li>
+                  After blocking,you will no longer be able to link this email
+                  to your account.
+                </li>
+                <li>
+                  The blocked email account will be unable to send you any
+                  future link requests.
+                </li>
+              </ul>
+              <br />
+              If you are certain about blocking this account, please proceed
+              with caution as this action is irreversible.
             </p>
 
-            <div className="mt-5 flex justify-center">
+            <div className="mt-5 flex justify-center items-start">
               <Checkbox
-                className={`text-xl ${checked ? "font-bold" : "font-semibold"}`}
+                className={`text-xl flex items-start justify-start ${
+                  checked ? "font-bold" : "font-semibold"
+                }`}
                 onChange={(e) => setChecked(e.target.checked)}
               >
-                By Checking, you confirm that you are linking the accounts.
+                By Checking, you confirm that you are blocking the account [
+                <span className="font-bold text-[#f6851b]">
+                  &nbsp;{request.senderEmail}
+                </span>
+                ] permanently.
               </Checkbox>
             </div>
 
@@ -183,13 +216,12 @@ const Confirm = () => {
                     : "opacity-50 cursor-not-allowed"
                 }`}
               >
-                Confirm
+                Block
               </button>
             </div>
-
             <div className="flex justify-center">
               <p className="text-black font-semibold text-base mt-2">
-                By clicking on <i>confirm</i> you agree to &nbsp;
+                By clicking on <i>block</i> you agree to &nbsp;
                 <a
                   href="/Terms_and_Conditions.pdf"
                   target="_blank"
@@ -221,4 +253,4 @@ const Confirm = () => {
   );
 };
 
-export default Confirm;
+export default Block;

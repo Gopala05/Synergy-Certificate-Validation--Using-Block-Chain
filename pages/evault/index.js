@@ -10,6 +10,7 @@ const Evault = () => {
   const [certificates, setCertificates] = React.useState("");
   const [user, setUser] = React.useState("");
   const [sayCongrats, setSayCongrats] = React.useState(true);
+  const [selected, setSelected] = React.useState("");
   const router = useRouter();
   const toastShownRef = React.useRef(false);
 
@@ -72,42 +73,35 @@ const Evault = () => {
           className="fixed h-full w-full inset-0 grid place-content-center z-50"
         />
       )}
-      <Row className="p-10 pt-20 overflow-y-scroll gap-x-20 gap-y-5 h-[100vh]">
-        <Col span={24}>
-          <Button
-            type="default"
-            onClick={handleBack}
-            className="mb-4 text-2xl text-white"
-          >
-            Verified Certifications of <strong>{user.name}</strong>
-          </Button>
-        </Col>
-        <Col span={24}>
-          <Button
-            type="default"
-            onClick={handleBack}
-            className="mb-4 bg-purple-400"
-          >
-            Back
-          </Button>
-        </Col>
-        {certificates.map((certificate, qIndex) => (
-          <Col key={qIndex} span={6}>
-            <Card className="flex-grow flex-row border-none bg-gradient-to-r from-yellow-400 to-yellow-600 text-white flex justify-start text-2xl font-bold rounded-xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2">
-              <h2 className="text-xl text-center font-bold mb-4">
-                {certificate.title}
-              </h2>
-
-              <img
-                src={certificate?.certificate}
-                alt="Certificate Image"
-                className="w-[25vw] max-w-[20vw] max-h-[25vh]"
-              />
-            </Card>
+      {!selected && (
+        <Row className="pl-10 pt-32 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-[100vh]">
+          <Col span={24}>
+            <div
+              type="default"
+              className="flex w-full h-full justify-center items-center text-5xl text-center text-white"
+            >
+              Verified Certifications of
+              <strong className="text-[#f6851b]">&nbsp;{user.name}</strong>
+            </div>
           </Col>
-        ))}
-      </Row>
-      {false && (
+          {certificates.map((certificate, qIndex) => (
+            <Col key={qIndex} lg={6}>
+              <Card className="w-fit items-center flex-row border-none bg-gradient-to-br from-[#ec533a] to-[#fbd524] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2">
+                <h2 className="text-xl text-center font-bold mb-4">
+                  {certificate.title}
+                </h2>
+
+                <img
+                  src={certificate?.certificate}
+                  alt="Certificate Image"
+                  className="w-[25vw] max-w-[20vw] max-h-[25vh] rounded-xl"
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+      {selected && (
         <Row className="flex w-full h-full items-center">
           <Col
             lg={13}

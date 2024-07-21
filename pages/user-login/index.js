@@ -91,9 +91,9 @@ const UserLogin = () => {
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh]">
           <img
-            src="./User_SignIn.jpg"
+            src="./User_Sign_In.png"
             alt="Login Image"
-            className="h-[100vh] w-full px-12 py-10 rounded-3xl rounded-e-none"
+            className="h-[100vh] w-full rounded-s-none rounded-[10rem]"
           />
         </Col>
         <Col
@@ -131,7 +131,9 @@ const UserLogin = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">User Name</label>
+              <label className="text-black text-2xl font-bold">
+                User Name<span className="text-red-600">*</span>
+              </label>
               <br />
               <Input
                 className="w-full text-black mt-1 h-10 rounded-2xl pr-10 border-2 border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
@@ -156,7 +158,9 @@ const UserLogin = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">Password</label>
+              <label className="text-black text-2xl font-bold">
+                Password<span className="text-red-600">*</span>
+              </label>
               <br />
               <Input.Password
                 type="password"
@@ -184,11 +188,26 @@ const UserLogin = () => {
                 Login
               </button>
             </div>
-            <div className="flex justify-center">
+            <div className="flex font-semibold  justify-center">
               <p className="text-black text-base mt-2">
-                By clicking on <i>Login</i> you agree to
-                <u className="ml-2 text-blue-800">Terms of Services</u> |{" "}
-                <u className="text-blue-800">Privacy Policy</u>
+                By clicking on <i>Login</i> you agree to &nbsp;
+                <a
+                  href="/Terms_and_Conditions.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Terms of Services
+                </a>
+                &nbsp;|&nbsp;
+                <a
+                  href="/Privacy_Policy.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Privacy Policy
+                </a>
               </p>
             </div>
           </div>

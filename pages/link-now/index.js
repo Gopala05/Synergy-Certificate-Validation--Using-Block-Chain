@@ -91,8 +91,9 @@ const LinkNow = () => {
             const MailParams = {
               from_user: emailDecrypt,
               to_mail: response.data.data.user.userEmails[0],
-              confirm_url: `https://synergy-certificate-validation-using-block-chain.vercel.app/confirm?id=${id}`,
-              reject_url: `https://synergy-certificate-validation-using-block-chain.vercel.app/reject?id=${id}`,
+              confirm_url: `${process.env.NEXT_PUBLIC_WEB_URL}/confirm?id=${id}`,
+              reject_url: `${process.env.NEXT_PUBLIC_WEB_URL}/reject?id=${id}`,
+              block_url: `${process.env.NEXT_PUBLIC_WEB_URL}/block?id=${id}`,
               year: new Date().getFullYear(),
             };
 
@@ -257,9 +258,24 @@ const LinkNow = () => {
             </div>
             <div className="flex justify-center">
               <p className="text-black text-base mt-2">
-                By clicking on <i>confirm</i> you agree to
-                <u className="ml-2 text-blue-800">Terms of Services</u> |{" "}
-                <u className="text-blue-800">Privacy Policy</u>
+                By clicking on <i>confirm</i> you agree to &nbsp;
+                <a
+                  href="/Terms_and_Conditions.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Terms of Services
+                </a>
+                &nbsp;|&nbsp;
+                <a
+                  href="/Privacy_Policy.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Privacy Policy
+                </a>
               </p>
             </div>
           </div>
