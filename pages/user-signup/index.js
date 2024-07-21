@@ -147,7 +147,7 @@ const UserSignUp = () => {
           <img
             src="./User_SignUp.png"
             alt="Sign Up Image"
-            className="h-[100vh] w-full px-2 py-2 rounded-3xl rounded-s-none"
+            className="h-[100vh] w-full rounded-[10rem] rounded-s-none"
           />
         </Col>
         <Col
@@ -200,7 +200,6 @@ const UserSignUp = () => {
             </Form.Item>
 
             {/* User Name */}
-
             <Form.Item
               rules={[
                 {
@@ -331,12 +330,20 @@ const UserSignUp = () => {
               />
             </Form.Item>
 
-            <Link
-              href="/user-login"
-              className="text-blue-500 italic underline text-xl"
-            >
-              Already have an account ?
-            </Link>
+            <div className="text-blue-500 flex w-full justify-between italic underline mt-2 text-xl">
+              <Link
+                href="/user-login"
+                className="text-blue-500 italic underline text-xl"
+              >
+                Already have an account ?
+              </Link>
+              <Link
+                href="/auth-form"
+                className="text-blue-500 italic underline text-xl mt-2"
+              >
+                Request for Auth Credentials ?
+              </Link>
+            </div>
 
             <div className="flex justify-center">
               <button
@@ -347,10 +354,25 @@ const UserSignUp = () => {
               </button>
             </div>
             <div className="flex justify-center">
-              <p className="text-black text-base mt-2">
-                By clicking on <i>Register</i> you agree to
-                <u className="ml-2 text-blue-800">Terms of Services</u> |{" "}
-                <u className="text-blue-800">Privacy Policy</u>
+              <p className="text-black font-semibold text-base mt-2">
+                By clicking on <i>Register</i> you agree to &nbsp;
+                <a
+                  href="/Terms_and_Conditions.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Terms of Services
+                </a>
+                &nbsp;|&nbsp;
+                <a
+                  href="/Privacy_Policy.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Privacy Policy
+                </a>
               </p>
             </div>
           </div>

@@ -72,14 +72,14 @@ const Contactus = () => {
             <img src="/Logo.png" alt="Logo" className="w-24" />
             Synergy
           </div>
-          <div className="flex justify-center text-justify text-xl w-full ml-6 mt-5">
+          <div className="flex font-semibold justify-center text-justify text-xl w-full ml-6 mt-5">
             <p>
-              Utilizing advanced encryption and security protocols, e-vaults
+              "Utilizing advanced encryption and security protocols, e-vaults
               ensure that sensitive information remains protected from
               unauthorized access and tampering. E-vaults used for storing
               educational certificates, legal documents, and other vital records
               due to their convenience, accessibility, and enhanced security
-              features.
+              features."
             </p>
           </div>
           <div className="flex justify-center text-lg ml-6 mt-10 gap-10">

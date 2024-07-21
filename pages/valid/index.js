@@ -34,7 +34,7 @@ const Valid = () => {
 
     const hideGifTimer = setTimeout(() => {
       setSayCongrats(false);
-    }, 2700);
+    }, 2000);
 
     return () => clearTimeout(hideGifTimer);
   }, [router]);

@@ -8,8 +8,14 @@ import DashNav from "../../Components/Nav/DashNav";
 import { useStateContext } from "../../Context/NFTs";
 
 const ValidationPage = () => {
-  const { isLoading, setIsLoading, getCertificate, getSingleNFTAPI } =
-    useStateContext();
+  const {
+    isLoading,
+    setIsLoading,
+    getCertificate,
+    getSingleNFTAPI,
+    getUser,
+    getAllNFTsAPI,
+  } = useStateContext();
 
   const router = useRouter();
   const toastShownRef = useRef(false);
@@ -58,6 +64,13 @@ const ValidationPage = () => {
       window.removeEventListener("keydown", handleEnterKeyPress);
     };
   }, [handleEnterKeyPress]);
+
+  // Remove the localStorage
+  useEffect(() => {
+    if (localStorage.getItem("cert-user")) localStorage.removeItem("cert-user");
+    if (localStorage.getItem("NFT")) localStorage.removeItem("NFT");
+    if (localStorage.getItem("NFTs")) localStorage.removeItem("NFTs");
+  }, []);
 
   // If User is Not Logged IN
   useEffect(() => {
@@ -113,6 +126,48 @@ const ValidationPage = () => {
       setIsInValid(true);
       setError(error.response?.data?.message || "Internal Server Error");
       console.error("Error in fetching certificate on Net:", error);
+    }
+  };
+
+  // Fetching All the Certificate
+  const evault = async () => {
+    try {
+      const resp = await getUser(email);
+      if (resp.data.status == "OK") {
+        const response = await getAllNFTsAPI(resp.data.user.userEmails);
+
+        if (response.data.status === "Success") {
+          const fetchedCertificates = [];
+
+          await Promise.all(
+            response.data.data.nftsByEmails.map(async (nftsByEmail) => {
+              const email = Object.keys(nftsByEmail)[0];
+              const nfts = nftsByEmail[email];
+
+              await Promise.all(
+                nfts.map(async (nft) => {
+                  const res = await getCertificate(nft.certificateID);
+                  if (res.userEmail === email) {
+                    fetchedCertificates.push({ ...nft });
+                  }
+                })
+              );
+            })
+          );
+
+          localStorage.setItem("cert-user", JSON.stringify(resp.data.user));
+          return fetchedCertificates;
+        }
+      } else {
+        toast.error(error.response?.data?.message || "Internal Server Error");
+        setError(error.response?.data?.message || "Internal Server Error");
+        console.error("Error in fetching All certificate:", error);
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || "Internal Server Error");
+      console.error("Error in fetching All certificate:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -176,7 +231,7 @@ const ValidationPage = () => {
         setIsInValid(true);
         setError(error.response?.data?.message || "Internal Server Error");
         toast.error(error.response?.data?.message || "Internal Server Error");
-        console.error("Error in Login: ", error);
+        console.error("Error in Certificate Fetch: ", error);
       }
     } else {
       try {
@@ -186,45 +241,25 @@ const ValidationPage = () => {
           return;
         }
         setIsLoading(true);
-        const body = JSON.stringify({
-          certificateID: id,
-          userEmail: email,
-        });
-
-        const certificateInDB = await fetchDatabaseData(body);
-        const certificateOnNet = await fetchNFT(id);
-
-        if (certificateInDB && certificateOnNet) {
-          if (
-            certificateInDB.data.NFT.certificateID ===
-              certificateOnNet.certificateID &&
-            certificateInDB.data.NFT.userEmail === certificateOnNet.userEmail
-          ) {
-            setIsLoading(false);
-            toast.success("Certificate found!");
-            localStorage.setItem(
-              "NFT",
-              JSON.stringify(certificateInDB.data.NFT)
-            );
-
-            router.push("/valid");
-            setID("");
-            setEmail("");
-          } else {
-            setIsLoading(false);
-            setIsInValid(true);
-            setError(error.response?.data?.message || "Internal Server Error");
-            toast.error("Certificate not found");
-            setID("");
-            setEmail("");
-          }
+        const certificates = await evault();
+        console.log("Cert", certificates);
+        if (certificates.length > 0) {
+          localStorage.setItem("NFTs", JSON.stringify(certificates));
+          setEmail("");
+          router.push("/evault");
+        } else {
+          setIsLoading(false);
+          setIsInValid(true);
+          setError(error.response?.data?.message || "Internal Server Error");
+          toast.error("Certificates not found");
+          setEmail("");
         }
       } catch (error) {
         setIsLoading(false);
         setIsInValid(true);
         setError(error.response?.data?.message || "Internal Server Error");
         toast.error(error.response?.data?.message || "Internal Server Error");
-        console.error("Error in Login: ", error);
+        console.error("Error in Certificate Fetch: ", error);
       }
     }
     setIsLoading(false);

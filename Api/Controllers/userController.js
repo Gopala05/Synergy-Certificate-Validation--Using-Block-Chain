@@ -74,7 +74,7 @@ exports.SignIn = async (req, res, next) => {
       message: "Pleasen provide the email and password!",
     });
   }
-  
+
   // Checking if the user exists or not
   let user = await UserModal.findOne({ userName: userName }).select(
     "+password"
@@ -90,4 +90,31 @@ exports.SignIn = async (req, res, next) => {
 
   // Check if everything is OK, send Token to the Client
   createToken(user, 200, req, res);
+};
+
+// Get the User
+exports.getUser = async (req, res, next) => {
+  const { email } = req.params; 
+
+  try {
+    // Check if user exists with the given email
+    const user = await UserModal.findOne({ userEmails: email });
+
+    if (!user) {
+      return res.status(404).json({
+        status: "NOT FOUND",
+        message: "Invalid User Email",
+      });
+    }
+
+    // If user is found, return user details
+    res.status(200).json({
+      status: "OK",
+      message: "User Details",
+      user: user,
+    });
+  } catch (error) {
+    console.log("Error in fetching user:", error);
+    next(error);
+  }
 };

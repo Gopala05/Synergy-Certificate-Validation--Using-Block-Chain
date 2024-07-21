@@ -97,33 +97,74 @@ exports.Reject = async (req, res, next) => {
   }
 };
 
+// Blocking the Request
+exports.Block = async (req, res, next) => {
+  try {
+    const ID = req.params.id;
+
+    // Fetch request details from RequestModel based on ID
+    const request = await RequestModel.findById(ID);
+
+    if (!request) {
+      return res.status(404).json({
+        status: "NOT FOUND",
+        message: "Request not found",
+      });
+    }
+
+    // Check if the request status is Pending
+    if (request.status !== "Pending") {
+      return res.status(400).json({
+        status: "BAD REQUEST",
+        message: "Request has been closed",
+      });
+    }
+
+    // Update RequestModel to set status to true
+    const updated = await RequestModel.findByIdAndUpdate(
+      ID,
+      { $set: { status: "Block" } },
+      { new: true }
+    );
+
+    res.status(200).json({
+      status: "OK",
+      message: "Blocked the Request Successfully",
+      updatedRequest: updated,
+    });
+  } catch (error) {
+    console.log("Error in Rejecting record in the DB: ", error);
+    next(error);
+  }
+};
+
 // Creating the Request
 exports.Create = async (req, res, next) => {
   try {
-    const sender = req.body.senderEmail;
-    const receiver = req.body.receiverEmail;
+    const { senderEmail, receiverEmail } = req.body;
 
     // Check if sender and receiver are the same
-    if (sender === receiver) {
+    if (senderEmail === receiverEmail) {
       return res.status(400).json({
         status: "Bad Request",
-        message: "Sender and receiver emails are Same.",
+        message: "Sender and receiver emails are the same.",
       });
     }
 
-    // Query UserModel to find if both emails belong to the same user
-    const user = await UserModel.findOne({
-      userEmails: { $all: [sender, receiver] },
-    });
+    // Check if a request already exists with the same sender and receiver
+    // const existingRequest = await RequestModel.findOne({
+    //   senderEmail: senderEmail,
+    //   receiverEmail: receiverEmail,
+    // });
 
-    if (user) {
-      return res.status(400).json({
-        status: "Bad Request",
-        message: "Accounts are already linked.",
-      });
-    }
+    // if (existingRequest) {
+    //   return res.status(400).json({
+    //     status: "Bad Request",
+    //     message: "Request with sender and receiver already exists.",
+    //   });
+    // }
 
-    // If not linked, proceed to create the request
+    // Proceed to create the request
     const request = await RequestModel.create(req.body);
 
     res.status(201).json({
@@ -133,7 +174,7 @@ exports.Create = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.log("Error in creating record in the DB: ", error);
+    console.error("Error in creating record in the DB: ", error);
     next(error);
   }
 };

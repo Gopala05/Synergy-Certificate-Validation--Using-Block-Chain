@@ -255,17 +255,46 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
-  // Work Here
+  // All NFTs API
+  const getAllNFTsAPI = async (emails) => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "/api/v1/nfts/fetchAll",
+        data: {
+          emails: emails,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log("Error in Fetching All NFTs: ", error);
+      if (error.response?.status === 404) {
+        router.push({
+          pathname: "/404",
+          query: {
+            message: error?.response?.data?.message,
+            state: error?.response?.data?.status,
+          },
+        });
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
+    }
+  };
 
   // All NFTs API
-  const getAllNFTsAPI = async () => {
+  const getUser = async (email) => {
     try {
       const response = await axios({
         method: "GET",
-        url: "/api/v1/nfts",
+        url: `/api/v1/users/get-user/${email}`,
       });
+      return response;
     } catch (error) {
-      console.log("Error in Fetching All NFTs: ", error);
+      console.log("Error in Fetching User: ", error);
       if (error.response?.status === 404) {
         router.push({
           pathname: "/404",
@@ -379,6 +408,7 @@ export const StateContextProvider = ({ children }) => {
         checkCertIDPresent,
 
         // APIs
+        getUser,
         getAllNFTsAPI,
         getSingleNFTAPI,
       }}
