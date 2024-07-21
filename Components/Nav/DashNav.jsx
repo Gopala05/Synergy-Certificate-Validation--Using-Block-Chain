@@ -158,6 +158,22 @@ const DashNav = () => {
                 }`}
               ></span>
             </Link>
+            <Link
+              className={`relative cursor-pointer ${
+                activeSection === "/guide"
+                  ? "text-green-500"
+                  : "text-white/80"
+              }`}
+              href="/guide"
+              duration={500}
+            >
+              Guide
+              <span
+                className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
+                  activeSection === "/guide" ? "scale-x-100" : "scale-x-0"
+                }`}
+              ></span>
+            </Link>
           </div>
         </nav>
       )}

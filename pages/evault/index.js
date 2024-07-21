@@ -54,9 +54,7 @@ const Evault = () => {
   // Handling Back Button Click
   const handleBack = () => {
     try {
-      localStorage.removeItem("NFTs");
-      localStorage.removeItem("cert-user");
-      router.push("/validation");
+      setSelected("");
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
       console.error("Error in Login: ", error);
@@ -86,7 +84,10 @@ const Evault = () => {
           </Col>
           {certificates.map((certificate, qIndex) => (
             <Col key={qIndex} lg={6}>
-              <Card className="w-fit items-center flex-row border-none bg-gradient-to-br from-[#ec533a] to-[#fbd524] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2">
+              <Card
+                onClick={() => setSelected(certificate)}
+                className="w-fit items-center flex-row border-none bg-gradient-to-br from-[#ec533a] to-[#fbd524] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2"
+              >
                 <h2 className="text-xl text-center font-bold mb-4">
                   {certificate.title}
                 </h2>
@@ -115,7 +116,7 @@ const Evault = () => {
 
             <div className="border-dashed border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl mb-10">
               <img
-                src={info?.certificate}
+                src={selected?.certificate}
                 alt="Certificate Image"
                 className="max-w-[50vw] max-h-[50vh]"
               />
@@ -124,7 +125,7 @@ const Evault = () => {
               <button className="rounded-full text-2xl font-semibold hover:border-white hover:bg-[#15C586] hover:text-black text-white bg-[#0080DC] py-4 px-8 border-2 border-[#15C586]">
                 <a
                   download
-                  href={info?.certificate}
+                  href={selected?.certificate}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white hover:text-black "
@@ -134,7 +135,7 @@ const Evault = () => {
               </button>
               <a
                 download
-                href={info?.certificate}
+                href={selected?.certificate}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white"
@@ -163,7 +164,7 @@ const Evault = () => {
                 <Row className="flex w-full bg-white items-center rounded-2xl py-2">
                   <Col className="flex flex-grow pl-5 items-center">
                     <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                      {info?.title}
+                      {selected?.title}
                     </div>
                   </Col>
                 </Row>
@@ -182,7 +183,7 @@ const Evault = () => {
                 <Row className="flex w-full bg-white items-center rounded-2xl py-2">
                   <Col className="flex flex-grow pl-5 items-center">
                     <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                      {info?.certificateID}
+                      {selected?.certificateID}
                     </div>
                   </Col>
                 </Row>
@@ -201,7 +202,7 @@ const Evault = () => {
                 <Row className="flex w-full bg-white items-center rounded-2xl py-2">
                   <Col className="flex flex-grow pl-5 items-center">
                     <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                      {info?.userEmail}
+                      {selected?.userEmail}
                     </div>
                   </Col>
                 </Row>
@@ -220,7 +221,7 @@ const Evault = () => {
                 <Row className="flex w-full bg-white items-center rounded-2xl py-2">
                   <Col className="flex flex-grow pl-5 items-center">
                     <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                      {info?.organisation}
+                      {selected?.organisation}
                     </div>
                   </Col>
                 </Row>
