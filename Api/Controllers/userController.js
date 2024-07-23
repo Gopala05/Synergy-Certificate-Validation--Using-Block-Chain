@@ -94,16 +94,20 @@ exports.SignIn = async (req, res, next) => {
 
 // Get the User
 exports.getUser = async (req, res, next) => {
-  const { email } = req.params; 
+  const { email } = req.params;
 
   try {
     // Check if user exists with the given email
     const user = await UserModal.findOne({ userEmails: email });
 
     if (!user) {
-      return res.status(404).json({
-        status: "NOT FOUND",
-        message: "Invalid User Email",
+      return res.status(200).json({
+        status: "OK",
+        message: "User with this email Not Found",
+        user: {
+          name: email,
+          userEmails: [email],
+        },
       });
     }
 

@@ -73,11 +73,7 @@ const DashNav = () => {
   return (
     <div className="bg-[#02291B] w-full flex px-5 pt-2 pb-2 items-center z-50 fixed border-b-2 border-gray-500">
       <div
-        className={`flex ${
-          router.pathname == "/user-home" || router.pathname == "/auth-home"
-            ? "flex-grow"
-            : "flex-grow-0"
-        } justify-start items-center font-extrabold text-3xl`}
+        className={`flex flex-grow justify-start items-center font-extrabold text-3xl`}
       >
         <span>
           <img src="./Logo.png" alt="Logo" className="w-24" />
@@ -88,7 +84,7 @@ const DashNav = () => {
       {router.pathname == "/user-home" ||
       router.pathname == "/auth-home" ? null : (
         <nav className="flex flex-grow text-xl justify-center">
-          <div className="flex flex-grow justify-center gap-10 font-bold">
+          <div className="flex justify-center gap-10 font-bold">
             <Link
               className={`relative cursor-pointer ${
                 activeSection === "/auth-home" || activeSection === "/user-home"
@@ -160,9 +156,7 @@ const DashNav = () => {
             </Link>
             <Link
               className={`relative cursor-pointer ${
-                activeSection === "/guide"
-                  ? "text-green-500"
-                  : "text-white/80"
+                activeSection === "/guide" ? "text-green-500" : "text-white/80"
               }`}
               href="/guide"
               duration={500}
@@ -178,27 +172,29 @@ const DashNav = () => {
         </nav>
       )}
 
-      <span className="text-white text-2xl font-bold">
-        {user?.name} {auth?.firstName}&nbsp;
-        <span className="text-[#f6851b]">{auth?.lastName}</span>
-      </span>
-      <Dropdown
-        overlay={menu}
-        className="hover:cursor-pointer"
-        trigger={["hover"]}
-      >
-        <a
-          className={`flex justify-end font-bold align-middle text-white items-center ant-dropdown-link`}
+      <div className="flex flex-grow justify-end items-center">
+        <span className="text-white text-2xl font-bold">
+          {user?.name} {auth?.firstName}&nbsp;
+          <span className="text-[#f6851b]">{auth?.lastName}</span>
+        </span>
+        <Dropdown
+          overlay={menu}
+          className="hover:cursor-pointer"
+          trigger={["hover"]}
         >
-          <img
-            src={auth ? "./Auth_Icon.png" : "./User_Icon.png"}
-            alt={auth ? "Auth Icon" : "User Icon"}
-            className={`${
-              auth ? "w-20" : "w-16"
-            } flex justify-end items-center ml-5`}
-          />
-        </a>
-      </Dropdown>
+          <a
+            className={`flex justify-end font-bold align-middle text-white items-center ant-dropdown-link`}
+          >
+            <img
+              src={auth ? "./Auth_Icon.png" : "./User_Icon.png"}
+              alt={auth ? "Auth Icon" : "User Icon"}
+              className={`${
+                auth ? "w-20" : "w-16"
+              } flex justify-end items-center ml-5`}
+            />
+          </a>
+        </Dropdown>
+      </div>
     </div>
   );
 };
