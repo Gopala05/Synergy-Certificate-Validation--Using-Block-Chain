@@ -141,9 +141,9 @@ const UserSignUp = () => {
   };
 
   return (
-    <div className="h-[100vh] bg-white">
+    <div className="h-full lg:h-[100vh] bg-white">
       <Row className="flex justify-center items-center">
-        <Col lg={12} className="h-[100vh]">
+        <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
             src="./User_SignUp.png"
             alt="Sign Up Image"
@@ -152,7 +152,7 @@ const UserSignUp = () => {
         </Col>
         <Col
           lg={12}
-          className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
+          className="p-5 lg:p-7 xl:p-20 pt-10 h-full lg:h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
@@ -163,11 +163,11 @@ const UserSignUp = () => {
             </button>
           </div>
 
-          <div className="flex flex-col justify-center h-[100vh] ">
-            <label className="text-black flex justify-center font-bold text-5xl">
+          <div className="flex flex-col justify-center h-full lg:h-[100vh] mt-5 lg:mt-2 xl:mt-0">
+            <label className="text-black flex justify-center font-bold text-4xl xl:text-5xl">
               Welcome<spam className="text-[#f6851b]">&nbsp;User</spam>!
             </label>
-            <p className="text-black text-xl flex justify-center mt-3">
+            <p className="text-black text-xl justify-center hidden xl:flex mt-3">
               Enter your details to get Registered
             </p>
 
@@ -187,7 +187,7 @@ const UserSignUp = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black text-xl xl:text-2xl font-bold">
                 Full Name<span className="text-red-600">*</span>
               </label>
               <br />
@@ -214,7 +214,7 @@ const UserSignUp = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black text-xl xl:text-2xl font-bold">
                 User Name<span className="text-red-600">*</span>
               </label>
               <br />
@@ -241,7 +241,7 @@ const UserSignUp = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black text-xl xl:text-2xl font-bold">
                 Email<span className="text-red-600">*</span>
               </label>
               <br />
@@ -278,7 +278,7 @@ const UserSignUp = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black text-xl xl:text-2xl font-bold">
                 Password<span className="text-red-600">*</span>
               </label>
               <br />
@@ -316,7 +316,7 @@ const UserSignUp = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black text-xl xl:text-2xl font-bold">
                 Confirm Password<span className="text-red-600">*</span>
               </label>
               <br />
@@ -330,16 +330,16 @@ const UserSignUp = () => {
               />
             </Form.Item>
 
-            <div className="text-blue-500 flex w-full justify-between italic underline mt-2 text-xl">
+            <div className="text-blue-500 flex w-full justify-between italic underline mt-2 lg:mt-0 xl:mt-2 text-xl">
               <Link
                 href="/user-login"
-                className="text-blue-500 italic underline text-xl"
+                className="text-blue-500 italic underline text-sm lg:text-base xl:text-xl"
               >
                 Already have an account ?
               </Link>
               <Link
                 href="/auth-form"
-                className="text-blue-500 italic underline text-xl mt-2"
+                className="text-blue-500 italic underline text-sm lg:text-base xl:text-xl xl:mt-2"
               >
                 Request for Auth Credentials ?
               </Link>
@@ -348,13 +348,13 @@ const UserSignUp = () => {
             <div className="flex justify-center">
               <button
                 onClick={handleSignUp}
-                className="mt-8 btn bg-gradient-to-r from-green-400 to-green-600 text-xl w-full border-0 text-white hover:text-black rounded-2xl font-bold transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-green-600 hover:-translate-y-2"
+                className="mt-8 lg:mt-3 xl:mt-8 btn bg-gradient-to-r from-green-400 to-green-600 text-xl w-full border-0 text-white hover:text-black rounded-2xl font-bold transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-green-600 hover:-translate-y-2"
               >
                 Register
               </button>
             </div>
             <div className="flex justify-center">
-              <p className="text-black font-semibold text-base mt-2">
+              <p className="text-black font-semibold xl:text-base text-xs md:text-sm mt-2">
                 By clicking on <i>Register</i> you agree to &nbsp;
                 <a
                   href="/Terms_and_Conditions.pdf"
