@@ -4,13 +4,13 @@ import React from "react";
 
 const UploadandVerify = () => {
   return (
-    <div className="px-20 mt-10">
+    <div className="xl:px-20 lg:px-10 h-full px-10 lg:mt-10">
       <Row className="flex justify-center items-center">
         <Col lg={14}>
-          <label className="text-3xl font-bold">
+          <label className="text-2xl lg:text-3xl flex justify-center lg:justify-start font-bold">
             Block Chain for Certificates.
           </label>
-          <p className="mt-5 text-lg">
+          <p className="mt-5 text-lg text-center lg:text-left">
             Utilizing advanced encryption and security protocols, e-vaults
             ensure that sensitive information remains protected from
             unauthorized access and tampering.
@@ -28,7 +28,7 @@ const UploadandVerify = () => {
             </Link>
           </div>
         </Col>
-        <Col lg={8} className="flex justify-center">
+        <Col lg={8} className="lg:flex hidden justify-center">
           <img src="/Robot.png" alt="Robot Image" className="w-56" />
         </Col>
       </Row>

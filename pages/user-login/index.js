@@ -89,7 +89,7 @@ const UserLogin = () => {
   return (
     <div className="h-[100vh] bg-white">
       <Row className="flex justify-center items-center">
-        <Col lg={12} className="h-[100vh]">
+        <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
             src="./User_Sign_In.png"
             alt="Login Image"
@@ -98,7 +98,7 @@ const UserLogin = () => {
         </Col>
         <Col
           lg={12}
-          className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
+          className="p-5 lg:p-10 xl:p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
@@ -112,7 +112,7 @@ const UserLogin = () => {
             <label className="text-black flex justify-center font-bold text-5xl">
               Welcome <spam className="text-[#f6851b]">&nbsp;Back</spam>!
             </label>
-            <p className="text-black text-xl flex justify-center mt-3">
+            <p className="text-black text-xl flex justify-center mt-3 mb-14">
               Enter your Credentials to access
             </p>
 
@@ -188,8 +188,8 @@ const UserLogin = () => {
                 Login
               </button>
             </div>
-            <div className="flex font-semibold  justify-center">
-              <p className="text-black text-base mt-2">
+            <div className="flex font-semibold justify-center">
+              <p className="text-black xl:text-base text-xs md:text-sm mt-2">
                 By clicking on <i>Login</i> you agree to &nbsp;
                 <a
                   href="/Terms_and_Conditions.pdf"

@@ -6,50 +6,69 @@ import { RiArrowRightSLine } from "react-icons/ri";
 const Home = () => {
   return (
     <>
-      <div id="home" className="flex overflow-x-hidden px-20 lg:pt-20">
+      <div
+        id="home"
+        className="flex overflow-x-hidden px-10 lg:px-2 xl:px-20 lg:pt-20 pt-24"
+      >
         <div>
           <Row className="flex justify-center items-center">
-            <Col lg={11} className="flex h-full flex-col justify-center">
-              <h1 className="text-6xl font-bold">SYNERGY</h1>
-              <p className="mt-10 text-baseline">
+            <Col
+              lg={11}
+              md={11}
+              sm={24}
+              className="flex h-full flex-col justify-center"
+            >
+              <h1 className="text-6xl font-bold text-center lg:text-left">
+                SYNERGY
+              </h1>
+              <p className="mt-10 text-baseline text-center xl:text-xl xl:text-left lg:text-justify">
                 A Block Chain Based System to Store and verify the Certificates
                 by Creating an NFT. Connect your Metamask wallet to upload your
                 Certificates and to ensure validation and Security. Enter your
                 Certicate credentials to Verify your Certificate.
               </p>
-              <Link href="/user-login">
-                <Button className="mt-8 btn bg-[#15C586] border-0 text-black font-bold">
-                  Explore More{" "}
-                  <RiArrowRightSLine className="font-bold text-xl" />
-                </Button>
-              </Link>
+              <div className="flex w-full justify-center lg:justify-start">
+                <Link href="/user-login">
+                  <Button className="mt-8 btn bg-[#15C586] border-0 text-black font-bold">
+                    Explore More{" "}
+                    <RiArrowRightSLine className="font-bold text-xl" />
+                  </Button>
+                </Link>
+              </div>
             </Col>
-            <Col lg={11} className="items-center justify-center flex">
+            <Col
+              lg={11}
+              md={11}
+              sm={24}
+              className="items-center justify-center flex"
+            >
               <img
                 src="/Astronaut.png"
                 alt="Astronaut Image"
-                className="lg:w-[25vw]"
+                className="xl:w-[25vw]"
               />
             </Col>
-            {/* <Col lg={11} className="gap-y-16 items-center justify-center flex mt-14">
-              <img
-                src="/Metamask_Astro.png"
-                alt="Astronaut Image"
-                className="lg:w-[25vw]"
-              />
-            </Col> */}
           </Row>
         </div>
       </div>
       <Row className="flex justify-end">
-        <img src="/Grass.png" alt="Grass Image" className="absoulte w-[70vw]" />
+        <img
+          src="/Grass.png"
+          alt="Grass Image"
+          className="absoulte xl:w-[70vw] w-full h-28 lg:w-[80vw] lg:h-full"
+        />
       </Row>
-      <div className="flex justify-center relative -top-20">
-        <div className="w-[85vw] bg-[#02291B] border-[#22674E] border-4 p-5 rounded-xl">
+      <div className="lg:flex justify-center hidden relative -top-20 lg:-top-10">
+        <div className="xl:w-[85vw] lg:w-[90vw] bg-[#02291B] border-[#22674E] border-4 p-2 xl:p-5 rounded-xl">
           <Row className="justify-center items-center">
-            <Col lg={9} className="flex items-center justify-center">
+            <Col
+              lg={9}
+              md={9}
+              sm={24}
+              className="flex items-center justify-center"
+            >
               <Link href="/user-login">
-                <Button className="bg-transparent border-[#22674E] border-4 text-white text-4xl font-bold p-8 px-14">
+                <Button className="bg-transparent border-[#22674E] border-4 text-white lg:text-3xl xl:text-4xl font-bold p-8 px-14">
                   SYNERGY
                 </Button>
               </Link>
@@ -58,17 +77,27 @@ const Home = () => {
               <img
                 src="/Certificate.png"
                 alt="Certificate Icon"
-                className="w-32"
+                className="w-32 lg:w-24"
               />
             </Col>
-            <Col lg={5} className="flex items-center justify-center">
-              <img src="/NFT.png" alt="NFT Icon" className="w-28" />
+            <Col
+              lg={5}
+              md={5}
+              sm={24}
+              className="flex items-center justify-center"
+            >
+              <img src="/NFT.png" alt="NFT Icon" className="w-28 lg:w-20" />
             </Col>
-            <Col lg={5} className="flex items-center justify-center">
+            <Col
+              lg={5}
+              md={5}
+              sm={24}
+              className="flex items-center justify-center"
+            >
               <img
                 src="/Verification.png"
                 alt="Verification Icon"
-                className="w-28"
+                className="w-28 lg:w-20"
               />
             </Col>
           </Row>
