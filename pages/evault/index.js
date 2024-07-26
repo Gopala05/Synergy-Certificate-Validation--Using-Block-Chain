@@ -72,21 +72,31 @@ const Evault = () => {
         />
       )}
       {!selected && (
-        <Row className="pl-10 pt-32 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-[100vh]">
-          <Col span={24}>
-            <div
-              type="default"
-              className="flex w-full h-full justify-center items-center text-5xl text-center text-white"
-            >
+        <Row className="lg:pl-10 pt-32 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-[100vh]">
+          <Col span={24} className="hidden lg:block">
+            <div className="flex w-full h-full justify-center items-center text-5xl text-center text-white">
               Verified Certifications of
               <strong className="text-[#f6851b]">&nbsp;{user.name}</strong>
             </div>
           </Col>
+          <Col span={24} className="flex flex-col lg:hidden">
+            <div className="flex w-full h-full justify-center items-center text-3xl text-center text-white">
+              Verified Certifications of
+            </div>
+            <div className="flex w-full h-full justify-center items-center text-3xl text-center text-[#f6851b] font-bold mb-5">
+              &nbsp;{user.name}
+            </div>
+          </Col>
           {certificates.map((certificate, qIndex) => (
-            <Col key={qIndex} lg={6}>
+            <Col
+              key={qIndex}
+              xl={6}
+              lg={8}
+              className="w-full lg:px-0 lg:py-0 px-10 py-5"
+            >
               <Card
                 onClick={() => setSelected(certificate)}
-                className="w-fit items-center flex-row border-none bg-gradient-to-br from-[#ec533a] to-[#fbd524] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2"
+                className="lg:w-fit items-center flex-row border-none bg-gradient-to-br from-[#ec533a] to-[#fbd524] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2"
               >
                 <h2 className="text-xl text-center font-bold mb-4">
                   {certificate.title}
@@ -95,7 +105,7 @@ const Evault = () => {
                 <img
                   src={certificate?.certificate}
                   alt="Certificate Image"
-                  className="w-[25vw] max-w-[20vw] max-h-[25vh] rounded-xl"
+                  className="lg:w-[25vw] lg:max-w-[20vw] max-h-[25vh] rounded-xl"
                 />
               </Card>
             </Col>
@@ -103,137 +113,144 @@ const Evault = () => {
         </Row>
       )}
       {selected && (
-        <Row className="flex w-full h-full items-center">
-          <Col
-            lg={13}
-            className="flex items-center h-full lg:h-[93vh] justify-center flex-col lg:pl-16 pt-10"
-          >
-            <div className="flex justify-start w-full mt-5">
-              <Button onClick={handleBack} type="primary">
-                Back
-              </Button>
-            </div>
+        <div>
+          <Row className="flex w-full h-full items-center">
+            <Col
+              lg={13}
+              className="flex items-center h-full lg:h-[93vh] justify-center flex-col lg:pl-16 pt-10 lg:p-0 p-5"
+            >
+              <div className="flex justify-start w-full lg:mt-5 mt-16">
+                <Button onClick={handleBack} type="primary">
+                  Back
+                </Button>
+              </div>
 
-            <div className="border-dashed border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl mb-10">
-              <img
-                src={selected?.certificate}
-                alt="Certificate Image"
-                className="max-w-[50vw] max-h-[50vh]"
-              />
-            </div>
-            <div className="flex w-full gap-x-5 justify-center items-center">
-              <button className="rounded-full text-2xl font-semibold hover:border-white hover:bg-[#15C586] hover:text-black text-white bg-[#0080DC] py-4 px-8 border-2 border-[#15C586]">
+              <div className="border-dashed border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl mb-10 mt-5 lg:mt-0">
+                <img
+                  src={selected?.certificate}
+                  alt="Certificate Image"
+                  className="lg:max-w-[50vw] lg:max-h-[50vh]"
+                />
+              </div>
+              <div className="flex w-full gap-x-5 justify-center items-center">
+                <button className="rounded-full text-lg md:text-2xl font-semibold hover:border-white hover:bg-[#15C586] hover:text-black text-white bg-[#0080DC] py-4 px-8 border-2 border-[#15C586]">
+                  <a
+                    download
+                    href={selected?.certificate}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-black"
+                  >
+                    <span>Download Certificate</span>
+                  </a>
+                </button>
                 <a
                   download
                   href={selected?.certificate}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white hover:text-black "
+                  className="text-white"
                 >
-                  <span>Download Certificate</span>
+                  <img
+                    src="./Download_Icon.png"
+                    alt="Download Icon"
+                    className="w-14 pt-2"
+                  />
                 </a>
-              </button>
-              <a
-                download
-                href={selected?.certificate}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white"
-              >
-                <img
-                  src="./Download_Icon.png"
-                  alt="Download Icon"
-                  className="w-14 pt-2"
-                />
-              </a>
-            </div>
-          </Col>
-          <Col
-            lg={11}
-            className="flex flex-col gap-y-10 w-full justify-center items-center pt-24"
-          >
-            {/* Title */}
-            <Row className="flex w-full justify-start gap-5 items-center">
-              <Col
-                lg={5}
-                className="flex justify-end text-end text-white text-2xl font-semibold"
-              >
-                Title:
-              </Col>
-              <Col lg={12}>
-                <Row className="flex w-full bg-white items-center rounded-2xl py-2">
-                  <Col className="flex flex-grow pl-5 items-center">
-                    <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                      {selected?.title}
-                    </div>
-                  </Col>
-                </Row>
-              </Col>
+              </div>
+            </Col>
+
+            <Row className="flex lg:hidden mt-7 w-full px-5">
+              <hr className="flex w-full border-2" />
             </Row>
 
-            {/* Certificate ID */}
-            <Row className="flex w-full justify-start gap-5 items-center">
-              <Col
-                lg={5}
-                className="flex justify-end text-end text-white text-2xl font-semibold"
-              >
-                Certificate ID:
-              </Col>
-              <Col lg={12}>
-                <Row className="flex w-full bg-white items-center rounded-2xl py-2">
-                  <Col className="flex flex-grow pl-5 items-center">
-                    <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                      {selected?.certificateID}
-                    </div>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+            <Col
+              lg={11}
+              className="flex flex-col gap-y-10 w-full justify-center items-center lg:pt-24 pt-10 lg:px-0 px-5"
+            >
+              {/* Title */}
+              <Row className="flex flex-col lg:flex-row w-full justify-start gap-5 items-center">
+                <Col
+                  lg={5}
+                  className="flex w-full justify-start lg:w-auto lg:justify-end text-end text-white text-2xl font-semibold"
+                >
+                  Title:
+                </Col>
+                <Col lg={12} className="w-full lg:w-auto">
+                  <Row className="flex w-full bg-white items-center rounded-2xl py-2">
+                    <Col className="flex flex-grow pl-5 items-center">
+                      <div className="border-none bg-white text-black text-lg lg:text-2xl flex items-center font-bold cursor-pointer">
+                        {selected?.title}
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
 
-            {/* User Email */}
-            <Row className="flex w-full justify-start gap-5 items-center">
-              <Col
-                lg={5}
-                className="flex justify-end text-end text-white text-2xl font-semibold"
-              >
-                Email ID:
-              </Col>
-              <Col lg={12}>
-                <Row className="flex w-full bg-white items-center rounded-2xl py-2">
-                  <Col className="flex flex-grow pl-5 items-center">
-                    <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                      {selected?.userEmail}
-                    </div>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+              {/* Certificate ID */}
+              <Row className="flex flex-col lg:flex-row w-full justify-start gap-5 items-center">
+                <Col
+                  lg={5}
+                  className="flex w-full justify-start lg:w-auto lg:justify-end text-end text-white text-2xl font-semibold"
+                >
+                  Certificate ID:
+                </Col>
+                <Col lg={12} className="w-full lg:w-auto">
+                  <Row className="flex w-full bg-white items-center rounded-2xl py-2">
+                    <Col className="flex flex-grow pl-5 items-center">
+                      <div className="border-none bg-white text-black text-lg xl:text-2xl flex items-center font-bold cursor-pointer">
+                        {selected?.certificateID}
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
 
-            {/* Org */}
-            <Row className="flex w-full justify-start gap-5 items-center mb-24">
-              <Col
-                lg={5}
-                className="flex justify-end text-end text-white text-2xl font-semibold"
-              >
-                Organization:
-              </Col>
-              <Col lg={12}>
-                <Row className="flex w-full bg-white items-center rounded-2xl py-2">
-                  <Col className="flex flex-grow pl-5 items-center">
-                    <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
-                      {selected?.organisation}
-                    </div>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Col>
-          <Row className="flex w-full">
-            <Col lg={24}>
+              {/* User Email */}
+              <Row className="flex flex-col lg:flex-row w-full justify-start gap-5 items-center">
+                <Col
+                  lg={5}
+                  className="flex w-full justify-start lg:w-auto lg:justify-end text-end text-white text-2xl font-semibold"
+                >
+                  Email ID:
+                </Col>
+                <Col lg={12} className="w-full lg:w-auto">
+                  <Row className="flex w-full bg-white items-center rounded-2xl py-2">
+                    <Col className="flex flex-grow pl-5 items-center">
+                      <div className="border-none bg-white text-black text-lg xl:text-2xl flex items-center font-bold cursor-pointer">
+                        {selected?.userEmail}
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              {/* Org */}
+              <Row className="flex flex-col lg:flex-row w-full justify-start gap-5 items-center lg:mb-24 mb-10">
+                <Col
+                  lg={5}
+                  className="flex w-full justify-start lg:w-auto lg:justify-end text-end text-white text-2xl font-semibold"
+                >
+                  Organization:
+                </Col>
+                <Col lg={12} className="w-full lg:w-auto">
+                  <Row className="flex w-full bg-white items-center rounded-2xl py-2">
+                    <Col className="flex flex-grow pl-5 items-center">
+                      <div className="border-none bg-white text-black text-lg lg:text-2xl flex items-center font-bold cursor-pointer">
+                        {selected?.organisation}
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row className="flex w-full bottom-0">
+            <Col lg={24} className="flex flex-col w-full">
               <Footer />
             </Col>
           </Row>
-        </Row>
+        </div>
       )}
     </>
   );

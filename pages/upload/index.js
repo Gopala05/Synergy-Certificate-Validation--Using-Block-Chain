@@ -154,25 +154,25 @@ const DashboardPage = () => {
     }
   };
   return (
-    <>
+    <div>
       <DashNav />
-      <Row className="flex w-full h-full items-center">
+      <Row className="flex w-full h-full items-center py-2 xl:py-0.5">
         <Col
           lg={11}
-          className="flex items-center h-full lg:h-[93vh] justify-center flex-col gap-y-10 lg:pl-16"
+          className="hidden lg:flex items-center h-full lg:h-[93vh] justify-center flex-col gap-y-10 lg:pl-16"
         >
           <img
             src="/Upload_Metamask.png"
             alt="Upload Image"
-            className=" lg:w-[35vw] pt-20"
+            className="lg:w-[35vw] pt-20"
           />
         </Col>
         <Col
           lg={13}
-          className="flex flex-col gap-y-10 justify-center items-center pt-16"
+          className="flex flex-col gap-y-10 justify-center items-center lg:pt-16 pt-28 lg:p-0 p-5"
         >
           <div className="flex justify-center items-center">
-            <Row className="flex justify-center items-center gap-10">
+            <Row className="flex justify-center items-center gap-y-3 lg:gap-10">
               {address ? (
                 <img className="w-24" src="/Metamask.png" alt="Image" />
               ) : (
@@ -194,11 +194,11 @@ const DashboardPage = () => {
             retrieveFile={retrieveFile}
           />
         </Col>
-        <Row className="flex w-full">
-          <Col lg={24}>
-            <Footer />
-          </Col>
-        </Row>
+      </Row>
+      <Row className="flex w-full bottom-0">
+        <Col lg={24} className="flex flex-col w-full">
+          <Footer />
+        </Col>
       </Row>
 
       {/* Loader */}
@@ -210,7 +210,7 @@ const DashboardPage = () => {
 
       {/* Form */}
       {file && closeForm && (
-        <div className="form">
+        <div className="form px-5 py-16 lg:py-32">
           <div className="form_inner">
             <Form
               setFile={setFile}
@@ -222,7 +222,7 @@ const DashboardPage = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

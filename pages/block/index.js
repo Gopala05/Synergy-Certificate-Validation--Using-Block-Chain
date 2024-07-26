@@ -134,7 +134,7 @@ const Block = () => {
   }
 
   return (
-    <div className="h-[100vh] bg-white">
+    <div className="h-full lg:h-[100vh] bg-white">
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
@@ -145,7 +145,7 @@ const Block = () => {
         </Col>
         <Col
           lg={12}
-          className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
+          className="py-10 px-5 lg:p-20 pt-5 md:pt-10 lg:h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
@@ -156,18 +156,18 @@ const Block = () => {
             </button>
           </div>
 
-          <div className="flex flex-col justify-center h-[100vh]">
-            <label className="text-black flex justify-center font-bold text-5xl">
+          <div className="flex flex-col justify-center lg:h-[100vh] mt-10 md:mt-0">
+            <label className="text-black flex justify-center font-bold text-3xl lg:text-5xl">
               BLOCK
               <span className="text-[#f6851b]">&nbsp;SPAM ACCOUNT</span>!
             </label>
-            <p className="text-black font-bold text-justify text-[1.3rem] flex flex-col justify-center mt-3">
+            <p className="text-black font-bold text-justify text-lg lg:text-[1.3rem] flex flex-col justify-center mt-3">
               Once you block this account, it will be permanently disabled from
               sending you any mail linking requests. Please ensure that you have
               reviewed the details of the email account you intend to block.
               <br />
               <br />
-              <span className="text-[1.5rem] p-0 m-0">
+              <span className="text-[1.35rem] lg:text-[1.5rem] p-0 m-0">
                 EMAIL ID :
                 <span className="text-[#f6851b]">
                   &nbsp;{request.senderEmail}
@@ -193,7 +193,7 @@ const Block = () => {
 
             <div className="mt-5 flex justify-center items-start">
               <Checkbox
-                className={`text-xl flex items-start justify-start ${
+                className={`text-base lg:text-xl flex items-start justify-start ${
                   checked ? "font-bold" : "font-semibold"
                 }`}
                 onChange={(e) => setChecked(e.target.checked)}
@@ -220,7 +220,7 @@ const Block = () => {
               </button>
             </div>
             <div className="flex justify-center">
-              <p className="text-black font-semibold text-base mt-2">
+              <p className="text-black font-semibold text-[0.71rem] md:text-base mt-2">
                 By clicking on <i>block</i> you agree to &nbsp;
                 <a
                   href="/Terms_and_Conditions.pdf"
