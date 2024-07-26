@@ -100,13 +100,13 @@ const Support = () => {
       <Row className="flex w-full h-full items-center justify-center">
         <Col
           lg={12}
-          className="flex flex-col gap-y-10 w-full justify-center items-center pl-32 pr-10 pt-16"
+          className="flex flex-col gap-y-10 w-full justify-center items-center lg:pl-32 lg:pr-10 lg:pt-16 pt-24 p-5"
         >
-          <Row className="text-white w-full text-5xl font-semibold flex items-start justify-center gap-y-3">
+          <Row className="text-white w-full text-3xl lg:text-5xl font-semibold flex items-start justify-center gap-y-2.5">
             Facing a Problem,&nbsp;
             <span className="text-[#f6851b]">Let Us Help</span>!
           </Row>
-          <div className="flex flex-col w-full border-dashed gap-y-10 border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
+          <div className="flex flex-col w-full border-dashed gap-y-6 lg:gap-y-10 border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
             <Row className="flex flex-col justify-center w-full gap-y-3">
               <div className="text-white text-2xl cursor-pointer font-semibold">
                 Name :
@@ -154,11 +154,11 @@ const Support = () => {
             className=" lg:w-[35vw]"
           />
         </Col>
-        <Row className="flex w-full">
-          <Col lg={24}>
-            <Footer />
-          </Col>
-        </Row>
+      </Row>
+      <Row className="flex w-full bottom-0">
+        <Col lg={24} className="flex flex-col w-full">
+          <Footer />
+        </Col>
       </Row>
       {isLoading && (
         <div className="loader">

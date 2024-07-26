@@ -98,7 +98,7 @@ const UserLogin = () => {
         </Col>
         <Col
           lg={12}
-          className="p-5 lg:p-10 xl:p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
+          className="p-5 lg:p-10 xl:p-20 pt-0 h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
@@ -171,11 +171,11 @@ const UserLogin = () => {
               />
             </Form.Item>
 
-            <div className="text-blue-500 flex w-full justify-between italic underline mt-2 text-xl">
+            <div className="text-blue-500 flex w-full justify-between italic underline mt-2 text-lg md:text-xl">
               Forgot password ?
               <Link
                 href="/user-signup"
-                className="text-blue-500 italic underline text-xl"
+                className="text-blue-500 italic underline text-lg md:text-xl"
               >
                 Dont have an account ?
               </Link>
@@ -189,7 +189,7 @@ const UserLogin = () => {
               </button>
             </div>
             <div className="flex font-semibold justify-center">
-              <p className="text-black xl:text-base text-xs md:text-sm mt-2">
+              <p className="text-black xl:text-base text-[0.71rem] md:text-sm mt-2">
                 By clicking on <i>Login</i> you agree to &nbsp;
                 <a
                   href="/Terms_and_Conditions.pdf"

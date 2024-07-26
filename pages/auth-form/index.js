@@ -128,9 +128,9 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="h-[100vh] bg-white">
+    <div className="h-full lg:h-[100vh] bg-white">
       <Row className="flex justify-center items-center">
-        <Col lg={12} className="h-[100vh]">
+        <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
             src="./Request_Metamask.png"
             alt="Request Image"
@@ -139,21 +139,21 @@ const AuthForm = () => {
         </Col>
         <Col
           lg={12}
-          className="p-20 pt-0 h-[100vh] w-full justify-start flex flex-col"
+          className="p-5 lg:p-7 xl:p-20 pt-20 xl:pt-5 h-full lg:h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
               onClick={() => router.push("/")}
-              className="mt-8 absolute btn bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600"
+              className="xl:mt-5 top-5 absolute btn bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600"
             >
               Home <RiHome4Fill />
             </button>
           </div>
-          <div className="flex flex-col justify-center h-[100vh] mt-5">
-            <label className="text-black flex justify-center font-bold text-5xl">
+          <div className="flex flex-col justify-center h-full lg:h-[100vh] mt-5 xl:mt-0">
+            <label className="text-black flex justify-center font-bold lg:text-3xl text-4xl xl:text-5xl">
               Welcome <spam className="text-[#f6851b]">&nbsp;Auth</spam>!
             </label>
-            <p className="text-black text-xl flex justify-center mt-3">
+            <p className="text-black text-lg lg:text-xl lg:hidden flex xl:flex justify-center mt-3">
               Enter your details to raise a Request
             </p>
 
@@ -174,7 +174,7 @@ const AuthForm = () => {
                 }
                 className="flex-grow"
               >
-                <label className="text-black text-2xl font-bold">
+                <label className="text-black lg:text-lg xl:text-2xl font-bold">
                   First Name<span className="text-red-600">*</span>
                 </label>
                 <br />
@@ -200,7 +200,7 @@ const AuthForm = () => {
                 }
                 className="flex-grow"
               >
-                <label className="text-black text-2xl font-bold">
+                <label className="text-black lg:text-lg xl:text-2xl font-bold">
                   Last Name<span className="text-red-600">*</span>
                 </label>
                 <br />
@@ -228,7 +228,7 @@ const AuthForm = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black lg:text-lg xl:text-2xl font-bold">
                 Designation<span className="text-red-600">*</span>
               </label>
               <br />
@@ -255,7 +255,7 @@ const AuthForm = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black lg:text-lg xl:text-2xl font-bold">
                 Organization Name<span className="text-red-600">*</span>
               </label>
               <br />
@@ -282,7 +282,7 @@ const AuthForm = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black lg:text-lg xl:text-2xl font-bold">
                 Contact Number<span className="text-red-600">*</span>
               </label>
               <br />
@@ -315,7 +315,7 @@ const AuthForm = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black lg:text-lg xl:text-2xl font-bold">
                 Email ID<span className="text-red-600">*</span>
               </label>
               <br />
@@ -329,7 +329,7 @@ const AuthForm = () => {
 
             {/* Estimated Number of Users*/}
             <Form.Item>
-              <label className="text-black text-2xl font-bold">
+              <label className="text-black lg:text-lg xl:text-2xl font-bold">
                 Estimated Number of Users
               </label>
               <br />
@@ -340,9 +340,11 @@ const AuthForm = () => {
                 onChange={(e) => handleFormFieldChange("estimated", e)}
               />
             </Form.Item>
-            <div className="mt-1 flex justify-center text-justify">
+            <div className="mt-1 flex justify-center text-left lg:text-justify">
               <Checkbox
-                className={`text-sm ${checked ? "font-bold" : "font-semibold"}`}
+                className={`text-sm lg:text-xs xl:text-sm ${
+                  checked ? "font-bold" : "font-semibold"
+                }`}
                 onChange={(e) => setChecked(e.target.checked)}
               >
                 I here by declare that, all the details provided above are true
@@ -368,7 +370,7 @@ const AuthForm = () => {
               </button>
             </div>
             <div className="flex font-semibold justify-center">
-              <p className="text-black text-base mt-2">
+              <p className="text-black xl:text-base text-[0.68rem] md:text-sm mt-2">
                 By clicking on <i>Request</i> you agree to&nbsp;
                 <a
                   href="/Terms_and_Conditions.pdf"

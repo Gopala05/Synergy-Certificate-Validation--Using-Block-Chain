@@ -265,7 +265,7 @@ const ValidationPage = () => {
   };
 
   return (
-    <>
+    <div className="h-screen xl:h-full">
       <DashNav />
       <Row className="flex w-full h-full items-center">
         <Col
@@ -280,17 +280,18 @@ const ValidationPage = () => {
         </Col>
         <Col
           lg={11}
-          className="flex flex-col gap-y-10 w-full justify-center items-center pr-20 pt-20"
+          sm={24}
+          className="flex flex-col w-full gap-y-20 lg:gap-y-10 justify-center items-center lg:pr-20 pt-10 lg:pt-20 lg:mt-0"
         >
-          <Row className="text-white text-5xl font-semibold">
+          <Row className="text-white lg:block flex lg:w-auto w-full text-4xl justify-center lg:justify-start md:text-5xl font-semibold">
             Find your&nbsp;<span className="text-[#f6851b]">Certificate</span>!
           </Row>
           <div className="flex w-full justify-center flex-row">
-            <div className="max-w-[90vw] w-[30vw] flex flex-col border-dashed border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
+            <div className="max-w-[90vw] lg:w-[30vw] flex flex-col border-dashed border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
               <div className={`relative Card ${isFlipped ? "cardFlip" : ""}`}>
                 <div className={`${isFlipped ? "back" : "front"}`}>
                   {/* Radio Buttons */}
-                  <div className="mb-5">
+                  <div className="mb-5 text-sm md:textarea-md">
                     <Radio.Group
                       value={option}
                       onChange={(e) => {
@@ -301,7 +302,7 @@ const ValidationPage = () => {
                       <Radio
                         value="Evault"
                         style={{
-                          fontSize: "1rem",
+                          // fontSize: "1rem",
                           color: "white",
                           fontWeight: "normal",
                         }}
@@ -311,7 +312,7 @@ const ValidationPage = () => {
                       <Radio
                         value="Specific Certificate"
                         style={{
-                          fontSize: "1rem",
+                          // fontSize: "1rem",
                           color: "white",
                           fontWeight: "normal",
                         }}
@@ -403,18 +404,18 @@ const ValidationPage = () => {
             </div>
           </div>
         </Col>
-        <Row className="flex w-full">
-          <Col lg={24}>
-            <Footer />
-          </Col>
-        </Row>
+      </Row>
+      <Row className="flex w-full bottom-0">
+        <Col lg={24} className="flex flex-col w-full">
+          <Footer />
+        </Col>
       </Row>
       {isLoading && (
         <div className="loader">
           <Logo />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

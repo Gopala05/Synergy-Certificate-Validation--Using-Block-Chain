@@ -8,7 +8,7 @@ const CommingSoon = () => {
   return (
     <div className="h-[100vh] bg-white">
       <Row>
-        <Col lg={12}>
+        <Col lg={12} className="lg:block hidden">
           <img
             src="/Comming_Soon_Metamask.png"
             alt="Coming Soon Image"
@@ -17,7 +17,7 @@ const CommingSoon = () => {
         </Col>
         <Col
           lg={12}
-          className="flex flex-col items-center justify-center p-20 text-white"
+          className="flex h-[100vh] w-full flex-col items-center justify-center p-5 lg:p-20 text-white"
         >
           <div className="flex w-full justify-end ">
             <Link href="/guide">
@@ -27,7 +27,7 @@ const CommingSoon = () => {
             </Link>
           </div>
           <div className="flex h-full flex-col justify-center items-center">
-            <div className="text-8xl font-bold text-black">
+            <div className="text-6xl lg:text-8xl font-bold text-black">
               Stay <span className="text-[#f6851b]">Tuned</span>!
             </div>
             <br />

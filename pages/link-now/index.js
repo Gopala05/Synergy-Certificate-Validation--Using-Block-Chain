@@ -178,9 +178,9 @@ const LinkNow = () => {
       <Row className="flex justify-center items-center">
         <Col
           lg={12}
-          className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
+          className="py-10 px-5 lg:p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
         >
-          <div className="flex justify-start items-start">
+          <div className="flex justify-end lg:justify-start items-start">
             <button
               onClick={() => router.push("/")}
               className="btn bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600"
@@ -189,11 +189,11 @@ const LinkNow = () => {
             </button>
           </div>
           <div className="flex flex-col justify-center h-[100vh]">
-            <label className="text-black flex justify-center font-bold text-5xl">
+            <label className="text-black flex justify-center font-bold text-3xl lg:text-5xl">
               Link Your
               <span className="text-[#f6851b]">&nbsp;Accounts Now</span>!
             </label>
-            <p className="text-black text-xl flex justify-center mt-3">
+            <p className="text-black text-base lg:text-xl flex justify-center mt-3 lg:mb-0 mb-10">
               Enter your Credentials to link the accounts
             </p>
 
@@ -212,7 +212,9 @@ const LinkNow = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">User ID</label>
+              <label className="text-black text-xl lg:text-2xl font-bold">
+                User ID
+              </label>
               <br />
               <Input
                 className="w-full text-black mt-1 h-10 rounded-2xl pr-10 border-2 border-[#22674E] hover:border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
@@ -237,7 +239,9 @@ const LinkNow = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">Password</label>
+              <label className="text-black text-xl lg:text-2xl font-bold">
+                Password
+              </label>
               <br />
               <Input.Password
                 type="password"
@@ -257,7 +261,7 @@ const LinkNow = () => {
               </button>
             </div>
             <div className="flex justify-center">
-              <p className="text-black text-base mt-2">
+              <p className="text-black text-[0.71rem] md:text-base mt-2">
                 By clicking on <i>confirm</i> you agree to &nbsp;
                 <a
                   href="/Terms_and_Conditions.pdf"

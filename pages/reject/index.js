@@ -145,7 +145,7 @@ const Reject = () => {
         </Col>
         <Col
           lg={12}
-          className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
+          className="py-10 px-2 lg:p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
@@ -156,19 +156,21 @@ const Reject = () => {
             </button>
           </div>
 
-          <div className="flex flex-col justify-center h-[100vh]">
-            <label className="text-black flex justify-center font-bold text-6xl">
+          <div className="flex flex-col justify-center h-full">
+            <label className="text-black flex justify-center font-bold text-5xl lg:text-6xl">
               Reject
               <span className="text-[#f6851b]">&nbsp;Account</span>!
             </label>
-            <p className="text-black font-bold text-[1.3rem] text-center flex justify-center mt-3">
+            <p className="text-black font-bold text-xl lg:text-[1.3rem] text-center flex justify-center mt-10 lg:mt-3">
               Please ensure you have rejected the linking of both accounts to
               avoid any errors. If not, please report it to us.
             </p>
 
-            <div className="mt-5 flex justify-center">
+            <div className="lg:mt-5 mt-10 flex justify-center">
               <Checkbox
-                className={`text-xl ${checked ? "font-bold" : "font-semibold"}`}
+                className={`text-md lg:text-xl ${
+                  checked ? "font-bold" : "font-semibold"
+                }`}
                 onChange={(e) => setChecked(e.target.checked)}
               >
                 By Checking, you confirm that you are rejecting the linking of
@@ -190,7 +192,7 @@ const Reject = () => {
               </button>
             </div>
             <div className="flex justify-center">
-              <p className="text-black font-semibold text-base mt-2">
+              <p className="text-black font-semibold text-[0.71rem] md:text-base mt-2">
                 By clicking on <i>confirm</i> you agree to &nbsp;
                 <a
                   href="/Terms_and_Conditions.pdf"
