@@ -56,7 +56,7 @@ const AuthHome = () => {
           className="flex w-full justify-start items-start flex-col gap-y-10 lg:pl-16 p-2"
         >
           <Row className="flex w-full justify-center">
-            <img src="./Auth_Icon.png" alt="Auth Icon" className="w-40" />
+            <img src="./Admin.png" alt="Auth Icon" className="lg:w-40 w-32 pt-5 lg:pt-0" />
           </Row>
           {/* Name */}
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">

@@ -180,7 +180,7 @@ const DashNav = () => {
         )}
 
         <div className="flex flex-grow justify-end items-center">
-          <span className="text-white text-xl xl:text-2xl font-bold">
+          <span className="text-white text-xl xl:text-3xl font-bold">
             {user?.name} {auth?.firstName}&nbsp;
             <span className="text-[#f6851b]">{auth?.lastName}</span>
           </span>
@@ -193,10 +193,10 @@ const DashNav = () => {
               className={`flex justify-end font-bold align-middle text-white items-center ant-dropdown-link`}
             >
               <img
-                src={auth ? "./Auth_Icon.png" : "./User_Icon.png"}
+                src={auth ? "./Admin.png" : "./User_Name.jpg"}
                 alt={auth ? "Auth Icon" : "User Icon"}
                 className={`${
-                  auth ? "w-20" : "w-16"
+                  auth ? "w-14" : "w-14 rounded-full"
                 } flex justify-end items-center ml-5`}
               />
             </a>
