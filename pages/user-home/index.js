@@ -56,7 +56,7 @@ const UserHome = () => {
           className="flex w-full justify-center flex-col items-center gap-y-10 lg:pl-16 px-2 lg:p-0"
         >
           <Row className="flex w-full justify-center">
-            <img src="./User_Icon.png" alt="User Icon" className="w-36" />
+            <img src="./User_Name.jpg" alt="User Icon" className="w-36 bg-white rounded-full" />
           </Row>
           {/* Name */}
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 px-2">
