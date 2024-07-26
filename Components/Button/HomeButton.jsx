@@ -5,7 +5,7 @@ const HomeButton = ({ children, backgroundImage, navigate }) => {
 
   return (
     <button
-      className="relative btn border-none text-white font-bold py-4 px-8 rounded-md shadow-lg overflow-hidden w-full lg:w-[40vw] lg:h-[12vh]"
+      className="relative btn border-none text-white font-bold py-4 px-8 rounded-md shadow-lg overflow-hidden w-full lg:w-[40vw] h-[12vh]"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
