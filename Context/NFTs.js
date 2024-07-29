@@ -17,6 +17,7 @@ import { createWallet } from "thirdweb/wallets";
 import toast from "react-hot-toast";
 import emailjs from "@emailjs/browser";
 import { useRouter } from "next/navigation";
+import encrypt from "../utils/Encrypt";
 
 const StateContext = createContext();
 
@@ -174,16 +175,17 @@ export const StateContextProvider = ({ children }) => {
       });
 
       if (apiResponse) {
+        const encryptedMail = encrypt(userEmail);
         const MailParams = {
           from: "SYNERGY",
           from_mail: "team.synergy.ksit@gmail.com",
           to_mail: userEmail,
           recipient_name: userEmail,
           certificate_id: certificateID,
-          site_name: "team.synergy.ksit",
+          site_name: process.env.NEXT_PUBLIC_WEB_URL,
           certificate_link: certificate,
-          link_url: "/link-now",
-          singup_url: "/sign-up",
+          link_url: `${process.env.NEXT_PUBLIC_WEB_URL}/link-now?email=${encryptedMail}`,
+          singup_url: `${process.env.NEXT_PUBLIC_WEB_URL}/user-signup`,
           year: new Date().getFullYear(),
         };
 
@@ -253,17 +255,46 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
-  // Work Here
+  // All NFTs API
+  const getAllNFTsAPI = async (emails) => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "/api/v1/nfts/fetchAll",
+        data: {
+          emails: emails,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log("Error in Fetching All NFTs: ", error);
+      if (error.response?.status === 404) {
+        router.push({
+          pathname: "/404",
+          query: {
+            message: error?.response?.data?.message,
+            state: error?.response?.data?.status,
+          },
+        });
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
+    }
+  };
 
   // All NFTs API
-  const getAllNFTsAPI = async () => {
+  const getUser = async (email) => {
     try {
       const response = await axios({
         method: "GET",
-        url: "/api/v1/nfts",
+        url: `/api/v1/users/get-user/${email}`,
       });
+      return response;
     } catch (error) {
-      console.log("Error in Fetching All NFTs: ", error);
+      console.log("Error in Fetching User: ", error);
       if (error.response?.status === 404) {
         router.push({
           pathname: "/404",
@@ -313,7 +344,7 @@ export const StateContextProvider = ({ children }) => {
         certificateID: data.certificateID,
         userEmail: data.userEmail,
       });
-      console.log(response);
+
       return response;
     } catch (error) {
       setIsLoading(false);
@@ -377,6 +408,7 @@ export const StateContextProvider = ({ children }) => {
         checkCertIDPresent,
 
         // APIs
+        getUser,
         getAllNFTsAPI,
         getSingleNFTAPI,
       }}

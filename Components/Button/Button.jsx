@@ -13,7 +13,7 @@ const Button = ({ disconnect, connect, address, file }) => {
         </button>
       ) : (
         <button onClick={() => connect()} className={style.button}>
-          <span className={style.button_content}>Connect Metamask Wallet</span>
+          <span className={`${style.button_content} lg:text-3xl text-xl`}>Connect Metamask Wallet</span>
         </button>
       )}
     </>

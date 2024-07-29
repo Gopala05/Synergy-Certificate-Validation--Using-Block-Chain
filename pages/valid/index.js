@@ -34,7 +34,7 @@ const Valid = () => {
 
     const hideGifTimer = setTimeout(() => {
       setSayCongrats(false);
-    }, 2700);
+    }, 2000);
 
     return () => clearTimeout(hideGifTimer);
   }, [router]);
@@ -59,7 +59,7 @@ const Valid = () => {
   };
 
   return (
-    <>
+    <div>
       <DashNav />
       {sayCongrats && (
         <img
@@ -71,29 +71,29 @@ const Valid = () => {
       <Row className="flex w-full h-full items-center">
         <Col
           lg={13}
-          className="flex items-center h-full lg:h-[93vh] justify-center flex-col lg:pl-16 pt-10"
+          className="flex items-center h-full lg:h-[93vh] justify-center flex-col lg:pl-16 pt-10 lg:p-0 p-5"
         >
-          <div className="flex justify-start w-full mt-5">
+          <div className="flex justify-start w-full lg:mt-5 mt-16">
             <Button onClick={handleBack} type="primary">
               Back
             </Button>
           </div>
 
-          <div className="border-dashed border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl mb-10">
+          <div className="border-dashed border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl mb-10 mt-5 lg:mt-0">
             <img
               src={info?.certificate}
               alt="Certificate Image"
-              className="max-w-[50vw] max-h-[50vh]"
+              className="lg:max-w-[50vw] lg:max-h-[50vh]"
             />
           </div>
           <div className="flex w-full gap-x-5 justify-center items-center">
-            <button className="rounded-full text-2xl font-semibold hover:border-white hover:bg-[#15C586] hover:text-black text-white bg-[#0080DC] py-4 px-8 border-2 border-[#15C586]">
+            <button className="rounded-full text-lg md:text-2xl font-semibold hover:border-white hover:bg-[#15C586] hover:text-black text-white bg-[#0080DC] py-4 px-8 border-2 border-[#15C586]">
               <a
                 download
                 href={info?.certificate}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white hover:text-black "
+                className="text-white hover:text-black"
               >
                 <span>Download Certificate</span>
               </a>
@@ -113,22 +113,27 @@ const Valid = () => {
             </a>
           </div>
         </Col>
+
+        <Row className="flex lg:hidden mt-7 w-full px-5">
+          <hr className="flex w-full border-2" />
+        </Row>
+
         <Col
           lg={11}
-          className="flex flex-col gap-y-10 w-full justify-center items-center pt-24"
+          className="flex flex-col gap-y-10 w-full justify-center items-center lg:pt-24 pt-10 lg:px-0 px-5"
         >
           {/* Title */}
-          <Row className="flex w-full justify-start gap-5 items-center">
+          <Row className="flex flex-col lg:flex-row w-full justify-start gap-5 items-center">
             <Col
               lg={5}
-              className="flex justify-end text-end text-white text-2xl font-semibold"
+              className="flex w-full justify-start lg:w-auto lg:justify-end text-end text-white text-2xl font-semibold"
             >
               Title:
             </Col>
-            <Col lg={12}>
+            <Col lg={12} className="w-full lg:w-auto">
               <Row className="flex w-full bg-white items-center rounded-2xl py-2">
                 <Col className="flex flex-grow pl-5 items-center">
-                  <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
+                  <div className="border-none bg-white text-black text-lg lg:text-2xl flex items-center font-bold cursor-pointer">
                     {info?.title}
                   </div>
                 </Col>
@@ -137,17 +142,17 @@ const Valid = () => {
           </Row>
 
           {/* Certificate ID */}
-          <Row className="flex w-full justify-start gap-5 items-center">
+          <Row className="flex flex-col lg:flex-row w-full justify-start gap-5 items-center">
             <Col
               lg={5}
-              className="flex justify-end text-end text-white text-2xl font-semibold"
+              className="flex w-full justify-start lg:w-auto lg:justify-end text-end text-white text-2xl font-semibold"
             >
               Certificate ID:
             </Col>
-            <Col lg={12}>
+            <Col lg={12} className="w-full lg:w-auto">
               <Row className="flex w-full bg-white items-center rounded-2xl py-2">
                 <Col className="flex flex-grow pl-5 items-center">
-                  <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
+                  <div className="border-none bg-white text-black text-lg xl:text-2xl flex items-center font-bold cursor-pointer">
                     {info?.certificateID}
                   </div>
                 </Col>
@@ -156,17 +161,17 @@ const Valid = () => {
           </Row>
 
           {/* User Email */}
-          <Row className="flex w-full justify-start gap-5 items-center">
+          <Row className="flex flex-col lg:flex-row w-full justify-start gap-5 items-center">
             <Col
               lg={5}
-              className="flex justify-end text-end text-white text-2xl font-semibold"
+              className="flex w-full justify-start lg:w-auto lg:justify-end text-end text-white text-2xl font-semibold"
             >
               Email ID:
             </Col>
-            <Col lg={12}>
+            <Col lg={12} className="w-full lg:w-auto">
               <Row className="flex w-full bg-white items-center rounded-2xl py-2">
                 <Col className="flex flex-grow pl-5 items-center">
-                  <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
+                  <div className="border-none bg-white text-black text-lg xl:text-2xl flex items-center font-bold cursor-pointer">
                     {info?.userEmail}
                   </div>
                 </Col>
@@ -175,17 +180,17 @@ const Valid = () => {
           </Row>
 
           {/* Org */}
-          <Row className="flex w-full justify-start gap-5 items-center mb-24">
+          <Row className="flex flex-col lg:flex-row w-full justify-start gap-5 items-center lg:mb-24 mb-10">
             <Col
               lg={5}
-              className="flex justify-end text-end text-white text-2xl font-semibold"
+              className="flex w-full justify-start lg:w-auto lg:justify-end text-end text-white text-2xl font-semibold"
             >
               Organization:
             </Col>
-            <Col lg={12}>
+            <Col lg={12} className="w-full lg:w-auto">
               <Row className="flex w-full bg-white items-center rounded-2xl py-2">
                 <Col className="flex flex-grow pl-5 items-center">
-                  <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
+                  <div className="border-none bg-white text-black text-lg lg:text-2xl flex items-center font-bold cursor-pointer">
                     {info?.organisation}
                   </div>
                 </Col>
@@ -193,13 +198,13 @@ const Valid = () => {
             </Col>
           </Row>
         </Col>
-        <Row className="flex w-full">
-          <Col lg={24}>
-            <Footer />
-          </Col>
-        </Row>
       </Row>
-    </>
+      <Row className="flex w-full bottom-0">
+        <Col lg={24} className="flex flex-col w-full">
+          <Footer />
+        </Col>
+      </Row>
+    </div>
   );
 };
 

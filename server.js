@@ -5,6 +5,7 @@ const app = require("./app");
 const User = require("./Api/Model/userModal"); // Import User model
 const NFT = require("./Api/Model/nftModal"); // Import NFT model
 const Auth = require("./Api/Model/authModal"); // Import Auth model
+const Request = require("./Api/Model/requestModal"); // Import Request model
 
 // Configuring the env
 dotenv.config({ path: "./.env" });

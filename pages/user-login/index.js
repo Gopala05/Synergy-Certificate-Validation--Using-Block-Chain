@@ -89,16 +89,16 @@ const UserLogin = () => {
   return (
     <div className="h-[100vh] bg-white">
       <Row className="flex justify-center items-center">
-        <Col lg={12} className="h-[100vh]">
+        <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./User_SignIn.jpg"
+            src="./User_Sign_In.png"
             alt="Login Image"
-            className="h-[100vh] w-full px-12 py-10 rounded-3xl rounded-e-none"
+            className="h-[100vh] w-full rounded-s-none rounded-[10rem]"
           />
         </Col>
         <Col
           lg={12}
-          className="p-20 pt-10 h-[100vh] w-full justify-start flex flex-col"
+          className="p-5 lg:p-10 xl:p-20 pt-0 h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
@@ -112,7 +112,7 @@ const UserLogin = () => {
             <label className="text-black flex justify-center font-bold text-5xl">
               Welcome <spam className="text-[#f6851b]">&nbsp;Back</spam>!
             </label>
-            <p className="text-black text-xl flex justify-center mt-3">
+            <p className="text-black text-xl flex justify-center mt-3 mb-14">
               Enter your Credentials to access
             </p>
 
@@ -131,7 +131,9 @@ const UserLogin = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">User Name</label>
+              <label className="text-black text-2xl font-bold">
+                User Name<span className="text-red-600">*</span>
+              </label>
               <br />
               <Input
                 className="w-full text-black mt-1 h-10 rounded-2xl pr-10 border-2 border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
@@ -156,7 +158,9 @@ const UserLogin = () => {
                 ) : null
               }
             >
-              <label className="text-black text-2xl font-bold">Password</label>
+              <label className="text-black text-2xl font-bold">
+                Password<span className="text-red-600">*</span>
+              </label>
               <br />
               <Input.Password
                 type="password"
@@ -167,11 +171,11 @@ const UserLogin = () => {
               />
             </Form.Item>
 
-            <div className="text-blue-500 flex w-full justify-between italic underline mt-2 text-xl">
+            <div className="text-blue-500 flex w-full justify-between italic underline mt-2 text-lg md:text-xl">
               Forgot password ?
               <Link
                 href="/user-signup"
-                className="text-blue-500 italic underline text-xl"
+                className="text-blue-500 italic underline text-lg md:text-xl"
               >
                 Dont have an account ?
               </Link>
@@ -184,11 +188,26 @@ const UserLogin = () => {
                 Login
               </button>
             </div>
-            <div className="flex justify-center">
-              <p className="text-black text-base mt-2">
-                By clicking on <i>Login</i> you agree to
-                <u className="ml-2 text-blue-800">Terms of Services</u> |{" "}
-                <u className="text-blue-800">Privacy Policy</u>
+            <div className="flex font-semibold justify-center">
+              <p className="text-black xl:text-base text-[0.71rem] md:text-sm mt-2">
+                By clicking on <i>Login</i> you agree to &nbsp;
+                <a
+                  href="/Terms_and_Conditions.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Terms of Services
+                </a>
+                &nbsp;|&nbsp;
+                <a
+                  href="/Privacy_Policy.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 hover:underline underline"
+                >
+                  Privacy Policy
+                </a>
               </p>
             </div>
           </div>

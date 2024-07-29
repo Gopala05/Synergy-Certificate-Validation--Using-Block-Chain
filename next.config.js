@@ -13,6 +13,7 @@ const nextConfig = {
     METAMASK_PRIVATE_KEY: process.env.METAMASK_PRIVATE_KEY,
     PINATA_API_KEY: process.env.PINATA_API_KEY,
     PINATA_SECRET_API_KEY: process.env.PINATA_SECRET_API_KEY,
+    JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   },
 };
 

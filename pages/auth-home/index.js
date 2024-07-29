@@ -48,15 +48,18 @@ const AuthHome = () => {
   }
 
   return (
-    <div className="flex h-[100vh] w-full">
+    <div className="flex h-full xl:h-[100vh] w-full">
       <DashNav />
-      <Row className="flex w-full items-center lg:mt-10 py-20">
-        <Col lg={11} className="flex justify-center flex-col gap-y-10 lg:pl-16">
+      <Row className="flex w-full items-center lg:mt-10 pt-20 xl:pb-20">
+        <Col
+          lg={11}
+          className="flex w-full justify-start items-start flex-col gap-y-10 lg:pl-16 p-2"
+        >
           <Row className="flex w-full justify-center">
-            <img src="./Auth_Icon.png" alt="Auth Icon" className="w-40" />
+            <img src="./Admin.png" alt="Auth Icon" className="lg:w-40 w-32 pt-5 lg:pt-0" />
           </Row>
           {/* Name */}
-          <Row className="flex w-full bg-white items-center rounded-2xl lg:h-16">
+          <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
             <Col lg={2} className="flex justify-center">
               <img
                 src="./User_Name.jpg"
@@ -65,14 +68,14 @@ const AuthHome = () => {
               />
             </Col>
             <Col className="flex flex-grow pl-5">
-              <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
+              <div className="border-none bg-white text-black text-xl md:text-2xl flex items-center font-bold cursor-pointer">
                 {auth?.firstName + " " + auth?.lastName}
               </div>
             </Col>
           </Row>
 
           {/* ID */}
-          <Row className="flex w-full bg-white items-center rounded-2xl lg:h-16">
+          <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
             <Col lg={2} className="flex justify-center">
               <img
                 src="./User_ID.jpg"
@@ -81,14 +84,14 @@ const AuthHome = () => {
               />
             </Col>
             <Col className="flex flex-grow pl-5">
-              <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
+              <div className="border-none bg-white text-black text-xl md:text-2xl flex items-center font-bold cursor-pointer">
                 {auth?.authID}
               </div>
             </Col>
           </Row>
 
           {/* Email */}
-          <Row className="flex w-full bg-white items-center rounded-2xl lg:h-16">
+          <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
             <Col lg={2} className="flex justify-center">
               <img
                 src="./Mail.jpg"
@@ -97,14 +100,14 @@ const AuthHome = () => {
               />
             </Col>
             <Col className="flex flex-grow pl-5">
-              <div className="border-none bg-white text-black tex text-2xl flex items-center font-bold cursor-pointer">
+              <div className="border-none bg-white text-black text-xl md:text-2xl flex items-center font-bold cursor-pointer">
                 {auth?.authEmail}
               </div>
             </Col>
           </Row>
 
           {/* Role */}
-          <Row className="flex w-full bg-white items-center rounded-2xl lg:h-16">
+          <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
             <Col lg={2} className="flex justify-center">
               <img
                 src="./Role.jpg"
@@ -113,18 +116,25 @@ const AuthHome = () => {
               />
             </Col>
             <Col className="flex flex-grow pl-5">
-              <div className="border-none bg-white rounded-lg text-black tex text-2xl flex items-center font-bold cursor-pointer">
+              <div className="border-none bg-white rounded-lg text-black text-xl md:text-2xl flex items-center font-bold cursor-pointer">
                 {auth?.role}
               </div>
             </Col>
           </Row>
         </Col>
 
-        <Col lg={1} className="flex justify-center ml-12 h-full">
+        <Col lg={1} className="hidden lg:flex justify-center ml-12 h-full">
           <div className=" right-0 top-0 bottom-0 border-r-2 border-gray-300"></div>
         </Col>
 
-        <Col lg={11} className="flex justify-center flex-col gap-y-10 pt-5">
+        <Row className="flex lg:hidden mt-7 w-full px-5">
+          <hr className="flex w-full border-2" />
+        </Row>
+
+        <Col
+          lg={11}
+          className="flex w-full justify-center flex-col gap-y-10 p-5"
+        >
           <div className="flex-1 flex flex-col items-center rounded-2xl gap-y-10">
             <HomeButton
               navigate="/validation"

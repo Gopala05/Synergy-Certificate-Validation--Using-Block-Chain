@@ -8,8 +8,14 @@ import DashNav from "../../Components/Nav/DashNav";
 import { useStateContext } from "../../Context/NFTs";
 
 const ValidationPage = () => {
-  const { isLoading, setIsLoading, getCertificate, getSingleNFTAPI } =
-    useStateContext();
+  const {
+    isLoading,
+    setIsLoading,
+    getCertificate,
+    getSingleNFTAPI,
+    getUser,
+    getAllNFTsAPI,
+  } = useStateContext();
 
   const router = useRouter();
   const toastShownRef = useRef(false);
@@ -29,7 +35,7 @@ const ValidationPage = () => {
   const handleFlip = async (e) => {
     const selectedOption = e.target.value;
     setOption(selectedOption);
-    console.log(selectedOption);
+
     if (selectedOption === "Evault") {
       setFirstField("");
     } else {
@@ -58,6 +64,13 @@ const ValidationPage = () => {
       window.removeEventListener("keydown", handleEnterKeyPress);
     };
   }, [handleEnterKeyPress]);
+
+  // Remove the localStorage
+  useEffect(() => {
+    if (localStorage.getItem("cert-user")) localStorage.removeItem("cert-user");
+    if (localStorage.getItem("NFT")) localStorage.removeItem("NFT");
+    if (localStorage.getItem("NFTs")) localStorage.removeItem("NFTs");
+  }, []);
 
   // If User is Not Logged IN
   useEffect(() => {
@@ -95,7 +108,7 @@ const ValidationPage = () => {
   const fetchDatabaseData = async (body) => {
     try {
       const response = await getSingleNFTAPI(body);
-      console.log(response)
+
       return response.data;
     } catch (error) {
       setIsInValid(true);
@@ -113,6 +126,48 @@ const ValidationPage = () => {
       setIsInValid(true);
       setError(error.response?.data?.message || "Internal Server Error");
       console.error("Error in fetching certificate on Net:", error);
+    }
+  };
+
+  // Fetching All the Certificate
+  const evault = async () => {
+    try {
+      const resp = await getUser(email);
+      if (resp.data.status == "OK") {
+        const response = await getAllNFTsAPI(resp.data.user.userEmails);
+
+        if (response.data.status === "Success") {
+          const fetchedCertificates = [];
+
+          await Promise.all(
+            response.data.data.nftsByEmails.map(async (nftsByEmail) => {
+              const email = Object.keys(nftsByEmail)[0];
+              const nfts = nftsByEmail[email];
+
+              await Promise.all(
+                nfts.map(async (nft) => {
+                  const res = await getCertificate(nft.certificateID);
+                  if (res.userEmail === email) {
+                    fetchedCertificates.push({ ...nft });
+                  }
+                })
+              );
+            })
+          );
+
+          localStorage.setItem("cert-user", JSON.stringify(resp.data.user));
+          return fetchedCertificates;
+        }
+      } else {
+        toast.error(error.response?.data?.message || "Internal Server Error");
+        setError(error.response?.data?.message || "Internal Server Error");
+        console.error("Error in fetching All certificate:", error);
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || "Internal Server Error");
+      console.error("Error in fetching All certificate:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -176,7 +231,7 @@ const ValidationPage = () => {
         setIsInValid(true);
         setError(error.response?.data?.message || "Internal Server Error");
         toast.error(error.response?.data?.message || "Internal Server Error");
-        console.error("Error in Login: ", error);
+        console.error("Error in Certificate Fetch: ", error);
       }
     } else {
       try {
@@ -186,52 +241,31 @@ const ValidationPage = () => {
           return;
         }
         setIsLoading(true);
-        const body = JSON.stringify({
-          certificateID: id,
-          userEmail: email,
-        });
-
-        const certificateInDB = await fetchDatabaseData(body);
-        const certificateOnNet = await fetchNFT(id);
-
-        if (certificateInDB && certificateOnNet) {
-          if (
-            certificateInDB.data.NFT.certificateID ===
-              certificateOnNet.certificateID &&
-            certificateInDB.data.NFT.userEmail === certificateOnNet.userEmail
-          ) {
-            setIsLoading(false);
-            toast.success("Certificate found!");
-            localStorage.setItem(
-              "NFT",
-              JSON.stringify(certificateInDB.data.NFT)
-            );
-
-            router.push("/valid");
-            setID("");
-            setEmail("");
-          } else {
-            setIsLoading(false);
-            setIsInValid(true);
-            setError(error.response?.data?.message || "Internal Server Error");
-            toast.error("Certificate not found");
-            setID("");
-            setEmail("");
-          }
+        const certificates = await evault();
+        if (certificates.length > 0) {
+          localStorage.setItem("NFTs", JSON.stringify(certificates));
+          setEmail("");
+          router.push("/evault");
+        } else {
+          setIsLoading(false);
+          setIsInValid(true);
+          setError(error.response?.data?.message || "Internal Server Error");
+          toast.error("Certificates not found");
+          setEmail("");
         }
       } catch (error) {
         setIsLoading(false);
         setIsInValid(true);
         setError(error.response?.data?.message || "Internal Server Error");
         toast.error(error.response?.data?.message || "Internal Server Error");
-        console.error("Error in Login: ", error);
+        console.error("Error in Certificate Fetch: ", error);
       }
     }
     setIsLoading(false);
   };
 
   return (
-    <>
+    <div className="h-screen xl:h-full">
       <DashNav />
       <Row className="flex w-full h-full items-center">
         <Col
@@ -246,17 +280,18 @@ const ValidationPage = () => {
         </Col>
         <Col
           lg={11}
-          className="flex flex-col gap-y-10 w-full justify-center items-center pr-20 pt-20"
+          sm={24}
+          className="flex flex-col w-full gap-y-20 lg:gap-y-10 justify-center items-center lg:pr-20 pt-10 lg:pt-20 lg:mt-0"
         >
-          <Row className="text-white text-5xl font-semibold">
+          <Row className="text-white lg:block flex lg:w-auto w-full text-4xl justify-center lg:justify-start md:text-5xl font-semibold">
             Find your&nbsp;<span className="text-[#f6851b]">Certificate</span>!
           </Row>
           <div className="flex w-full justify-center flex-row">
-            <div className="max-w-[90vw] w-[30vw] flex flex-col border-dashed border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
+            <div className="max-w-[90vw] lg:w-[30vw] flex flex-col border-dashed border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
               <div className={`relative Card ${isFlipped ? "cardFlip" : ""}`}>
                 <div className={`${isFlipped ? "back" : "front"}`}>
                   {/* Radio Buttons */}
-                  <div className="mb-5">
+                  <div className="mb-5 text-sm md:textarea-md">
                     <Radio.Group
                       value={option}
                       onChange={(e) => {
@@ -267,7 +302,7 @@ const ValidationPage = () => {
                       <Radio
                         value="Evault"
                         style={{
-                          fontSize: "1rem",
+                          // fontSize: "1rem",
                           color: "white",
                           fontWeight: "normal",
                         }}
@@ -277,7 +312,7 @@ const ValidationPage = () => {
                       <Radio
                         value="Specific Certificate"
                         style={{
-                          fontSize: "1rem",
+                          // fontSize: "1rem",
                           color: "white",
                           fontWeight: "normal",
                         }}
@@ -369,18 +404,18 @@ const ValidationPage = () => {
             </div>
           </div>
         </Col>
-        <Row className="flex w-full">
-          <Col lg={24}>
-            <Footer />
-          </Col>
-        </Row>
+      </Row>
+      <Row className="flex w-full bottom-0">
+        <Col lg={24} className="flex flex-col w-full">
+          <Footer />
+        </Col>
       </Row>
       {isLoading && (
         <div className="loader">
           <Logo />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
