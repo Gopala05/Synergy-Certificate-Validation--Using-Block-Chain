@@ -4,8 +4,9 @@ import { Col, Row } from "antd";
 import DashNav from "../../Components/Nav/DashNav";
 import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/router";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 import toast from "react-hot-toast";
+import { upgradeHook } from "../../hooks/upgrade-model";
 
 const backgroundImages = {
   verify: "/Verify.png",
@@ -18,6 +19,7 @@ const UserHome = () => {
   const [user, setUser] = useState(null);
   const toastShownRef = useRef(false);
   const router = useRouter();
+  const plansHook = upgradeHook();
 
   useEffect(() => {
     const userData = localStorage.getItem("user-info");
@@ -40,11 +42,9 @@ const UserHome = () => {
   }, [router]);
 
   if (!user) {
-    return (
-      <div className="loader">
-        <Logo />
-      </div>
-    );
+    return <div className="loader">
+      <Logo/>
+    </div>;
   }
 
   return (
@@ -56,7 +56,11 @@ const UserHome = () => {
           className="flex w-full justify-center flex-col items-center gap-y-10 lg:pl-16 px-2 lg:p-0"
         >
           <Row className="flex w-full justify-center">
-            <img src="./User_Name.jpg" alt="User Icon" className="w-36 bg-white rounded-full" />
+            <img
+              src="./User_Name.jpg"
+              alt="User Icon"
+              className="w-36 bg-white rounded-full"
+            />
           </Row>
           {/* Name */}
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 px-2">
@@ -137,8 +141,24 @@ const UserHome = () => {
               navigate="/guide"
               backgroundImage={backgroundImages.blog}
             >
-              Guide
+              GUIDE
             </HomeButton>
+            <button
+              className="relative btn border-none text-white font-bold py-4 px-8 rounded-md shadow-lg overflow-hidden w-full lg:w-[40vw] h-[12vh]"
+              style={{
+                backgroundImage: `url(/Upload.png)`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+              onClick={plansHook.onOpen}
+            >
+              <div className="absolute inset-0 bg-black opacity-30 z-0"></div>
+              <div className="relative z-10 rounded-md bg-white/20 flex w-full h-full justify-center">
+                <span className="flex justify-center text-3xl items-center">
+                  PRICING
+                </span>
+              </div>
+            </button>
           </div>
         </Col>
       </Row>

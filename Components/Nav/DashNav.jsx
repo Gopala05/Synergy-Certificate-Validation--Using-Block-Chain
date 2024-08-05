@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import DashSideBar from "./DashSideBar";
+import { upgradeHook } from "../../hooks/upgrade-model";
 
 const DashNav = () => {
   const router = useRouter();
   const [auth, setAuth] = React.useState("");
   const [user, setUser] = React.useState("");
   const [activeSection, setActiveSection] = React.useState(router.pathname);
+  const plansHook = upgradeHook();
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -89,8 +91,8 @@ const DashNav = () => {
             <div className="flex justify-center gap-10 font-bold">
               <Link
                 className={`relative cursor-pointer ${
-                  activeSection === "/auth-home" ||
-                  activeSection === "/user-home"
+                  (!plansHook.isOpen && activeSection === "/auth-home") ||
+                  (!plansHook.isOpen && activeSection === "/user-home")
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -100,8 +102,8 @@ const DashNav = () => {
                 Home
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    activeSection === "/auth-home" ||
-                    activeSection === "/user-home"
+                    (!plansHook.isOpen && activeSection === "/auth-home") ||
+                    (!plansHook.isOpen && activeSection === "/user-home")
                       ? "scale-x-100"
                       : "scale-x-0"
                   }`}
@@ -110,7 +112,7 @@ const DashNav = () => {
               {auth ? (
                 <Link
                   className={`relative cursor-pointer ${
-                    activeSection === "/upload"
+                    !plansHook.isOpen && activeSection === "/upload"
                       ? "text-green-500"
                       : "text-white/80"
                   }`}
@@ -120,14 +122,16 @@ const DashNav = () => {
                   Upload
                   <span
                     className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                      activeSection === "/upload" ? "scale-x-100" : "scale-x-0"
+                      !plansHook.isOpen && activeSection === "/upload"
+                        ? "scale-x-100"
+                        : "scale-x-0"
                     }`}
                   ></span>
                 </Link>
               ) : null}
               <Link
                 className={`relative cursor-pointer ${
-                  activeSection === "/validation"
+                  !plansHook.isOpen && activeSection === "/validation"
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -137,15 +141,16 @@ const DashNav = () => {
                 Validate
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    activeSection === "/validation"
+                    !plansHook.isOpen && activeSection === "/validation"
                       ? "scale-x-100"
                       : "scale-x-0"
                   }`}
                 ></span>
               </Link>
+
               <Link
                 className={`relative cursor-pointer ${
-                  activeSection === "/support"
+                  !plansHook.isOpen && activeSection === "/support"
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -155,13 +160,15 @@ const DashNav = () => {
                 Support
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    activeSection === "/support" ? "scale-x-100" : "scale-x-0"
+                    !plansHook.isOpen && activeSection === "/support"
+                      ? "scale-x-100"
+                      : "scale-x-0"
                   }`}
                 ></span>
               </Link>
               <Link
                 className={`relative cursor-pointer ${
-                  activeSection === "/guide"
+                  !plansHook.isOpen && activeSection === "/guide"
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -171,10 +178,28 @@ const DashNav = () => {
                 Guide
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    activeSection === "/guide" ? "scale-x-100" : "scale-x-0"
+                    !plansHook.isOpen && activeSection === "/guide"
+                      ? "scale-x-100"
+                      : "scale-x-0"
                   }`}
                 ></span>
               </Link>
+              {auth ? null : (
+                <div
+                  className={`relative cursor-pointer ${
+                    plansHook.isOpen ? "text-green-500" : "text-white/80"
+                  }`}
+                  onClick={plansHook.onOpen}
+                  duration={500}
+                >
+                  Pricing
+                  <span
+                    className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
+                      plansHook.isOpen ? "scale-x-100" : "scale-x-0"
+                    }`}
+                  ></span>
+                </div>
+              )}
             </div>
           </nav>
         )}

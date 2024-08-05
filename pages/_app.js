@@ -4,7 +4,8 @@ import { StateContextProvider } from "../Context/NFTs";
 // import { ClerkProvider } from "@clerk/nextjs";
 import Head from "next/head";
 import { Toaster } from "react-hot-toast";
-
+import { Plans } from "../Components/Plans/Plans"
+ 
 export default function App({ Component, pageProps }) {
   return (
     // <ClerkProvider>
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }) {
             <link rel="icon" href="/Logo.png" />
           </Head>
           <Toaster />
+          <Plans/>
           <Component {...pageProps} />
         </StateContextProvider>
       </ThirdwebProvider>
