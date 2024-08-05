@@ -4,7 +4,7 @@ import DashNav from "../../Components/Nav/DashNav";
 import { Col, Row } from "antd";
 import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/navigation";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 import toast from "react-hot-toast";
 
 const backgroundImages = {
@@ -158,7 +158,7 @@ const AuthHome = () => {
               navigate="/guide"
               backgroundImage={backgroundImages.blog}
             >
-              Guide
+              GUIDE
             </HomeButton>
           </div>
         </Col>

@@ -3,7 +3,7 @@ import DashNav from "../../Components/Nav/DashNav";
 import { Col, Row } from "antd";
 import FlowButton from "../../Components/Button/FlowButton";
 import { useRouter } from "next/router";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 
 const backgroundImages = {
   verify: "/Verify.png",

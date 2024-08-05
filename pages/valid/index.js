@@ -4,7 +4,7 @@ import { Button, Col, Row } from "antd";
 import Footer from "../../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 
 const Valid = () => {
   const [info, setInfo] = React.useState("");

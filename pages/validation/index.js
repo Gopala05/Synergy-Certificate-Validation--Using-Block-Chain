@@ -3,7 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Input, Row, Col, Radio, Card, Form, Button } from "antd";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { Footer, Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
+import Footer from "../../Components/Footer/Footer";
 import DashNav from "../../Components/Nav/DashNav";
 import { useStateContext } from "../../Context/NFTs";
 

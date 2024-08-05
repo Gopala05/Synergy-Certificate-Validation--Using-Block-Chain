@@ -7,7 +7,7 @@ import axios from "axios";
 import decryptText from "../../utils/Decrypt";
 import emailjs from "@emailjs/browser";
 import { useStateContext } from "../../Context/NFTs";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 
 const LinkNow = () => {
   const { isLoading, setIsLoading } = useStateContext();
