@@ -1,35 +1,11 @@
 import React, { useEffect } from "react";
 import { Dropdown, Menu } from "antd";
-import { RiLogoutBoxRLine } from "react-icons/ri";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import DashSideBar from "./DashSideBar";
 import { upgradeHook } from "../../hooks/upgrade-model";
-import { Zap } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Cloud,
-  CreditCard,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react";
+import { CreditCard, LogOut, Settings } from "lucide-react";
 
 const DashNav = () => {
   const router = useRouter();
@@ -86,14 +62,6 @@ const DashNav = () => {
 
   const menu = (
     <Menu className="flex flex-col gap-y-2 border-none">
-      {/* <Menu.Item key="0">
-        <button
-          onClick={(e) => handleLogout(e)}
-          className="w-full bg-gradient-to-r from-green-400 to-green-600 hover:bg-[#15C586] border-none btn flex items-center text-black font-bold text-lg px-5"
-        >
-          Log Out <RiLogoutBoxRLine className="font-bold text-xl  fill-black" />
-        </button>
-      </Menu.Item> */}
       <Menu.Item key="0" className="border-none">
         <div className="flex w-full flex-col text-2xl p-5 bg-[#282a2c] rounded-md text-white">
           <div className="flex flex-col gap-y-5 w-full items-center">
