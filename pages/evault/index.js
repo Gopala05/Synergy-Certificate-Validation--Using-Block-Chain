@@ -245,7 +245,7 @@ const Evault = () => {
               </Row>
             </Col>
           </Row>
-          <Row className="flex w-full bottom-0">
+          <Row className="flex w-full bottom-0 lg:absolute">
             <Col lg={24} className="flex flex-col w-full">
               <Footer />
             </Col>

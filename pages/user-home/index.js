@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Logo from "../../Components/Logo/Logo";
 import toast from "react-hot-toast";
 import { upgradeHook } from "../../hooks/upgrade-model";
+import Footer from "../../Components/Footer/Footer";
 
 const backgroundImages = {
   verify: "/Verify.png",
@@ -42,9 +43,11 @@ const UserHome = () => {
   }, [router]);
 
   if (!user) {
-    return <div className="loader">
-      <Logo/>
-    </div>;
+    return (
+      <div className="loader">
+        <Logo />
+      </div>
+    );
   }
 
   return (
@@ -109,6 +112,15 @@ const UserHome = () => {
               </div>
             </Col>
           </Row>
+
+          <Row className="flex w-full justify-center">
+            <button
+              onClick={() => router.push("/profile")}
+              className="btn bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600"
+            >
+              Edit Profile <LucideEdit3 />
+            </button>
+          </Row>
         </Col>
 
         <Col lg={1} className="hidden lg:flex justify-center ml-12 h-full">
@@ -143,7 +155,13 @@ const UserHome = () => {
             >
               GUIDE
             </HomeButton>
-            <button
+            <HomeButton
+              navigate="/portfolio"
+              backgroundImage={backgroundImages.upload}
+            >
+              PORTFOLIO
+            </HomeButton>
+            {/* <button
               className="relative btn border-none text-white font-bold py-4 px-8 rounded-md shadow-lg overflow-hidden w-full lg:w-[40vw] h-[12vh]"
               style={{
                 backgroundImage: `url(/Upload.png)`,
@@ -158,9 +176,14 @@ const UserHome = () => {
                   PRICING
                 </span>
               </div>
-            </button>
+            </button> */}
           </div>
         </Col>
+        <Row className="flex w-full bottom-0 lg:absolute">
+          <Col lg={24} className="flex flex-col w-full">
+            <Footer />
+          </Col>
+        </Row>
       </Row>
     </div>
   );

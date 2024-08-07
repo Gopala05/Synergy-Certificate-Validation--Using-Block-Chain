@@ -101,7 +101,7 @@ const Support = () => {
       <Row className="flex w-full h-full items-center justify-center">
         <Col
           lg={12}
-          className="flex flex-col gap-y-10 w-full justify-center items-center lg:pl-32 lg:pr-10 lg:pt-16 pt-24 p-5"
+          className="flex flex-col gap-y-10 w-full justify-center items-center lg:pl-32 lg:pr-10 lg:pt-16 pt-24 p-5 xl:pt-24"
         >
           <Row className="text-white w-full text-3xl lg:text-5xl font-semibold flex items-start justify-center gap-y-2.5">
             Facing a Problem,&nbsp;
@@ -109,7 +109,7 @@ const Support = () => {
           </Row>
           <div className="flex flex-col w-full border-dashed gap-y-6 lg:gap-y-10 border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
             <Row className="flex flex-col justify-center w-full gap-y-3">
-              <div className="text-white text-2xl cursor-pointer font-semibold">
+              <div className="text-white text-2xl xl:text-3xl cursor-pointer font-semibold">
                 Name :
               </div>
               <div className="border-none rounded-md px-3 py-2 bg-white text-black tex text-xl flex items-center font-semibold cursor-pointer">
@@ -117,7 +117,7 @@ const Support = () => {
               </div>
             </Row>
             <Row className="flex flex-col justify-center w-full gap-y-3">
-              <div className="text-white text-2xl cursor-pointer font-semibold">
+              <div className="text-white text-2xl xl:text-3xl cursor-pointer font-semibold">
                 Email ID :
               </div>
               <div className="border-none rounded-md px-3 py-2 bg-white text-black tex text-xl flex items-center font-semibold cursor-pointer">
@@ -126,7 +126,7 @@ const Support = () => {
             </Row>
 
             <Row className="flex w-full gap-y-3">
-              <div className="text-white text-2xl cursor-pointer font-semibold">
+              <div className="text-white text-2xl xl:text-3xl cursor-pointer font-semibold">
                 Query :
               </div>
               <Input.TextArea
@@ -138,7 +138,7 @@ const Support = () => {
             <Row className="flex justify-center">
               <button
                 onClick={(e) => handleSubmit(e)}
-                className="bg-gradient-to-r from-green-400 to-green-600  hover:bg-[#15C586] hover:shadow-green-600 hover:shadow-lg border-none btn flex items-center text-black font-bold text-xl px-5 rounded-xl"
+                className="bg-gradient-to-r from-green-400 to-green-600  hover:bg-[#15C586] hover:shadow-green-600 hover:shadow-lg border-none btn flex items-center text-black font-bold text-xl xl:text-2xl px-5 rounded-xl"
               >
                 Submit
               </button>
@@ -156,7 +156,7 @@ const Support = () => {
           />
         </Col>
       </Row>
-      <Row className="flex w-full bottom-0">
+      <Row className="flex w-full bottom-0 lg:absolute">
         <Col lg={24} className="flex flex-col w-full">
           <Footer />
         </Col>

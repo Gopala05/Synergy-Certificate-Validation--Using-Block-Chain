@@ -16,23 +16,12 @@ import { useRouter } from "next/navigation";
 const DashboardPage = () => {
   const {
     address,
-    contract,
     connect,
     disconnect,
-    userBalance,
-    setUserBalance,
     isLoading,
     setIsLoading,
-
-    // Functions
     UploadCertificate,
-    getAllCertificates,
-    singleImage,
     checkCertIDPresent,
-
-    // APIs
-    getAllNFTsAPI,
-    getSingleNFTAPI,
   } = useStateContext();
 
   const [closeForm, setCloseForm] = useState(true);
@@ -160,7 +149,7 @@ const DashboardPage = () => {
   return (
     <div>
       <DashNav />
-      <Row className="flex w-full h-full items-center py-2 xl:py-0.5">
+      <Row className="flex w-full h-full items-center py-2 xl:py-0">
         <Col
           lg={11}
           className="hidden lg:flex items-center h-full lg:h-[93vh] justify-center flex-col gap-y-10 lg:pl-16"
@@ -172,15 +161,16 @@ const DashboardPage = () => {
           />
         </Col>
         <Col
+          sm={24}
           lg={13}
-          className="flex flex-col gap-y-10 justify-center items-center lg:pt-16 pt-28 lg:p-0 p-5"
+          className="flex flex-col w-full gap-y-10 justify-center items-center lg:pt-16 pt-28 lg:p-0 xl:pt-24 p-5"
         >
           <div className="flex justify-center items-center">
-            <Row className="flex justify-center items-center gap-y-3 lg:gap-10">
+            <Row className="flex justify-center flex-col lg:flex-row w-full items-center gap-y-3 lg:gap-10">
               {address ? (
-                <img className="w-24" src="/Metamask.png" alt="Image" />
+                <img className="w-24 xl:w-32" src="/Metamask.png" alt="Image" />
               ) : (
-                <img className="w-24" src="/Metamask-BW.png" alt="Image" />
+                <img className="w-24 xl:w-32" src="/Metamask-BW.png" alt="Image" />
               )}
 
               <Button
@@ -199,7 +189,7 @@ const DashboardPage = () => {
           />
         </Col>
       </Row>
-      <Row className="flex w-full bottom-0">
+      <Row className="flex w-full bottom-0 lg:absolute">
         <Col lg={24} className="flex flex-col w-full">
           <Footer />
         </Col>
