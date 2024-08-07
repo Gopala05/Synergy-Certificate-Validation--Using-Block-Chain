@@ -15,6 +15,7 @@
     "@next/font": "13.4.4",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@thirdweb-dev/react": "^3.13.1",
     "@thirdweb-dev/sdk": "^3.10.21",
