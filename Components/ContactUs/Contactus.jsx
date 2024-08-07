@@ -32,12 +32,12 @@ const Contactus = () => {
         year: new Date().getFullYear(),
       };
 
-      // const response = await emailjs.send(
-      //   process.env.NEXT_PUBLIC_SERVICE_ID_FOR_SUPPORT,
-      //   process.env.NEXT_PUBLIC_TEMPLATE_ID_FOR_SUPPORT,
-      //   MailParams,
-      //   process.env.NEXT_PUBLIC_USER_ID_FOR_SUPPORT
-      // );
+      const response = await emailjs.send(
+        process.env.NEXT_PUBLIC_SERVICE_ID_FOR_SUPPORT,
+        process.env.NEXT_PUBLIC_TEMPLATE_ID_FOR_SUPPORT,
+        MailParams,
+        process.env.NEXT_PUBLIC_USER_ID_FOR_SUPPORT
+      );
 
       if (response.status === 200) {
         setIsLoading(false);
@@ -140,7 +140,7 @@ const Contactus = () => {
           <div className="flex justify-center">
             <Button
               onClick={(e) => handleEmail(e)}
-              className="lg:mt-8 mt-4 btn bg-[#15C586] border-0 text-black rounded-full font-bold"
+              className="lg:mt-8 mt-4 btn bg-[#15C586] border-0 text-black rounded-full font-bold xl:text-xl"
             >
               Send <RiArrowRightLine className="font-bold text-xl" />
             </Button>
