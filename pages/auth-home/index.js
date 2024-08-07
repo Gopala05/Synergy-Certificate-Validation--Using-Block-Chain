@@ -1,11 +1,13 @@
 "use client";
 import React from "react";
 import DashNav from "../../Components/Nav/DashNav";
-import { Col, Row } from "antd";
+import { Button, Col, Row } from "antd";
 import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/navigation";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 import toast from "react-hot-toast";
+import Footer from "../../Components/Footer/Footer";
+import { Edit2Icon, LucideEdit3 } from "lucide-react";
 
 const backgroundImages = {
   verify: "/Verify.png",
@@ -56,7 +58,11 @@ const AuthHome = () => {
           className="flex w-full justify-start items-start flex-col gap-y-10 lg:pl-16 p-2"
         >
           <Row className="flex w-full justify-center">
-            <img src="./Admin.png" alt="Auth Icon" className="lg:w-40 w-32 pt-5 lg:pt-0" />
+            <img
+              src="./Admin.png"
+              alt="Auth Icon"
+              className="lg:w-40 w-32 pt-5 lg:pt-0"
+            />
           </Row>
           {/* Name */}
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
@@ -121,6 +127,14 @@ const AuthHome = () => {
               </div>
             </Col>
           </Row>
+          <Row className="flex w-full justify-center">
+            <button
+              onClick={() => router.push("/profile")}
+              className="btn bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600"
+            >
+              Edit Profile <LucideEdit3 />
+            </button>
+          </Row>
         </Col>
 
         <Col lg={1} className="hidden lg:flex justify-center ml-12 h-full">
@@ -155,13 +169,24 @@ const AuthHome = () => {
               SUPPORT
             </HomeButton>
             <HomeButton
+              navigate="/portfolio"
+              backgroundImage={backgroundImages.upload}
+            >
+              PORTFOLIO
+            </HomeButton>
+            <HomeButton
               navigate="/guide"
               backgroundImage={backgroundImages.blog}
             >
-              Guide
+              GUIDE
             </HomeButton>
           </div>
         </Col>
+        <Row className="flex w-full bottom-0 lg:absolute">
+          <Col lg={24} className="flex flex-col w-full">
+            <Footer />
+          </Col>
+        </Row>
       </Row>
     </div>
   );

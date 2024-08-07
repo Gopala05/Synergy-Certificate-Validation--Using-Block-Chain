@@ -66,13 +66,13 @@ const Nav = ({ sectionRefs }) => {
     <>
       <div className="w-full hidden lg:block lg:fixed items-baseline z-50 bg-[#02291B]">
         <div className="bg-[#02291B] w-full flex px-5 xl:px-20 pt-2 pb-0 justify-between items-center z-50">
-          <div className="flex flex-grow justify-start items-center font-extrabold text-3xl">
+          <div className="flex flex-grow justify-start items-center font-extrabold text-3xl uppercase">
             <span>
               <img src="./Logo.png" alt="Logo" className="w-24" />
             </span>
             Synergy
           </div>
-          <nav className="flex flex-grow justify-center items-center text-xl">
+          <nav className="flex flex-grow justify-center items-center text-xl xl:text-2xl">
             <div className="flex justify-center gap-10 font-bold">
               {["home", "about", "blog", "contact"].map((section) => (
                 <ScrollLink
@@ -102,12 +102,12 @@ const Nav = ({ sectionRefs }) => {
               className="hover:cursor-pointer"
               trigger={["hover"]}
             >
-              <a className="flex justify-end mr-10 items-center font-bold ant-dropdown-link">
+              <a className="flex justify-end mr-10 xl:text-xl items-center font-bold ant-dropdown-link">
                 Log In <RiArrowDropDownLine className="text-3xl" />
               </a>
             </Dropdown>
             <Link href="/user-signup" passHref>
-              <Button className="border-[#22674E] hover:bg-[#15C586] btn rounded-md px-6 bg-transparent text-white font-bold border-2 border-solid">
+              <Button className="border-[#22674E] hover:bg-[#15C586] xl:text-xl btn rounded-md px-6 bg-transparent text-white font-bold border-2 border-solid">
                 Sign Up
               </Button>
             </Link>

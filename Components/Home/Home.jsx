@@ -1,7 +1,7 @@
-import { Button, Card, Col, Row } from "antd";
+import { Button, Col, Row } from "antd";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { RiArrowRightSLine } from "react-icons/ri";
 
 const Home = () => {
   return (
@@ -16,22 +16,22 @@ const Home = () => {
               lg={11}
               md={11}
               sm={24}
-              className="flex h-full flex-col justify-center"
+              className="flex h-full flex-col justify-center xl:pt-20"
             >
-              <h1 className="text-6xl font-bold text-center lg:text-left">
+              <h1 className="text-6xl xl:text-7xl font-bold text-center lg:text-left">
                 SYNERGY
               </h1>
-              <p className="mt-10 text-baseline text-center xl:text-xl xl:text-left lg:text-justify">
+              <p className="mt-10 text-baseline text-center xl:text-[1.5rem] lg:text-justify xl:text-justify tracking-wide">
                 A Block Chain Based System to Store and verify the Certificates
                 by Creating an NFT. Connect your Metamask wallet to upload your
                 Certificates and to ensure validation and Security. Enter your
                 Certicate credentials to Verify your Certificate.
               </p>
-              <div className="flex w-full justify-center lg:justify-start">
+              <div className="flex w-full justify-center items-center lg:justify-start">
                 <Link href="/user-login">
-                  <Button className="mt-8 btn bg-[#15C586] border-0 text-black font-bold">
-                    Explore More{" "}
-                    <RiArrowRightSLine className="font-bold text-xl" />
+                  <Button className="hover:scale-110 transition-all mt-8 btn xl:text-[1.3rem] bg-[#15C586] border-0 text-black font-bold flex items-center">
+                    <span>Explore More</span>
+                    <ArrowRight />
                   </Button>
                 </Link>
               </div>
@@ -58,7 +58,7 @@ const Home = () => {
           className="absoulte xl:w-[70vw] w-full h-28 lg:w-[80vw] lg:h-full"
         />
       </Row>
-      <div className="lg:flex justify-center hidden relative -top-20 lg:-top-10">
+      <div className="lg:flex justify-center hidden relative -top-20 lg:-top-14">
         <div className="xl:w-[85vw] lg:w-[90vw] bg-[#02291B] border-[#22674E] border-4 p-2 xl:p-5 rounded-xl">
           <Row className="justify-center items-center">
             <Col

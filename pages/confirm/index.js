@@ -5,7 +5,7 @@ import { RiHome4Fill } from "react-icons/ri";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useStateContext } from "../../Context/NFTs";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 
 const Confirm = () => {
   const { isLoading, setIsLoading } = useStateContext();

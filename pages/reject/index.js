@@ -1,13 +1,11 @@
-import { Checkbox, Col, Form, Input, Row } from "antd";
+import { Checkbox, Col, Row } from "antd";
 import { useRouter } from "next/router";
 import React from "react";
 import { RiHome4Fill } from "react-icons/ri";
 import toast from "react-hot-toast";
 import axios from "axios";
-import decryptText from "../../utils/Decrypt";
-import emailjs from "@emailjs/browser";
 import { useStateContext } from "../../Context/NFTs";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 
 const Reject = () => {
   const { isLoading, setIsLoading } = useStateContext();

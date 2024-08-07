@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { RiHome4Fill } from "react-icons/ri";
 import emailjs from "@emailjs/browser";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 import { useStateContext } from "../../Context/NFTs";
 
 const AuthForm = () => {

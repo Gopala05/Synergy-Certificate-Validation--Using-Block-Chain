@@ -3,7 +3,8 @@ import DashNav from "../../Components/Nav/DashNav";
 import { Col, Row } from "antd";
 import FlowButton from "../../Components/Button/FlowButton";
 import { useRouter } from "next/router";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
+import Footer from "../../Components/Footer/Footer";
 
 const backgroundImages = {
   verify: "/Verify.png",
@@ -64,12 +65,12 @@ const Guide = () => {
         </Col>
         <Col
           lg={12}
-          className="flex flex-col items-center gap-y-20 justify-center text-white lg:p-0 p-5"
+          className="flex flex-col items-center gap-y-10 justify-center text-white lg:p-0 p-5"
         >
           <div className="text-6xl lg:text-8xl font-bold bg-gradient-to-br from-white to-[#f6851b] bg-clip-text text-white">
-            SYNERGY
+            GUIDE
           </div>
-          <div className="flex-1 flex flex-col items-center gap-y-10">
+          <div className="uppercase flex-1 flex flex-col items-center gap-y-10">
             <FlowButton
               navigate="/comming-soon"
               backgroundImage={backgroundImages.verify}
@@ -90,6 +91,11 @@ const Guide = () => {
             </FlowButton>
           </div>
         </Col>
+        <Row className="flex w-full bottom-0 lg:absolute">
+          <Col lg={24} className="flex flex-col w-full">
+            <Footer />
+          </Col>
+        </Row>
       </Row>
     </div>
   );

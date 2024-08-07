@@ -4,7 +4,7 @@ import { Button, Col, Row } from "antd";
 import Footer from "../../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 
 const Valid = () => {
   const [info, setInfo] = React.useState("");
@@ -199,7 +199,7 @@ const Valid = () => {
           </Row>
         </Col>
       </Row>
-      <Row className="flex w-full bottom-0">
+      <Row className="flex w-full bottom-0 lg:absolute">
         <Col lg={24} className="flex flex-col w-full">
           <Footer />
         </Col>

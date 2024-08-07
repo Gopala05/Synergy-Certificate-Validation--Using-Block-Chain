@@ -4,7 +4,7 @@ import { Button, Card, Col, Input, Row } from "antd";
 import Footer from "../../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 
 const Evault = () => {
   const [certificates, setCertificates] = React.useState("");
@@ -72,8 +72,8 @@ const Evault = () => {
         />
       )}
       {!selected && (
-        <Row className="lg:pl-10 pt-32 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-[100vh]">
-          <Col span={24} className="hidden lg:block">
+        <Row className="lg:pl-10 pt-32 lg:pt-28 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-[100vh]">
+          <Col span={24} className="hidden lg:block lg:pb-8">
             <div className="flex w-full h-full justify-center items-center text-5xl text-center text-white">
               Verified Certifications of
               <strong className="text-[#f6851b]">&nbsp;{user.name}</strong>
@@ -245,7 +245,7 @@ const Evault = () => {
               </Row>
             </Col>
           </Row>
-          <Row className="flex w-full bottom-0">
+          <Row className="flex w-full bottom-0 lg:absolute">
             <Col lg={24} className="flex flex-col w-full">
               <Footer />
             </Col>

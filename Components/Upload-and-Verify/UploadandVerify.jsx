@@ -17,12 +17,12 @@ const UploadandVerify = () => {
           </p>
           <div className="flex w-full justify-between lg:justify-start">
             <Link href="/user-login">
-              <Button className="mt-8 btn bg-[#15C586] border-0 text-black font-bold">
+              <Button className="hover:scale-110 transition-all mt-8 btn bg-[#15C586] border-0 text-black font-bold">
                 Validate Certificate
               </Button>
             </Link>
             <Link href="/auth-login">
-              <Button className="lg:ml-8 btn mt-8 bg-[#15C586] border-0 text-black font-bold">
+              <Button className="hover:scale-110 transition-all lg:ml-8 btn mt-8 bg-[#15C586] border-0 text-black font-bold">
                 Upload Certificate
               </Button>
             </Link>

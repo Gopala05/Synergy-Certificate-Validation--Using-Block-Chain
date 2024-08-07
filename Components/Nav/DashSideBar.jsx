@@ -4,12 +4,15 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { RiLogoutBoxRLine, RiSideBarFill } from "react-icons/ri";
+import { upgradeHook } from "../../hooks/upgrade-model";
+import { CreditCard, LogOut, Settings, Zap } from "lucide-react";
 
 const DashSideBar = () => {
   const [auth, setAuth] = React.useState("");
   const [user, setUser] = React.useState("");
   const router = useRouter();
   const [activeSection, setActiveSection] = React.useState(router.pathname);
+  const plansHook = upgradeHook();
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -59,17 +62,64 @@ const DashSideBar = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="0">
-        <button
-          onClick={(e) => handleLogout(e)}
-          className="bg-gradient-to-r from-green-400 to-green-600 hover:bg-[#15C586] border-none btn flex items-center text-black font-bold text-lg px-5"
-        >
-          Log Out <RiLogoutBoxRLine className="font-bold text-xl" />
-        </button>
+      <Menu.Item key="0" className="border-none">
+        <div className="flex w-full flex-col text-2xl p-5 bg-[#02291B] rounded-md text-white">
+          <div className="flex flex-col gap-y-5 w-full items-center">
+            <div className="flex justify-center items-center w-full">
+              <span className="text-[#f6851b]">
+                {user?.userName}
+                {auth?.authID}
+              </span>
+            </div>
+            <div className="flex justify-center items-center flex-col gap-y-5">
+              <div className="flex justify-center w-full">
+                <img
+                  src={auth ? "./Admin.png" : "./User_Name.jpg"}
+                  alt={auth ? "Auth Icon" : "User Icon"}
+                  className={`${
+                    auth ? "w-16" : "w-16 rounded-full"
+                  } flex justify-end items-center ml-5`}
+                />
+              </div>
+              <div className="">
+                Hi, {user?.name} {auth?.firstName}!
+              </div>
+              <div className="flex justify-center w-full">
+                <button className="rounded-full border-white px-3 border-2 text-lg py-1 hover:scale-110 transition-all">
+                  Manage your Profile
+                </button>
+              </div>
+              <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-2">
+                <div
+                  onClick={plansHook.onOpen}
+                  className="py-2 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-gray-700"
+                >
+                  <CreditCard className="w-5 h-5" />
+                  <span>Billing</span>
+                </div>
+
+                <div
+                  onClick={() => router.push("/settings")}
+                  className="py-2 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-gray-700"
+                >
+                  <Settings className="w-5 h-5" />
+                  <span>Settings</span>
+                </div>
+
+                <div
+                  onClick={(e) => handleLogout(e)}
+                  className="py-2 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-gray-700"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>Log out</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </Menu.Item>
     </Menu>
   );
-  console.log(activeSection);
 
   return (
     <div className="drawer flex justify-end pr-5 lg:drawer-open drawer-end z-50">
@@ -187,11 +237,27 @@ const DashSideBar = () => {
                     }`}
                   ></span>
                 </Link>
+                {!auth ? null : (
+                  <div
+                    className={`relative cursor-pointer ${
+                      plansHook.isOpen ? "text-green-500" : "text-white/80"
+                    }`}
+                    onClick={plansHook.onOpen}
+                    duration={500}
+                  >
+                    Pricing
+                    <span
+                      className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
+                        plansHook.isOpen ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    ></span>
+                  </div>
+                )}
               </div>
             </li>
             <li>
               <div className="flex flex-grow justify-end items-center">
-                <span className="text-white text-lg font-bold">
+                <span className="text-white text-lg font-bold w-full">
                   {user?.name} {auth?.firstName}&nbsp;
                   <span className="text-[#f6851b]">{auth?.lastName}</span>
                 </span>

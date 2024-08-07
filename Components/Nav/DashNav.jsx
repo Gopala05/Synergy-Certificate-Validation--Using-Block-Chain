@@ -5,12 +5,38 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import DashSideBar from "./DashSideBar";
+import { upgradeHook } from "../../hooks/upgrade-model";
+import { Zap } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Cloud,
+  CreditCard,
+  Keyboard,
+  LifeBuoy,
+  LogOut,
+  Mail,
+  MessageSquare,
+  Plus,
+  PlusCircle,
+  Settings,
+  User,
+  UserPlus,
+  Users,
+} from "lucide-react";
 
 const DashNav = () => {
   const router = useRouter();
   const [auth, setAuth] = React.useState("");
   const [user, setUser] = React.useState("");
   const [activeSection, setActiveSection] = React.useState(router.pathname);
+  const plansHook = upgradeHook();
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -59,23 +85,87 @@ const DashNav = () => {
   }, [router]);
 
   const menu = (
-    <Menu>
-      <Menu.Item key="0">
+    <Menu className="flex flex-col gap-y-2 border-none">
+      {/* <Menu.Item key="0">
         <button
           onClick={(e) => handleLogout(e)}
-          className="bg-gradient-to-r from-green-400 to-green-600 hover:bg-[#15C586] border-none btn flex items-center text-black font-bold text-lg px-5"
+          className="w-full bg-gradient-to-r from-green-400 to-green-600 hover:bg-[#15C586] border-none btn flex items-center text-black font-bold text-lg px-5"
         >
-          Log Out <RiLogoutBoxRLine className="font-bold text-xl" />
+          Log Out <RiLogoutBoxRLine className="font-bold text-xl  fill-black" />
         </button>
+      </Menu.Item> */}
+      <Menu.Item key="0" className="border-none">
+        <div className="flex w-full flex-col text-2xl p-5 bg-[#282a2c] rounded-md text-white">
+          <div className="flex flex-col gap-y-5 w-full items-center">
+            <div className="flex justify-center items-center w-full">
+              <span className="text-[#f6851b] font-bold tracking-wider">
+                {user?.userName}
+                {auth?.authID}
+              </span>
+            </div>
+            <div className="flex justify-center items-center flex-col gap-y-5">
+              <div className="flex justify-center w-full">
+                <img
+                  src={auth ? "./Admin.png" : "./User_Name.jpg"}
+                  alt={auth ? "Auth Icon" : "User Icon"}
+                  className={`${
+                    auth ? "w-24" : "w-24 rounded-full"
+                  } flex justify-end items-center`}
+                />
+              </div>
+              <div className="text-3xl">
+                Hi,{" "}
+                <span className="font-bold">
+                  {user?.name} {auth?.firstName}
+                </span>
+                !
+              </div>
+              <div className="flex justify-center w-full">
+                <button
+                  onClick={(e) => router.push("/profile")}
+                  className="rounded-full border-white px-8 border-2 text-xl py-2 hover:scale-105 transition-all"
+                >
+                  Manage your Profile
+                </button>
+              </div>
+              <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-1">
+                <div
+                  onClick={plansHook.onOpen}
+                  className="py-3 hover:scale-110 transition-all flex w-[15vw] justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
+                >
+                  <CreditCard className="w-5 h-5" />
+                  <span>Billing</span>
+                </div>
+                {/* <hr className="border-white/10 border-2 w-full"/> */}
+                <div
+                  onClick={() => router.push("/settings")}
+                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-[#1b1b1b]"
+                >
+                  <Settings className="w-5 h-5" />
+                  <span>Settings</span>
+                </div>
+                {/* <hr className="border-white/10 border-2 w-full"/> */}
+
+                <div
+                  onClick={(e) => handleLogout(e)}
+                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-[#1b1b1b]"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>Log out</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </Menu.Item>
     </Menu>
   );
 
   return (
     <>
-      <div className="bg-[#02291B] w-full hidden lg:flex px-5 pt-2 pb-2 items-center z-50 fixed border-b-2 border-gray-500">
+      <div className="bg-[#02291B] w-full hidden lg:flex px-5 pt-2 pb-2 items-center z-50 fixed border-b-2 border-gray-500 xl:pr-16">
         <div
-          className={`flex flex-grow justify-start items-center font-extrabold text-3xl`}
+          className={`flex flex-grow justify-start items-center font-extrabold text-3xl uppercase tracking-wider`}
         >
           <span>
             <img src="./Logo.png" alt="Logo" className="w-24" />
@@ -85,12 +175,12 @@ const DashNav = () => {
 
         {router.pathname == "/user-home" ||
         router.pathname == "/auth-home" ? null : (
-          <nav className="flex flex-grow text-md xl:text-xl justify-center">
+          <nav className="flex flex-grow text-md xl:text-2xl justify-center">
             <div className="flex justify-center gap-10 font-bold">
               <Link
                 className={`relative cursor-pointer ${
-                  activeSection === "/auth-home" ||
-                  activeSection === "/user-home"
+                  (!plansHook.isOpen && activeSection === "/auth-home") ||
+                  (!plansHook.isOpen && activeSection === "/user-home")
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -100,8 +190,8 @@ const DashNav = () => {
                 Home
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    activeSection === "/auth-home" ||
-                    activeSection === "/user-home"
+                    (!plansHook.isOpen && activeSection === "/auth-home") ||
+                    (!plansHook.isOpen && activeSection === "/user-home")
                       ? "scale-x-100"
                       : "scale-x-0"
                   }`}
@@ -110,7 +200,7 @@ const DashNav = () => {
               {auth ? (
                 <Link
                   className={`relative cursor-pointer ${
-                    activeSection === "/upload"
+                    !plansHook.isOpen && activeSection === "/upload"
                       ? "text-green-500"
                       : "text-white/80"
                   }`}
@@ -120,14 +210,16 @@ const DashNav = () => {
                   Upload
                   <span
                     className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                      activeSection === "/upload" ? "scale-x-100" : "scale-x-0"
+                      !plansHook.isOpen && activeSection === "/upload"
+                        ? "scale-x-100"
+                        : "scale-x-0"
                     }`}
                   ></span>
                 </Link>
               ) : null}
               <Link
                 className={`relative cursor-pointer ${
-                  activeSection === "/validation"
+                  !plansHook.isOpen && activeSection === "/validation"
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -137,15 +229,16 @@ const DashNav = () => {
                 Validate
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    activeSection === "/validation"
+                    !plansHook.isOpen && activeSection === "/validation"
                       ? "scale-x-100"
                       : "scale-x-0"
                   }`}
                 ></span>
               </Link>
+
               <Link
                 className={`relative cursor-pointer ${
-                  activeSection === "/support"
+                  !plansHook.isOpen && activeSection === "/support"
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -155,13 +248,15 @@ const DashNav = () => {
                 Support
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    activeSection === "/support" ? "scale-x-100" : "scale-x-0"
+                    !plansHook.isOpen && activeSection === "/support"
+                      ? "scale-x-100"
+                      : "scale-x-0"
                   }`}
                 ></span>
               </Link>
               <Link
                 className={`relative cursor-pointer ${
-                  activeSection === "/guide"
+                  !plansHook.isOpen && activeSection === "/guide"
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -171,10 +266,28 @@ const DashNav = () => {
                 Guide
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    activeSection === "/guide" ? "scale-x-100" : "scale-x-0"
+                    !plansHook.isOpen && activeSection === "/guide"
+                      ? "scale-x-100"
+                      : "scale-x-0"
                   }`}
                 ></span>
               </Link>
+              {auth ? null : (
+                <div
+                  className={`relative cursor-pointer ${
+                    plansHook.isOpen ? "text-green-500" : "text-white/80"
+                  }`}
+                  onClick={plansHook.onOpen}
+                  duration={500}
+                >
+                  Pricing
+                  <span
+                    className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
+                      plansHook.isOpen ? "scale-x-100" : "scale-x-0"
+                    }`}
+                  ></span>
+                </div>
+              )}
             </div>
           </nav>
         )}
@@ -186,8 +299,8 @@ const DashNav = () => {
           </span>
           <Dropdown
             overlay={menu}
-            className="hover:cursor-pointer"
-            trigger={["hover"]}
+            className="hover:cursor-pointer border-none"
+            trigger={["click"]}
           >
             <a
               className={`flex justify-end font-bold align-middle text-white items-center ant-dropdown-link`}
@@ -196,7 +309,7 @@ const DashNav = () => {
                 src={auth ? "./Admin.png" : "./User_Name.jpg"}
                 alt={auth ? "Auth Icon" : "User Icon"}
                 className={`${
-                  auth ? "w-14" : "w-14 rounded-full"
+                  auth ? "w-14 xl:w-16" : "w-14 xl:w-16 rounded-full"
                 } flex justify-end items-center ml-5`}
               />
             </a>
