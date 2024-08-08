@@ -2,7 +2,6 @@ import React from "react";
 
 import { FormSVG, Lock } from "../SVG/index";
 import style from "./Form.module.css";
-import { CheckBox } from "../index";
 
 const Form = ({
   setFile,
