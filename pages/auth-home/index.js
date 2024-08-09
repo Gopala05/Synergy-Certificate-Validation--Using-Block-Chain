@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
 import DashNav from "../../Components/Nav/DashNav";
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/navigation";
 import Logo from "../../Components/Logo/Logo";
 import toast from "react-hot-toast";
 import Footer from "../../Components/Footer/Footer";
-import { Edit2Icon, LucideEdit3 } from "lucide-react";
+import { LucideEdit3 } from "lucide-react";
 
 const backgroundImages = {
   verify: "/Verify.png",

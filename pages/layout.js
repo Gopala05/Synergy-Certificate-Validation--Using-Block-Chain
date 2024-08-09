@@ -7,7 +7,7 @@ import Card from "../Components/Card/Card";
 import Footer from "../Components/Footer/Footer";
 import Form from "../Components/Form/Form";
 
-const layout = () => {
+const Layout = () => {
   return (
     <div className="home">
       <Logo />
@@ -20,4 +20,4 @@ const layout = () => {
     </div>
   );
 };
-export default layout;
+export default Layout;
