@@ -1,28 +1,39 @@
+const express = require("express");
 const mongoose = require("mongoose");
 const next = require("next");
 const dotenv = require("dotenv");
-const app = require("./app");
-const User = require("./Api/Model/userModal"); // Import User model
-const NFT = require("./Api/Model/nftModal"); // Import NFT model
-const Auth = require("./Api/Model/authModal"); // Import Auth model
-const Request = require("./Api/Model/requestModal"); // Import Request model
+const cors = require("cors");
 
-// Configuring the env
+// Import routers
+const nftRouter = require("./Api/Routers/nftRouter");
+const userRouter = require("./Api/Routers/userRouter");
+const authRouter = require("./Api/Routers/authRouter");
+const requestRouter = require("./Api/Routers/requestRouter");
+const subscriptionRouter = require("./Api/Routers/subscriptionRouter");
+const SubscriptionModal = require("./Api/Model/subscriptionModal");
+const userModal = require("./Api/Model/userModal");
+
+// Initialize environment variables
 dotenv.config({ path: "./.env" });
 
-// Defining the Development or Production Environment
+// Define environment
 const development = process.env.NODE_ENV !== "production";
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-// To run both Frontend and Backend on the Same Server we are using next
+// Initialize Next.js
 const nextServer = next({ dev: development });
 const handle = nextServer.getRequestHandler();
 
-// Connecting to MongoDB Database
+// Initialize Express
+const app = express();
+// app.use(express.json()); // Apply JSON parsing middleware globally
+app.use(cors()); // Cross-Origin Resource Sharing
+
+// Connect to MongoDB
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
-
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -34,15 +45,123 @@ mongoose
   .catch((err) => console.log("DB Connection Error: ", err));
 
 const port = process.env.PORT || 3000;
+const endpointSecret = process.env.STRIPE_WEBHOOK_KEY;
 
-// Handle the Requests and Responses
+// Define routes
+app.use("/api/v1/auth", express.json(), authRouter);
+app.use("/api/v1/users", express.json(), userRouter);
+app.use("/api/v1/nfts", express.json(), nftRouter);
+app.use("/api/v1/link", express.json(), requestRouter);
+app.use("/api/v1/stripe", express.json(), subscriptionRouter);
+
+// Webhook route with raw body handling
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    const signature = req.headers["stripe-signature"];
+
+    if (!endpointSecret) {
+      console.error("⚠️  Stripe webhook key is not defined.");
+      return res.sendStatus(500);
+    }
+
+    if (!signature) {
+      console.error("⚠️  Stripe signature header is missing.");
+      return res.sendStatus(400);
+    }
+
+    let event;
+    let userName;
+    let plan;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        signature,
+        endpointSecret
+      );
+
+      const eventType = event.type;
+      const eventSession = event.data.object;
+
+      if (eventType === "checkout.session.completed") {
+        userName = eventSession.metadata.userName;
+        plan = eventSession.metadata.plan;
+
+        if (!userName) {
+          console.error("⚠️  Metadata `userName` not found.");
+          return res.status(400).send("User Name not found in metadata");
+        }
+
+        const subscription = await stripe.subscriptions.retrieve(
+          eventSession.subscription
+        );
+
+        try {
+          await SubscriptionModal.create({
+            userName: userName,
+            stripeSubscriptionId: subscription.id,
+            stripeUserId: subscription.customer,
+            stripePriceId: subscription.items.data[0].price.id,
+            stripeCurrentPeriod: new Date(
+              subscription.current_period_end * 1000
+            ),
+          });
+        } catch (error) {
+          console.error("Error creating subscription:", error);
+        }
+
+        try {
+          await userModal.findOneAndUpdate(
+            { userName: userName },
+            { $set: { subscription: plan } },
+            { new: true }
+          );
+        } catch (error) {
+          console.error("Error updating user Subscription:", error);
+        }
+      }
+
+      if (eventType === "invoice.payment_succeeded") {
+        const subscription = await stripe.subscriptions.retrieve(
+          eventSession.subscription
+        );
+
+        try {
+          await SubscriptionModal.findOneAndUpdate(
+            { stripeSubscriptionId: subscription.id },
+            {
+              $set: {
+                stripePriceId: subscription.items.data[0].price.id,
+                stripeCurrentPeriod: new Date(
+                  subscription.current_period_end * 1000
+                ),
+              },
+            },
+            { new: true }
+          );
+        } catch (error) {
+          console.error("Error updating Subscription:", error);
+        }
+      }
+
+      return res.status(200).send("Success");
+    } catch (err) {
+      console.error("⚠️  Webhook signature verification failed.", err.message);
+      return res.sendStatus(400);
+    }
+  }
+);
+
+// Handle Next.js routes
+app.get("*", (req, res) => {
+  return handle(req, res);
+});
+
+// Start server
 nextServer.prepare().then(() => {
-  app.get("*", (req, res) => {
-    return handle(req, res);
-  });
-
   app.listen(port, () => {
-    console.log("Server is Running on port: ", port);
-    // createTestEntries(); // Create test entries on server start
+    console.log(`Server is Running on port: ${port}`);
   });
 });

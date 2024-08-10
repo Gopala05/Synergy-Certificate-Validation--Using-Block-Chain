@@ -9,17 +9,24 @@ const userSchema = new Mongoose.Schema({
   userName: {
     type: String,
     required: [true, "Please provide user name!"], // Required, If not given trow the message
+    lowercase: true,
   },
-  userEmails: [{
-    type: String,
-    required: [true, "Please provide your email"],
-    unique: true, // Unique value in database
-    lowercase: true, // Transform to LowerCase
-  }],
+  userEmails: [
+    {
+      type: String,
+      required: [true, "Please provide your email"],
+      unique: true, // Unique value in database
+      lowercase: true, // Transform to LowerCase
+    },
+  ],
   password: {
     type: String,
     required: [true, "Please provide your Password!"],
     minlength: 8,
+  },
+  subscription: {
+    type: String,
+    default: "bronze",
   },
   confirmPassword: {
     type: String,

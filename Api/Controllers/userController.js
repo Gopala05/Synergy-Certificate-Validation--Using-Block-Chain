@@ -76,7 +76,7 @@ exports.SignIn = async (req, res, next) => {
   }
 
   // Checking if the user exists or not
-  let user = await UserModal.findOne({ userName: userName }).select(
+  let user = await UserModal.findOne({ userName: userName.toLowerCase() }).select(
     "+password"
   );
 
