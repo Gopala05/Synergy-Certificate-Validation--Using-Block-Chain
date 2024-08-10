@@ -1,5 +1,5 @@
 {
-  "name": "createnft",
+  "name": "synergy",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -24,9 +24,11 @@
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "cors": "^2.8.5",
+    "crisp-sdk-web": "^1.0.25",
     "dotenv": "^16.1.4",
     "ethers": "^5.7.2",
     "express": "^4.16.4",
+    "express-session": "^1.18.0",
     "file-saver": "^2.0.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.424.0",
@@ -44,10 +46,12 @@
   "devDependencies": {
     "@types/react": "^18.3.3",
     "autoprefixer": "^10.4.19",
+    "body-parser": "^1.20.2",
     "daisyui": "^4.12.10",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "react-hot-toast": "^2.4.1",
+    "stripe": "^16.6.0",
     "tailwindcss": "^3.4.4"
   }
 }
