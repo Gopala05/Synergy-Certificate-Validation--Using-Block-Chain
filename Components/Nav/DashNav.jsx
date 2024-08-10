@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import DashSideBar from "./DashSideBar";
-import { upgradeHook } from "../../hooks/upgrade-model";
+import { useUpgradeHook } from "@/hooks/upgrade-model";
 import { CreditCard, LogOut, Settings } from "lucide-react";
 
 const DashNav = () => {
@@ -12,7 +12,7 @@ const DashNav = () => {
   const [auth, setAuth] = React.useState("");
   const [user, setUser] = React.useState("");
   const [activeSection, setActiveSection] = React.useState(router.pathname);
-  const plansHook = upgradeHook();
+  const plansHook = useUpgradeHook();
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -22,17 +22,15 @@ const DashNav = () => {
         toast.success("Logged out Successfully");
         localStorage.removeItem("Auth-Token");
         localStorage.removeItem("auth-info");
-        router.push("/");
       } else if (localStorage.getItem("user-info")) {
         toast.success("Logged out Successfully");
+        useUpgradeHook.getState().setSubscription("bronze");
         localStorage.removeItem("User-Token");
         localStorage.removeItem("user-info");
-        router.push("/");
-      } else if (response.data.status === "Bad Request") {
-        toast.error(response.data.message);
-      } else {
-        toast.error("Unknown response status");
       }
+      router.push("/").then(() => {
+        window.location.reload();
+      });
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
       console.error("Error in Login: ", error);
@@ -82,7 +80,7 @@ const DashNav = () => {
                 />
               </div>
               <div className="text-3xl">
-                Hi,{" "}
+                Hi,&nbsp;
                 <span className="font-bold">
                   {user?.name} {auth?.firstName}
                 </span>
@@ -99,7 +97,7 @@ const DashNav = () => {
               <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-1">
                 <div
                   onClick={plansHook.onOpen}
-                  className="py-3 hover:scale-110 transition-all flex w-[15vw] justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
+                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
                 >
                   <CreditCard className="w-5 h-5" />
                   <span>Billing</span>
@@ -268,7 +266,7 @@ const DashNav = () => {
           <Dropdown
             overlay={menu}
             className="hover:cursor-pointer border-none"
-            trigger={["click"]}
+            trigger={["hover"]}
           >
             <a
               className={`flex justify-end font-bold align-middle text-white items-center ant-dropdown-link`}

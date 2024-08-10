@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
-import { RiLogoutBoxRLine, RiSideBarFill } from "react-icons/ri";
-import { upgradeHook } from "../../hooks/upgrade-model";
+import { RiSideBarFill } from "react-icons/ri";
+import { useUpgradeHook } from "../../hooks/upgrade-model";
 import { CreditCard, LogOut, Settings, Zap } from "lucide-react";
 
 const DashSideBar = () => {
@@ -12,7 +12,7 @@ const DashSideBar = () => {
   const [user, setUser] = React.useState("");
   const router = useRouter();
   const [activeSection, setActiveSection] = React.useState(router.pathname);
-  const plansHook = upgradeHook();
+  const plansHook = useUpgradeHook();
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -28,11 +28,7 @@ const DashSideBar = () => {
         localStorage.removeItem("User-Token");
         localStorage.removeItem("user-info");
         router.push("/");
-      } else if (response.data.status === "Bad Request") {
-        toast.error(response.data.message);
-      } else {
-        toast.error("Unknown response status");
-      }
+      } 
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
       console.error("Error in Login: ", error);

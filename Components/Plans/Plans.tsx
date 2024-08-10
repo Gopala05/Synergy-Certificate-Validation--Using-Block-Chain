@@ -1,5 +1,5 @@
 "use client";
-import { upgradeHook } from "@/hooks/upgrade-model";
+import { useUpgradeHook } from "@/hooks/upgrade-model";
 import { useEffect, useState } from "react";
 import {
   Dialog,
@@ -10,29 +10,89 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { Card } from "../ui/card";
-import { Badge } from "../ui/badge";
 import { cn } from "@/utils/utils";
 import {
   Bot,
   Check,
-  IndianRupeeIcon,
   TimerResetIcon,
   Unlock,
   VerifiedIcon,
   X,
 } from "lucide-react";
 import React from "react";
+import { useRouter } from "next/navigation";
+import { useStateContext } from "../../Context/NFTs";
+import Logo from "../Logo/Logo";
 
-// Define a type for the dynamic component
 type FeatureIcon = (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+
+type Auth = {
+  authEmail: string;
+  authID: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  __v: number;
+  _id: string;
+};
+
+type User = {
+  name: string;
+  userEmails: string[];
+  userName: string;
+  subscription: string;
+  __v: number;
+  _id: string;
+};
 
 export const Plans = () => {
   const [rendered, setRendered] = useState(false);
-  const plansHook = upgradeHook();
+  const plansHook = useUpgradeHook();
+  const [user, setUser] = React.useState<User>();
+  const router = useRouter();
+  const { stripeSubscription, getPlan, isLoading, setIsLoading } =
+    useStateContext();
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user-info");
+    if (userData) {
+      try {
+        const parsedUserData: any = JSON.parse(userData);
+        setUser(parsedUserData);
+      } catch (error) {
+        console.error("Failed to parse user-info:", error);
+      }
+    } else {
+      plansHook.onClose();
+    }
+  }, [router]);
+
+  const onSubscribe = async (subscription: string) => {
+    try {
+      setIsLoading(true);
+      const res = await stripeSubscription(user, subscription);
+      router.push(res);
+    } catch (error) {
+      console.error("Stripe Client error:", error);
+    }
+  };
 
   useEffect(() => {
     setRendered(true);
   }, []);
+
+  useEffect(() => {
+    const getUserPlan = async () => {
+      if (user) {
+        const plan = await getPlan(user?.userName as string);
+
+        if (!plan) return;
+        plansHook.subscription = plan;
+      }
+    };
+
+    getUserPlan();
+  }, [user, getPlan]);
 
   if (!rendered) return null;
 
@@ -96,144 +156,178 @@ export const Plans = () => {
   ];
 
   return (
-    <Dialog open={plansHook.isOpen} onOpenChange={plansHook.onClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="flex justify-center items-center text-gray-950 flex-row gap-y-4 pb-2">
-            <div className="uppercase tracking-wider text-4xl lg:text-6xl drop-shadow-[8px_2px_1px_rgba(0,0,0,1)] text-white flex items-center justify-center gap-x-2 font-bold py-1">
-              SYNERGY PlANS
-              {/* <Badge className="uppercase text-sm py-1 text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+    <>
+      <Dialog open={plansHook.isOpen} onOpenChange={plansHook.onClose}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex justify-center items-center text-gray-950 flex-row gap-y-4 pb-2">
+              <div className="uppercase tracking-wider text-4xl lg:text-6xl drop-shadow-[8px_2px_1px_rgba(0,0,0,1)] text-white flex items-center justify-center gap-x-2 font-bold py-1">
+                SYNERGY PlANS
+                {/* <Badge className="uppercase text-sm py-1 text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                 SYNERGY PlANS
               </Badge> */}
-            </div>
-          </DialogTitle>
-          <DialogDescription className="flex flex-col lg:grid lg:grid-cols-3 gap-x-8 gap-y-8 text-center text-whit pt-2 font-medium">
-            {prices.map((price, index) => (
-              <div
-                className={cn(
-                  "p-2 lg:p-4 rounded-3xl hover:scale-110 transition-all",
-                  plansHook.subscription == "platinum" &&
-                    price.label.toLowerCase() == "platinum"
-                    ? "border-4 border-sky-400 hover:scale-105 transition-all"
-                    : plansHook.subscription == "gold" &&
-                      price.label.toLowerCase() == "gold"
-                    ? "border-4 border-[#ffbf00] hover:scale-105 transition-all"
-                    : plansHook.subscription == "bronze" &&
-                      price.label.toLowerCase() == "bronze"
-                    ? "border-4 border-[#FF5733] hover:scale-105 lg:hover:scale-105 transition-all"
-                    : null
-                )}
-              >
-                <Card
-                  className="hover:scale-100 lg:hover:scale-100 transition-all p-5 lg:p-10 cursor-pointer border-none rounded-2xl flex flex-col justify-center items-center col-span-1 drop-shadow-[4px_4px_16px_rgba(0,0,0,1)]"
-                  key={price.label}
-                  style={{
-                    backgroundImage: `url(/Pricing.jpg)`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                  }}
-                >
-                  <div
-                    className={cn(
-                      "text-5xl lg:text-6xl drop-shadow-[8px_3px_1px_rgba(0,0,0,1)]",
-                      price.textColor
-                    )}
-                  >
-                    {price.label}
-                  </div>
-                  <div
-                    className={cn(
-                      "text-3xl flex lg:text-5xl drop-shadow-[7px_3px_1px_rgba(0,0,0,1)] mt-2",
-                      price.textColor
-                    )}
-                  >
-                    {price.cost}
-                  </div>
-                  <div
-                    className={cn(
-                      "uppercase text-lg lg:text-2xl drop-shadow-[4px_4px_1px_rgba(0,0,0,1)] mt-2",
-                      price.textColor
-                    )}
-                  >
-                    Per Month
-                  </div>
-                  <div className="flex w-full flex-col items-center gap-y-10 mt-5">
-                    <div className={cn("px-4 w-full rounded-md")}>
-                      {price.icons.map((IconComponent, index) => (
-                        <>
-                          <div
-                            className="flex items-center justify-between gap-x-5 my-4"
-                            key={index}
-                          >
-                            <IconComponent
-                              className={cn(
-                                "w-5 h-5 lg:w-8 lg:h-8",
-                                price.iconColors[index]
-                              )}
-                            />
-                            <label
-                              className={cn(
-                                "text-[0.9rem] lg:text-2xl",
-                                price.iconColors[index]
-                              )}
-                            >
-                              {price.iconLabels[index]}
-                            </label>
-                            {React.createElement(price.check[index], {
-                              className: cn("w-6 h-6", price.color),
-                            })}
-                          </div>
-                          <hr className="border-1 border-white" />
-                        </>
-                      ))}
-                    </div>
-                    <button className="uppercase btn w-full bg-gradient-to-r text-lg lg:text-2xl from-indigo-500 via-purple-500 to-pink-500 text-white border-none shadow-md shadow-slate-800">
-                      Purchase {price.label}
-                    </button>
-                  </div>
-                </Card>
               </div>
-            ))}
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="text-white hidden tracking-wider font-bold text-2xl lg:flex justify-center items-center w-full drop-shadow-[6px_5px_3px_rgba(0,0,0,1)]">
-          You are currently on&nbsp;
-          <span
-            className={cn(
-              "text-3xl",
-              plansHook.subscription == "platinum"
-                ? "text-sky-400"
-                : plansHook.subscription == "gold"
-                ? "text-[#ffbf00]"
-                : plansHook.subscription == "bronze"
-                ? "text-[#FF5733]"
-                : null
-            )}
-          >
-            {plansHook.subscription.toUpperCase()}
-          </span>
-          &nbsp;Subscription
-        </DialogFooter>
-        <DialogFooter className="text-white lg:hidden tracking-wider font-bold text-lg flex flex-row justify-center items-center w-full drop-shadow-[6px_5px_3px_rgba(0,0,0,1)]">
-          Currently on&nbsp;
-          <span
-            className={cn(
-              "text-xl",
-              plansHook.subscription == "platinum"
-                ? "text-sky-400"
-                : plansHook.subscription == "gold"
-                ? "text-[#ffbf00]"
-                : plansHook.subscription == "bronze"
-                ? "text-[#FF5733]"
-                : null
-            )}
-          >
-            {plansHook.subscription.toUpperCase()}
-          </span>
-          &nbsp;Subscription
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            </DialogTitle>
+            <DialogDescription className="flex flex-col lg:grid lg:grid-cols-3 gap-x-8 gap-y-8 text-center text-whit pt-2 font-medium">
+              {prices.map((price, index) => (
+                <div
+                  className={cn(
+                    "p-2 lg:p-4 rounded-3xl hover:scale-110 transition-all",
+                    plansHook.subscription == "platinum" &&
+                      price?.label.toLowerCase() == "platinum"
+                      ? "border-4 border-sky-400 hover:scale-105 transition-all"
+                      : plansHook.subscription == "gold" &&
+                        price?.label.toLowerCase() == "gold"
+                      ? "border-4 border-[#ffbf00] hover:scale-105 transition-all"
+                      : plansHook.subscription == "bronze" &&
+                        price?.label.toLowerCase() == "bronze"
+                      ? "border-4 border-[#FF5733] hover:scale-105 lg:hover:scale-105 transition-all"
+                      : null
+                  )}
+                >
+                  <Card
+                    className="hover:scale-100 lg:hover:scale-100 transition-all p-5 lg:p-10 cursor-pointer border-none rounded-2xl flex flex-col justify-center items-center col-span-1 drop-shadow-[4px_4px_16px_rgba(0,0,0,1)]"
+                    key={price?.label}
+                    style={{
+                      backgroundImage: `url(/Pricing.jpg)`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    <div
+                      className={cn(
+                        "text-5xl lg:text-6xl drop-shadow-[8px_3px_1px_rgba(0,0,0,1)]",
+                        price?.textColor
+                      )}
+                    >
+                      {price?.label}
+                    </div>
+                    <div
+                      className={cn(
+                        "text-3xl flex lg:text-5xl drop-shadow-[7px_3px_1px_rgba(0,0,0,1)] mt-2",
+                        price?.textColor
+                      )}
+                    >
+                      {price?.cost}
+                    </div>
+                    <div
+                      className={cn(
+                        "uppercase text-lg lg:text-2xl drop-shadow-[4px_4px_1px_rgba(0,0,0,1)] mt-2",
+                        price?.textColor
+                      )}
+                    >
+                      Per Month
+                    </div>
+                    <div className="flex w-full flex-col items-center gap-y-10 mt-5">
+                      <div className={cn("px-4 w-full rounded-md")}>
+                        {price?.icons.map((IconComponent, index) => (
+                          <>
+                            <div
+                              className="flex items-center justify-between gap-x-5 my-4"
+                              key={index}
+                            >
+                              <IconComponent
+                                className={cn(
+                                  "w-5 h-5 lg:w-8 lg:h-8",
+                                  price?.iconColors[index]
+                                )}
+                              />
+                              <label
+                                className={cn(
+                                  "text-[0.9rem] lg:text-2xl",
+                                  price?.iconColors[index]
+                                )}
+                              >
+                                {price?.iconLabels[index]}
+                              </label>
+                              {React.createElement(price?.check[index], {
+                                className: cn("w-6 h-6", price?.color),
+                              })}
+                            </div>
+                            <hr className="border-1 border-white" />
+                          </>
+                        ))}
+                      </div>
+                      {price?.label == "BRONZE" ? (
+                        <button
+                          disabled={true}
+                          onClick={() => onSubscribe(price.label)}
+                          className={cn(
+                            "uppercase btn w-full disabled:text-white cursor-not-allowed bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-lg lg:text-2xl text-white border-none shadow-md shadow-slate-800"
+                          )}
+                        >
+                          {plansHook.subscription.toLowerCase() == "bronze"
+                            ? `Activated`
+                            : "Free"}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => onSubscribe(price.label)}
+                          disabled={
+                            price.label.toLowerCase() ==
+                            plansHook.subscription.toLowerCase()
+                          }
+                          className={cn(
+                            "uppercase btn w-full bg-gradient-to-r text-lg lg:text-2xl from-indigo-500 via-purple-500 to-pink-500 text-white border-none shadow-md shadow-slate-800",
+                            " disabled:text-white"
+                          )}
+                        >
+                          {price.label.toLowerCase() ==
+                          plansHook.subscription.toLowerCase()
+                            ? "Activated"
+                            : `Purchase ${price?.label}`}
+                        </button>
+                      )}
+                    </div>
+                  </Card>
+                </div>
+              ))}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="text-white hidden tracking-wider font-bold text-2xl lg:flex justify-center items-center w-full drop-shadow-[6px_5px_3px_rgba(0,0,0,1)]">
+            You are currently on&nbsp;
+            <span
+              className={cn(
+                "text-3xl",
+                plansHook.subscription == "platinum"
+                  ? "text-sky-400"
+                  : plansHook.subscription == "gold"
+                  ? "text-[#ffbf00]"
+                  : plansHook.subscription == "bronze"
+                  ? "text-[#FF5733]"
+                  : null
+              )}
+            >
+              {plansHook.subscription?.toUpperCase()}
+            </span>
+            &nbsp;Subscription
+          </DialogFooter>
+          <DialogFooter className="text-white lg:hidden tracking-wider font-bold text-lg flex flex-row justify-center items-center w-full drop-shadow-[6px_5px_3px_rgba(0,0,0,1)]">
+            Currently on&nbsp;
+            <span
+              className={cn(
+                "text-xl",
+                plansHook.subscription == "platinum"
+                  ? "text-sky-400"
+                  : plansHook.subscription == "gold"
+                  ? "text-[#ffbf00]"
+                  : plansHook.subscription == "bronze"
+                  ? "text-[#FF5733]"
+                  : null
+              )}
+            >
+              {plansHook.subscription.toUpperCase()}
+            </span>
+            &nbsp;Subscription
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      {isLoading && (
+        <div className="loader">
+          <Logo />
+        </div>
+      )}
+    </>
   );
 };
