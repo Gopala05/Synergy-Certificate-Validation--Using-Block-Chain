@@ -388,6 +388,74 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
+  // Stripe Subscription
+  const stripeSubscription = async (user, plan) => {
+    try {
+      const response = await axios.post("/api/v1/stripe/subscription", {
+        user: user,
+        subscriptionType: plan,
+      });
+      if (response.status == 200) return response.data.url;
+    } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push("/404");
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
+      console.log(`Error in Checking Certificate ID: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Check Stripe Subscription
+  const checkSubscription = async (user) => {
+    try {
+      const response = await axios.post("/api/v1/stripe/checksubscription", {
+        user: user,
+      });
+      if (response.status == 200) return response.data;
+    } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push("/404");
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
+      console.log(`Error in Checking Certificate ID: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Get the Current Plan of the User
+  const getPlan = async (userName) => {
+    try {
+      const response = await axios.get(`/api/v1/stripe/plan/${userName}`);
+      if (response.status == 200) return response.data.plan;
+    } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push("/404");
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
+      console.log(`Error in Checking Certificate ID: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <StateContext.Provider
       value={{
@@ -411,6 +479,9 @@ export const StateContextProvider = ({ children }) => {
         getUser,
         getAllNFTsAPI,
         getSingleNFTAPI,
+        stripeSubscription,
+        checkSubscription,
+        getPlan,
       }}
     >
       {children}
