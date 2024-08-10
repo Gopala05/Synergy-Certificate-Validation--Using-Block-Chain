@@ -14,6 +14,7 @@ const backgroundImages = {
   upload: "/Upload.png",
   blog: "/Blog.jpeg",
   support: "/Support.png",
+  portfolio: "/Portfolio.jpg"
 };
 
 const AuthHome = () => {
@@ -170,7 +171,7 @@ const AuthHome = () => {
             </HomeButton>
             <HomeButton
               navigate="/portfolio"
-              backgroundImage={backgroundImages.upload}
+              backgroundImage={backgroundImages.portfolio}
             >
               PORTFOLIO
             </HomeButton>

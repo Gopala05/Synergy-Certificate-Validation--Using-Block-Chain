@@ -276,7 +276,7 @@ const ValidationPage = () => {
           <img
             src="/Verify_Metamask.png"
             alt="Verify Image"
-            className=" lg:w-[40vw] mt-[10vh]"
+            className=" lg:w-[40vw] mt-[13vh]"
           />
         </Col>
         <Col

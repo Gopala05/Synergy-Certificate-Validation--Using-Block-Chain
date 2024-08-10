@@ -6,21 +6,23 @@ import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/router";
 import Logo from "../../Components/Logo/Logo";
 import toast from "react-hot-toast";
-import { upgradeHook } from "../../hooks/upgrade-model";
+import { useUpgradeHook } from "@/hooks/upgrade-model";
 import Footer from "../../Components/Footer/Footer";
+import { LucideEdit3 } from "lucide-react";
 
 const backgroundImages = {
   verify: "/Verify.png",
   upload: "/Upload.png",
   blog: "/Blog.jpeg",
   support: "/Support.png",
+  portfolio: "/Portfolio.jpg",
 };
 
 const UserHome = () => {
   const [user, setUser] = useState(null);
   const toastShownRef = useRef(false);
   const router = useRouter();
-  const plansHook = upgradeHook();
+  const plansHook = useUpgradeHook();
 
   useEffect(() => {
     const userData = localStorage.getItem("user-info");
@@ -39,6 +41,7 @@ const UserHome = () => {
       router.replace("/user-login");
     } else {
       setUser(JSON.parse(userData));
+      useUpgradeHook.getState().initialize();
     }
   }, [router]);
 
@@ -157,7 +160,7 @@ const UserHome = () => {
             </HomeButton>
             <HomeButton
               navigate="/portfolio"
-              backgroundImage={backgroundImages.upload}
+              backgroundImage={backgroundImages.portfolio}
             >
               PORTFOLIO
             </HomeButton>
