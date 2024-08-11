@@ -170,7 +170,7 @@ const AuthHome = () => {
               SUPPORT
             </HomeButton>
             <HomeButton
-              navigate="/portfolio"
+              navigate="/portfolio-profile"
               backgroundImage={backgroundImages.portfolio}
             >
               PORTFOLIO

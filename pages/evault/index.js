@@ -72,7 +72,7 @@ const Evault = () => {
         />
       )}
       {!selected && (
-        <Row className="lg:pl-10 pt-32 lg:pt-28 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-[100vh]">
+        <Row className="lg:pl-10 pt-32 lg:pt-28 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-full">
           <Col span={24} className="hidden lg:block lg:pb-8">
             <div className="flex w-full h-full justify-center items-center text-5xl text-center text-white">
               Verified Certifications of
@@ -96,7 +96,7 @@ const Evault = () => {
             >
               <Card
                 onClick={() => setSelected(certificate)}
-                className="lg:w-fit items-center flex-row border-none bg-gradient-to-br from-[#ec533a] to-[#fbd524] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2"
+                className="lg:w-fit items-center max-h-[35vh] min-h-[35vh] flex-row border-none bg-gradient-to-r from-[#FF9C1A] to-[#E80505] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2"
               >
                 <h2 className="text-xl text-center font-bold mb-4">
                   {certificate.title}
