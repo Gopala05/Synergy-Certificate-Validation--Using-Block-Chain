@@ -3,7 +3,6 @@ import DashNav from "../../Components/Nav/DashNav";
 import { cn } from "../../utils/utils";
 import { Settings } from "lucide-react";
 import { useStateContext } from "../../Context/NFTs";
-import Logo from "../../Components/Logo/Logo";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import SubscriptionButton from "../../Components/Button/SubscriptionButton";
