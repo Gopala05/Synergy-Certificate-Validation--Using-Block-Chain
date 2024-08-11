@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { RiSideBarFill } from "react-icons/ri";
 import { useUpgradeHook } from "../../hooks/upgrade-model";
 import { CreditCard, LogOut, Settings, Zap } from "lucide-react";
+import { cn } from "../../utils/utils";
 
 const DashSideBar = () => {
   const [auth, setAuth] = React.useState("");
@@ -28,7 +29,7 @@ const DashSideBar = () => {
         localStorage.removeItem("User-Token");
         localStorage.removeItem("user-info");
         router.push("/");
-      } 
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
       console.error("Error in Login: ", error);
@@ -59,10 +60,10 @@ const DashSideBar = () => {
   const menu = (
     <Menu>
       <Menu.Item key="0" className="border-none">
-        <div className="flex w-full flex-col text-2xl p-5 bg-[#02291B] rounded-md text-white">
+        <div className="flex w-full flex-col text-2xl p-5 bg-[#282a2c] rounded-md text-white">
           <div className="flex flex-col gap-y-5 w-full items-center">
             <div className="flex justify-center items-center w-full">
-              <span className="text-[#f6851b]">
+              <span className="text-[#f6851b] font-bold tracking-wider">
                 {user?.userName}
                 {auth?.authID}
               </span>
@@ -73,38 +74,51 @@ const DashSideBar = () => {
                   src={auth ? "./Admin.png" : "./User_Name.jpg"}
                   alt={auth ? "Auth Icon" : "User Icon"}
                   className={`${
-                    auth ? "w-16" : "w-16 rounded-full"
-                  } flex justify-end items-center ml-5`}
+                    auth ? "w-24" : "w-24 rounded-full"
+                  } flex justify-end items-center`}
                 />
               </div>
-              <div className="">
-                Hi, {user?.name} {auth?.firstName}!
+              <div className="text-xl">
+                Hi,&nbsp;
+                <span className="font-bold">
+                  {user?.name} {auth?.firstName}
+                </span>
+                !
               </div>
               <div className="flex justify-center w-full">
-                <button className="rounded-full border-white px-3 border-2 text-lg py-1 hover:scale-110 transition-all">
+                <button
+                  onClick={(e) => router.push("/profile")}
+                  className="rounded-full border-white px-8 border-2 text-xl py-2 hover:scale-105 transition-all"
+                >
                   Manage your Profile
                 </button>
               </div>
-              <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-2">
-                <div
-                  onClick={plansHook.onOpen}
-                  className="py-2 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-gray-700"
-                >
-                  <CreditCard className="w-5 h-5" />
-                  <span>Billing</span>
-                </div>
-
-                <div
-                  onClick={() => router.push("/settings")}
-                  className="py-2 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-gray-700"
-                >
-                  <Settings className="w-5 h-5" />
-                  <span>Settings</span>
-                </div>
+              <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-1">
+                {!auth && (
+                  <>
+                    <div
+                      onClick={plansHook.onOpen}
+                      className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
+                    >
+                      <CreditCard className="w-5 h-5" />
+                      <span>Billing</span>
+                    </div>
+                    <div
+                      onClick={() => router.push("/settings")}
+                      className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-[#1b1b1b]"
+                    >
+                      <Settings className="w-5 h-5" />
+                      <span>Settings</span>
+                    </div>
+                  </>
+                )}
 
                 <div
                   onClick={(e) => handleLogout(e)}
-                  className="py-2 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-gray-700"
+                  className={cn(
+                    "py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-[#1b1b1b]",
+                    auth && "rounded-2xl"
+                  )}
                 >
                   <LogOut className="w-5 h-5" />
                   <span>Log out</span>

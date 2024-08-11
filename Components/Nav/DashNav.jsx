@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import DashSideBar from "./DashSideBar";
 import { useUpgradeHook } from "@/hooks/upgrade-model";
 import { CreditCard, LogOut, Settings } from "lucide-react";
+import { cn } from "../../utils/utils";
 
 const DashNav = () => {
   const router = useRouter();
@@ -95,26 +96,31 @@ const DashNav = () => {
                 </button>
               </div>
               <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-1">
-                <div
-                  onClick={plansHook.onOpen}
-                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
-                >
-                  <CreditCard className="w-5 h-5" />
-                  <span>Billing</span>
-                </div>
-                {/* <hr className="border-white/10 border-2 w-full"/> */}
-                <div
-                  onClick={() => router.push("/settings")}
-                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-[#1b1b1b]"
-                >
-                  <Settings className="w-5 h-5" />
-                  <span>Settings</span>
-                </div>
-                {/* <hr className="border-white/10 border-2 w-full"/> */}
+                {!auth && (
+                  <>
+                    <div
+                      onClick={plansHook.onOpen}
+                      className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
+                    >
+                      <CreditCard className="w-5 h-5" />
+                      <span>Billing</span>
+                    </div>
+                    <div
+                      onClick={() => router.push("/settings")}
+                      className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-[#1b1b1b]"
+                    >
+                      <Settings className="w-5 h-5" />
+                      <span>Settings</span>
+                    </div>
+                  </>
+                )}
 
                 <div
                   onClick={(e) => handleLogout(e)}
-                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-[#1b1b1b]"
+                  className={cn(
+                    "py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-[#1b1b1b]",
+                    auth && "rounded-2xl"
+                  )}
                 >
                   <LogOut className="w-5 h-5" />
                   <span>Log out</span>
@@ -129,9 +135,10 @@ const DashNav = () => {
 
   return (
     <>
-      <div className="bg-[#02291B] w-full hidden lg:flex px-5 pt-2 pb-2 items-center z-50 fixed border-b-2 border-gray-500 xl:pr-16">
+      <div className="bg-[#02291B] w-full hidden lg:flex px-5 pt-2 pb-2 items-center z-50 fixed border-b-2 border-gray-500 xl:pr-5">
         <div
-          className={`flex flex-grow justify-start items-center font-extrabold text-3xl uppercase tracking-wider`}
+          className={`flex flex-grow cursor-pointer justify-start items-center font-extrabold text-3xl uppercase tracking-wider`}
+          onClick={() => router.push("/")}
         >
           <span>
             <img src="./Logo.png" alt="Logo" className="w-24" />
@@ -141,8 +148,8 @@ const DashNav = () => {
 
         {router.pathname == "/user-home" ||
         router.pathname == "/auth-home" ? null : (
-          <nav className="flex flex-grow text-md xl:text-2xl justify-center">
-            <div className="flex justify-center gap-10 font-bold">
+          <nav className="flex flex-grow text-md xl:text-2xl justify-end">
+            <div className="flex justify-center gap-x-10 font-bold xl:mr-16">
               <Link
                 className={`relative cursor-pointer ${
                   (!plansHook.isOpen && activeSection === "/auth-home") ||
@@ -259,7 +266,7 @@ const DashNav = () => {
         )}
 
         <div className="flex flex-grow justify-end items-center">
-          <span className="text-white text-xl xl:text-3xl font-bold">
+          <span className="text-white text-xl xl:text-2xl font-bold">
             {user?.name} {auth?.firstName}&nbsp;
             <span className="text-[#f6851b]">{auth?.lastName}</span>
           </span>
@@ -276,7 +283,7 @@ const DashNav = () => {
                 alt={auth ? "Auth Icon" : "User Icon"}
                 className={`${
                   auth ? "w-14 xl:w-16" : "w-14 xl:w-16 rounded-full"
-                } flex justify-end items-center ml-5`}
+                } flex justify-end items-center ml-3`}
               />
             </a>
           </Dropdown>
