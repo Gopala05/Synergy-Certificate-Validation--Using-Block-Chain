@@ -11,5 +11,12 @@ module.exports = {
   plugins: [
     require('daisyui'),
   ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        'frame': "url('/frame.jpg')",
+      },
+    },
+  },
 }
 
