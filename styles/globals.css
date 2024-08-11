@@ -287,3 +287,7 @@ body {
 .cardFlip {
   transform: rotateY(180deg);
 }
+
+.font-fam {
+  font-family: 'Satisfy';
+}

@@ -18,6 +18,10 @@ export default function App({ Component, pageProps }) {
             name="description"
             content="Certificate Validation System by Team SYNERGY"
           />
+          <link
+            href="https://fonts.googleapis.com/css?family=Satisfy"
+            rel="stylesheet"
+          ></link>
           <link rel="icon" href="/Logo.png" />
         </Head>
         <Toaster />
