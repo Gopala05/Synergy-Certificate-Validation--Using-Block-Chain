@@ -1,5 +1,13 @@
 import { useRouter } from "next/router";
-import { File, UserCircle2Icon } from "lucide-react";
+import {
+  Award,
+  BookOpenText,
+  Contact,
+  File,
+  GraduationCap,
+  LandPlot,
+  UserCircle2Icon,
+} from "lucide-react";
 import { cn } from "../../utils/utils";
 import { usePortfolio } from "@/hooks/usePortfolio";
 import { useStateContext } from "../../Context/NFTs";
@@ -53,7 +61,7 @@ const PortfolioNav = () => {
       >
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <div>
-            <File
+            <GraduationCap
               className={cn(
                 "text-gray-500",
                 portfolioHook.page == "Education" && "text-white"
@@ -75,7 +83,7 @@ const PortfolioNav = () => {
       >
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <div>
-            <File
+            <Award
               className={cn(
                 "text-gray-500",
                 portfolioHook.page == "Experience" && "text-white"
@@ -97,7 +105,7 @@ const PortfolioNav = () => {
       >
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <div>
-            <File
+            <BookOpenText
               className={cn(
                 "text-gray-500",
                 portfolioHook.page == "Academic" && "text-white"
@@ -119,7 +127,7 @@ const PortfolioNav = () => {
       >
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <div>
-            <UserCircle2Icon
+            <LandPlot
               className={cn(
                 "text-gray-500",
                 portfolioHook.page == "Non-Acad" && "text-white"
@@ -141,7 +149,7 @@ const PortfolioNav = () => {
       >
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <div>
-            <UserCircle2Icon
+            <Contact
               className={cn(
                 "text-gray-500",
                 portfolioHook.page == "Contact" && "text-white"
