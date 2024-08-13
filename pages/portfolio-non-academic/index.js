@@ -10,7 +10,7 @@ import PortfolioNav from "../../Components/Portfolio/PortfolioNav";
 import PortfolioBasic from "../../Components/Portfolio/PortfolioBasic";
 import toast from "react-hot-toast";
 
-const PortfolioResume = () => {
+const PortfolioNonAcademic = () => {
   const router = useRouter();
   const toastShownRef = useRef(false);
 
@@ -227,4 +227,4 @@ const PortfolioResume = () => {
   );
 };
 
-export default PortfolioResume;
+export default PortfolioNonAcademic;

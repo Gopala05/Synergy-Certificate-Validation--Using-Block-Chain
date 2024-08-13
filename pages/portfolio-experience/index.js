@@ -10,7 +10,7 @@ import PortfolioNav from "../../Components/Portfolio/PortfolioNav";
 import PortfolioBasic from "../../Components/Portfolio/PortfolioBasic";
 import ResumeCard from "../../Components/Portfolio/ResumeCard";
 
-const PortfolioResume = () => {
+const PortfolioExperience = () => {
   const router = useRouter();
   const toastShownRef = useRef(false);
 
@@ -270,4 +270,4 @@ const PortfolioResume = () => {
   );
 };
 
-export default PortfolioResume;
+export default PortfolioExperience;
