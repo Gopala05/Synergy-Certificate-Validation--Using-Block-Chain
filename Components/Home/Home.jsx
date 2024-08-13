@@ -2,6 +2,7 @@ import { Button, Col, Row } from "antd";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { motion } from "framer-motion";
 
 const Home = () => {
   return (
@@ -42,10 +43,21 @@ const Home = () => {
               sm={24}
               className="items-center justify-center flex"
             >
-              <img
+              <motion.img
                 src="/Astronaut.png"
                 alt="Astronaut Image"
                 className="xl:w-[25vw]"
+                animate={{
+                  x: [0, 60, 0],
+                  y: [0, -10, 0],
+                  scale: [1, 0.9, 1]
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                }}
               />
             </Col>
           </Row>
@@ -58,7 +70,7 @@ const Home = () => {
           className="absoulte xl:w-[70vw] w-full h-28 lg:w-[80vw] lg:h-full"
         />
       </Row>
-      <div className="lg:flex justify-center hidden relative -top-20 lg:-top-14">
+      <div className="lg:flex justify-center hidden relative -top-20 lg:-top-14 xl:-top-8">
         <div className="xl:w-[85vw] lg:w-[90vw] bg-[#02291B] border-[#22674E] border-4 p-2 xl:p-5 rounded-xl">
           <Row className="justify-center items-center">
             <Col

@@ -1,6 +1,7 @@
 import { Button, Col, Row } from "antd";
 import Link from "next/link";
 import React from "react";
+import { motion } from "framer-motion";
 
 const UploadandVerify = () => {
   return (
@@ -29,7 +30,21 @@ const UploadandVerify = () => {
           </div>
         </Col>
         <Col lg={8} className="lg:flex hidden justify-center">
-          <img src="/Robot.png" alt="Robot Image" className="w-56" />
+          <motion.img
+            src="/Robot.png"
+            alt="Robot Image"
+            className="w-56"
+            animate={{
+              x: [0, 10, 0],
+              y: [0, 20, 0],
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut",
+            }}
+          />
         </Col>
       </Row>
     </div>
