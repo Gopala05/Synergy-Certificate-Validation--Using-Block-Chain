@@ -45,6 +45,17 @@ const DashNav = () => {
       if (localStorage.getItem("NFT")) localStorage.removeItem("NFT");
       if (localStorage.getItem("NFTs")) localStorage.removeItem("NFTs");
     }
+    if (
+      router.pathname !== "/portfolio-profile" &&
+      router.pathname !== "/portfolio-education" &&
+      router.pathname !== "/portfolio-experience" &&
+      router.pathname !== "/portfolio-academic" &&
+      router.pathname !== "/portfolio-non-academic" &&
+      router.pathname !== "/portfolio-contact"
+    ) {
+      if (localStorage.getItem("portfolio-user"))
+        localStorage.removeItem("portfolio-user");
+    }
     if (localStorage.getItem("auth-info")) {
       const authData = localStorage.getItem("auth-info");
       setAuth(JSON.parse(authData));
@@ -192,17 +203,25 @@ const DashNav = () => {
               ) : null}
               <Link
                 className={`relative cursor-pointer ${
-                  !plansHook.isOpen && activeSection === "/validation"
+                  (!plansHook.isOpen && activeSection === "/verification") ||
+                  (!plansHook.isOpen &&
+                    activeSection == "/academic-certificates") ||
+                  (!plansHook.isOpen &&
+                    activeSection == "/non-academic-certificates")
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
-                href="/validation"
+                href="/verification"
                 duration={500}
               >
-                Validate
+                Verification
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    !plansHook.isOpen && activeSection === "/validation"
+                    (!plansHook.isOpen && activeSection === "/verification") ||
+                    (!plansHook.isOpen &&
+                      activeSection == "/academic-certificates") ||
+                    (!plansHook.isOpen &&
+                      activeSection == "/non-academic-certificates")
                       ? "scale-x-100"
                       : "scale-x-0"
                   }`}

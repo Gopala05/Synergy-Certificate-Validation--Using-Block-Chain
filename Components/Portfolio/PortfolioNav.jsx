@@ -20,12 +20,13 @@ const PortfolioNav = () => {
   const handleRouting = (page, route) => {
     if (page && route) {
       setIsLoading(true);
-      portfolioHook.setPage(page);
-      router.push(route);
+      router.replace(route).then(() => {
+        portfolioHook.setPage(page);
+        setIsLoading(false);
+      });
     }
   };
 
-  console.log(portfolioHook.page);
   return (
     <div className="flex text-lg flex-col bg-[#FFFFFF] rounded-xl px-4 py-10 gap-y-8 text-black">
       {/* Profile */}

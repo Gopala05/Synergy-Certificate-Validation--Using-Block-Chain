@@ -1,8 +1,16 @@
 import { Download, FileEdit } from "lucide-react";
+import Link from "next/link";
+import { cn } from "../../utils/utils";
 
-const PortfolioBasic = ({ user }) => {
+const PortfolioBasic = ({ user, viewer }) => {
+  console.log(user?.userName, viewer?.userName)
   return (
-    <div className="flex justify-center items-center pl-10 w-full">
+    <div
+      className={cn(
+        "flex justify-center items-center pl-10 w-full",
+        user?.userName !== viewer?.userName && "pb-[60px]"
+      )}
+    >
       <div className="bg-white flex justify-center rounded-2xl w-60 absolute z-20 top-10 border-2 border-black">
         <img
           src="./GK.jpg"
@@ -16,29 +24,53 @@ const PortfolioBasic = ({ user }) => {
             {user?.name}
           </div>
           <div className="text-gray-600 flex justify-center w-full">
-            Full Stack Developer
+            {user?.role}
           </div>
           <div className="flex w-full justify-center gap-x-3">
-            <div className="bg-[#F2F7FC] rounded-lg py-2 px-3 flex items-center">
-              <img src="./Icons/GitHub.png" alt="GitHub Icon" className="w-8" />
-            </div>
-            <div className="bg-[#F2F7FC] rounded-lg py-2 px-3 flex items-center">
-              <img
-                src="./Icons/LinkedIn.png"
-                alt="LinkedIn Icon"
-                className="w-6"
-              />
-            </div>
-            <div className="bg-[#F2F7FC] rounded-lg py-2 px-3 flex items-center">
-              <img src="./Icons/Slack.png" alt="Slack Icon" className="w-6" />
-            </div>
-            <div className="bg-[#F2F7FC] rounded-lg py-2 px-3 flex items-center">
-              <img
-                src="./Icons/LeetCode.png"
-                alt="LeetCode Icon"
-                className="w-6"
-              />
-            </div>
+            {user?.gitHub && (
+              <Link href={user?.gitHub} target="_blank">
+                <button className="bg-[#F2F7FC] btn hover:bg-[#F2F7FC] border-none rounded-lg py-2 px-3 flex items-center">
+                  <img
+                    src="./Icons/GitHub.png"
+                    alt="GitHub Icon"
+                    className="w-8"
+                  />
+                </button>
+              </Link>
+            )}
+            {user?.linkedIn && (
+              <Link href={user?.linkedIn} target="_blank">
+                <button className="bg-[#F2F7FC] btn hover:bg-[#F2F7FC] border-none rounded-lg py-2 px-3 flex items-center">
+                  <img
+                    src="./Icons/LinkedIn.png"
+                    alt="LinkedIn Icon"
+                    className="w-6"
+                  />
+                </button>
+              </Link>
+            )}
+            {user?.slack && (
+              <Link href={user?.slack} target="_blank">
+                <button className="bg-[#F2F7FC] btn hover:bg-[#F2F7FC] border-none rounded-lg py-2 px-3 flex items-center">
+                  <img
+                    src="./Icons/Slack.png"
+                    alt="Slack Icon"
+                    className="w-6"
+                  />
+                </button>
+              </Link>
+            )}
+            {user?.leetCode && (
+              <Link href={user?.leetCode} target="_blank">
+                <button className="bg-[#F2F7FC] btn hover:bg-[#F2F7FC] border-none rounded-lg py-2 px-3 flex items-center">
+                  <img
+                    src="./Icons/LeetCode.png"
+                    alt="LeetCode Icon"
+                    className="w-6"
+                  />
+                </button>
+              </Link>
+            )}
           </div>
         </div>
         <div className="bg-[#F2F5F9] w-[21rem] rounded-lg py-5 px-10 flex flex-col items-center gap-y-5">
@@ -52,7 +84,7 @@ const PortfolioBasic = ({ user }) => {
                 Phone
               </div>
               <div className="text-black flex justify-start w-full font-semibold">
-                +91 6360318731
+                {user?.mobileNumber}
               </div>
             </div>
           </div>
@@ -88,17 +120,23 @@ const PortfolioBasic = ({ user }) => {
                 Location
               </div>
               <div className="text-black flex justify-start w-full font-semibold">
-                Bangalore
+                {user?.location}
               </div>
             </div>
           </div>
           <hr className="border border-[#E3E3E3] w-full" />
-          <button className="btn hover:scale-110 transition-all w-48 border-none bg-gradient-to-r from-[#FF9C1A] to-[#E80505] rounded-full text-white">
-            <Download /> Download Resume
-          </button>
-          <button className="btn hover:scale-110 transition-all w-48 flex justify-start pr-10 border-none bg-gradient-to-r from-[#FF9C1A] to-[#E80505] rounded-full text-white">
-            <FileEdit /> <label className="ml-1">Edit Profile</label>
-          </button>
+          {user?.resume && (
+            <Link href={user?.resume} target="_blank">
+              <button className="btn hover:scale-110 transition-all w-48 border-none bg-gradient-to-r from-[#FF9C1A] to-[#E80505] rounded-full text-white">
+                <Download /> Download Resume
+              </button>
+            </Link>
+          )}
+          {user?.userName == viewer?.userName && (
+            <button className="btn hover:scale-110 transition-all w-48 flex justify-start pr-10 border-none bg-gradient-to-r from-[#FF9C1A] to-[#E80505] rounded-full text-white">
+              <FileEdit /> <label className="ml-1">Edit Profile</label>
+            </button>
+          )}
         </div>
       </div>
     </div>

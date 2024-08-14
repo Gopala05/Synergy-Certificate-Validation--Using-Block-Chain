@@ -137,7 +137,7 @@ const About = () => {
             <div className="flex justify-start items-center px-10">
               <img
                 src="/Validation_Icon.png"
-                alt="Validation Icon"
+                alt="Verification Icon"
                 className="w-14"
               />
               <span className="ml-2 font-extrabold text-xl">Validation</span>
