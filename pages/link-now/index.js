@@ -119,16 +119,14 @@ const LinkNow = () => {
             }
           } else {
             setIsLoading(false);
-            toast.error(
-              error.response?.data?.message || "Internal Server Error"
-            );
+            toast.error(res.data?.message || "Internal Server Error");
           }
         } else if (response.data.status === "Bad Request") {
           setIsLoading(false);
-          toast.error(response.data.message);
+          toast.error(response.data?.message);
         } else {
           setIsLoading(false);
-          toast.error(error.response?.data?.message || "Internal Server Error");
+          toast.error(response.data?.message || "Internal Server Error");
         }
       } catch (error) {
         setIsLoading(false);

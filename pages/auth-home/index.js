@@ -14,7 +14,6 @@ const backgroundImages = {
   upload: "/Upload.png",
   blog: "/Blog.jpeg",
   support: "/Support.png",
-  portfolio: "/Portfolio.jpg"
 };
 
 const AuthHome = () => {
@@ -152,7 +151,7 @@ const AuthHome = () => {
         >
           <div className="flex-1 flex flex-col items-center rounded-2xl gap-y-10">
             <HomeButton
-              navigate="/validation"
+              navigate="/verification"
               backgroundImage={backgroundImages.verify}
             >
               VERIFY
@@ -168,12 +167,6 @@ const AuthHome = () => {
               backgroundImage={backgroundImages.support}
             >
               SUPPORT
-            </HomeButton>
-            <HomeButton
-              navigate="/portfolio-profile"
-              backgroundImage={backgroundImages.portfolio}
-            >
-              PORTFOLIO
             </HomeButton>
             <HomeButton
               navigate="/guide"

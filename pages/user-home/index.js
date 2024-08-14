@@ -141,7 +141,7 @@ const UserHome = () => {
         >
           <div className="flex-1 flex flex-col items-center rounded-2xl gap-y-10">
             <HomeButton
-              navigate="/validation"
+              navigate="/verification"
               backgroundImage={backgroundImages.verify}
             >
               VERIFY
@@ -159,7 +159,7 @@ const UserHome = () => {
               GUIDE
             </HomeButton>
             <HomeButton
-              navigate="/portfolio-profile"
+              navigate="/portfolio"
               backgroundImage={backgroundImages.portfolio}
             >
               PORTFOLIO

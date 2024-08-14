@@ -86,7 +86,7 @@ const Block = () => {
           toast.error(response.data.message);
         } else {
           setIsLoading(false);
-          toast.error(error.response?.data?.message || "Internal Server Error");
+          toast.error(response.data?.message || "Internal Server Error");
         }
       } catch (error) {
         setIsLoading(false);
