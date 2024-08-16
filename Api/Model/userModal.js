@@ -10,6 +10,7 @@ const userSchema = new Mongoose.Schema({
     type: String,
     required: [true, "Please provide user name!"], // Required, If not given trow the message
     lowercase: true,
+    unique: true
   },
   userEmails: [
     {
