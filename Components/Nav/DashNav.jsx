@@ -248,7 +248,11 @@ const DashNav = () => {
               </Link>
               <Link
                 className={`relative cursor-pointer ${
-                  !plansHook.isOpen && activeSection === "/guide"
+                  (!plansHook.isOpen && activeSection === "/guide") ||
+                  (!plansHook.isOpen && activeSection === "/upload-flow") ||
+                  (!plansHook.isOpen &&
+                    activeSection === "/verification-flow") ||
+                  (!plansHook.isOpen && activeSection === "/support-flow")
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -258,7 +262,11 @@ const DashNav = () => {
                 Guide
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    !plansHook.isOpen && activeSection === "/guide"
+                    (!plansHook.isOpen && activeSection === "/guide") ||
+                    (!plansHook.isOpen && activeSection === "/upload-flow") ||
+                    (!plansHook.isOpen &&
+                      activeSection === "/verification-flow") ||
+                    (!plansHook.isOpen && activeSection === "/support-flow")
                       ? "scale-x-100"
                       : "scale-x-0"
                   }`}

@@ -5,8 +5,16 @@ import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { RiSideBarFill } from "react-icons/ri";
 import { useUpgradeHook } from "../../hooks/upgrade-model";
-import { CreditCard, LogOut, Settings, Zap } from "lucide-react";
+import { CreditCard, LogOut, Settings } from "lucide-react";
 import { cn } from "../../utils/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const DashSideBar = () => {
   const [auth, setAuth] = React.useState("");
@@ -68,80 +76,6 @@ const DashSideBar = () => {
     setActiveSection(router.pathname);
   }, [router]);
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="0" className="border-none">
-        <div className="flex w-full flex-col text-2xl p-5 bg-[#282a2c] rounded-md text-white">
-          <div className="flex flex-col gap-y-5 w-full items-center">
-            <div className="flex justify-center items-center w-full">
-              <span className="text-[#f6851b] font-bold tracking-wider">
-                {user?.userName}
-                {auth?.authID}
-              </span>
-            </div>
-            <div className="flex justify-center items-center flex-col gap-y-5">
-              <div className="flex justify-center w-full">
-                <img
-                  src={auth ? "./Admin.png" : "./User_Name.jpg"}
-                  alt={auth ? "Auth Icon" : "User Icon"}
-                  className={`${
-                    auth ? "w-24" : "w-24 rounded-full"
-                  } flex justify-end items-center`}
-                />
-              </div>
-              <div className="text-xl">
-                Hi,&nbsp;
-                <span className="font-bold">
-                  {user?.name} {auth?.firstName}
-                </span>
-                !
-              </div>
-              <div className="flex justify-center w-full">
-                <button
-                  onClick={(e) => router.push("/profile")}
-                  className="rounded-full border-white px-8 border-2 text-xl py-2 hover:scale-105 transition-all"
-                >
-                  Manage your Profile
-                </button>
-              </div>
-              <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-1">
-                {!auth && (
-                  <>
-                    <div
-                      onClick={plansHook.onOpen}
-                      className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
-                    >
-                      <CreditCard className="w-5 h-5" />
-                      <span>Billing</span>
-                    </div>
-                    <div
-                      onClick={() => router.push("/settings")}
-                      className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-[#1b1b1b]"
-                    >
-                      <Settings className="w-5 h-5" />
-                      <span>Settings</span>
-                    </div>
-                  </>
-                )}
-
-                <div
-                  onClick={(e) => handleLogout(e)}
-                  className={cn(
-                    "py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-[#1b1b1b]",
-                    auth && "rounded-2xl"
-                  )}
-                >
-                  <LogOut className="w-5 h-5" />
-                  <span>Log out</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Menu.Item>
-    </Menu>
-  );
-
   return (
     <div className="drawer flex justify-end pr-5 lg:drawer-open drawer-end z-50">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -170,8 +104,8 @@ const DashSideBar = () => {
               <div className="flex flex-col justify-center items-start gap-y-10">
                 <Link
                   className={`relative cursor-pointer ${
-                    activeSection === "/auth-home" ||
-                    activeSection === "/user-home"
+                    (!plansHook.isOpen && activeSection === "/auth-home") ||
+                    (!plansHook.isOpen && activeSection === "/user-home")
                       ? "text-green-500"
                       : "text-white/80"
                   }`}
@@ -181,8 +115,8 @@ const DashSideBar = () => {
                   Home
                   <span
                     className={`absolute left-0 bottom-0 w-16 h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                      activeSection === "/auth-home" ||
-                      activeSection === "/user-home"
+                      (!plansHook.isOpen && activeSection === "/auth-home") ||
+                      (!plansHook.isOpen && activeSection === "/user-home")
                         ? "scale-x-100"
                         : "scale-x-0"
                     }`}
@@ -191,7 +125,7 @@ const DashSideBar = () => {
                 {auth ? (
                   <Link
                     className={`relative cursor-pointer ${
-                      activeSection === "/upload"
+                      !plansHook.isOpen && activeSection === "/upload"
                         ? "text-green-500"
                         : "text-white/80"
                     }`}
@@ -201,7 +135,7 @@ const DashSideBar = () => {
                     Upload
                     <span
                       className={`absolute left-0 bottom-0 w-20 h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                        activeSection === "/upload"
+                        !plansHook.isOpen && activeSection === "/upload"
                           ? "scale-x-100"
                           : "scale-x-0"
                       }`}
@@ -210,7 +144,11 @@ const DashSideBar = () => {
                 ) : null}
                 <Link
                   className={`relative cursor-pointer ${
-                    activeSection === "/verification"
+                    (!plansHook.isOpen && activeSection === "/verification") ||
+                    (!plansHook.isOpen &&
+                      activeSection == "/academic-certificates") ||
+                    (!plansHook.isOpen &&
+                      activeSection == "/non-academic-certificates")
                       ? "text-green-500"
                       : "text-white/80"
                   }`}
@@ -220,7 +158,12 @@ const DashSideBar = () => {
                   Verification
                   <span
                     className={`absolute left-1 bottom-0 w-28 h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                      activeSection === "/verification"
+                      (!plansHook.isOpen &&
+                        activeSection === "/verification") ||
+                      (!plansHook.isOpen &&
+                        activeSection == "/academic-certificates") ||
+                      (!plansHook.isOpen &&
+                        activeSection == "/non-academic-certificates")
                         ? "scale-x-100"
                         : "scale-x-0"
                     }`}
@@ -228,7 +171,7 @@ const DashSideBar = () => {
                 </Link>
                 <Link
                   className={`relative cursor-pointer ${
-                    activeSection === "/support"
+                    !plansHook.isOpen && activeSection === "/support"
                       ? "text-green-500"
                       : "text-white/80"
                   }`}
@@ -238,13 +181,19 @@ const DashSideBar = () => {
                   Support
                   <span
                     className={`absolute left-0 bottom-0 w-24 h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                      activeSection === "/support" ? "scale-x-100" : "scale-x-0"
+                      !plansHook.isOpen && activeSection === "/support"
+                        ? "scale-x-100"
+                        : "scale-x-0"
                     }`}
                   ></span>
                 </Link>
                 <Link
                   className={`relative cursor-pointer ${
-                    activeSection === "/guide"
+                    (!plansHook.isOpen && activeSection === "/guide") ||
+                    (!plansHook.isOpen && activeSection === "/upload-flow") ||
+                    (!plansHook.isOpen &&
+                      activeSection === "/verification-flow") ||
+                    (!plansHook.isOpen && activeSection === "/support-flow")
                       ? "text-green-500"
                       : "text-white/80"
                   }`}
@@ -254,7 +203,13 @@ const DashSideBar = () => {
                   Guide
                   <span
                     className={`absolute left-0 bottom-0 w-16 h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                      activeSection === "/guide" ? "scale-x-100" : "scale-x-0"
+                      (!plansHook.isOpen && activeSection === "/guide") ||
+                      (!plansHook.isOpen && activeSection === "/upload-flow") ||
+                      (!plansHook.isOpen &&
+                        activeSection === "/verification-flow") ||
+                      (!plansHook.isOpen && activeSection === "/support-flow")
+                        ? "scale-x-100"
+                        : "scale-x-0"
                     }`}
                   ></span>
                 </Link>
@@ -277,19 +232,14 @@ const DashSideBar = () => {
               </div>
             </li>
             <li>
-              <div className="flex flex-grow justify-end items-center">
-                <span className="text-white text-lg font-bold w-full">
-                  {user?.name} {auth?.firstName}&nbsp;
-                  <span className="text-[#f6851b]">{auth?.lastName}</span>
-                </span>
-                <Dropdown
-                  overlay={menu}
-                  className="hover:cursor-pointer"
-                  trigger={["hover"]}
-                >
-                  <a
-                    className={`flex justify-end font-bold align-middle text-white items-center ant-dropdown-link`}
-                  >
+              <Dialog>
+                <DialogTrigger className="flex w-full">
+                  <div className="flex w-full justify-end items-center">
+                    <span className="text-white text-lg font-bold w-full">
+                      {user?.name} {auth?.firstName}&nbsp;
+                      <span className="text-[#f6851b]">{auth?.lastName}</span>
+                    </span>
+
                     <img
                       src={auth ? "./Admin.png" : "./User_Name.jpg"}
                       alt={auth ? "Auth Icon" : "User Icon"}
@@ -297,9 +247,82 @@ const DashSideBar = () => {
                         auth ? "w-14" : "w-14 rounded-full"
                       } flex justify-end items-center ml-5`}
                     />
-                  </a>
-                </Dropdown>
-              </div>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="h-fit">
+                  <DialogHeader>
+                    <DialogDescription>
+                      <div className="flex w-full flex-col text-2xl p-5 bg-transparent rounded-md text-white">
+                        <div className="flex flex-col gap-y-5 w-full items-center">
+                          <div className="flex justify-center items-center w-full">
+                            <span className="text-[#f6851b] font-bold tracking-wider">
+                              {user?.userName}
+                              {auth?.authID}
+                            </span>
+                          </div>
+                          <div className="flex justify-center items-center flex-col gap-y-5 w-full">
+                            <div className="flex justify-center w-full">
+                              <img
+                                src={auth ? "./Admin.png" : "./User_Name.jpg"}
+                                alt={auth ? "Auth Icon" : "User Icon"}
+                                className={`${
+                                  auth ? "w-24" : "w-24 rounded-full"
+                                } flex justify-end items-center`}
+                              />
+                            </div>
+                            <div className="text-xl">
+                              Hi,&nbsp;
+                              <span className="font-bold">
+                                {user?.name} {auth?.firstName}
+                              </span>
+                              !
+                            </div>
+                            <div className="flex justify-center w-full">
+                              <button
+                                onClick={(e) => router.push("/profile")}
+                                className="rounded-full border-white px-8 border-2 text-xl py-2 hover:scale-105 transition-all"
+                              >
+                                Manage your Profile
+                              </button>
+                            </div>
+                            <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-1">
+                              {!auth && (
+                                <>
+                                  <div
+                                    onClick={plansHook.onOpen}
+                                    className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
+                                  >
+                                    <CreditCard className="w-5 h-5" />
+                                    <span>Billing</span>
+                                  </div>
+                                  <div
+                                    onClick={() => router.push("/settings")}
+                                    className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-[#1b1b1b]"
+                                  >
+                                    <Settings className="w-5 h-5" />
+                                    <span>Settings</span>
+                                  </div>
+                                </>
+                              )}
+
+                              <div
+                                onClick={(e) => handleLogout(e)}
+                                className={cn(
+                                  "py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-[#1b1b1b]",
+                                  auth && "rounded-2xl"
+                                )}
+                              >
+                                <LogOut className="w-5 h-5" />
+                                <span>Log out</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </li>
           </ul>
         </div>
