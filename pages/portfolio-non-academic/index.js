@@ -15,14 +15,16 @@ const PortfolioNonAcademic = () => {
   const toastShownRef = useRef(false);
 
   const [user, setUser] = useState(null);
+  const [viewer, setViewer] = useState(null);
   const [certificates, setCertificates] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { isLoading, getUser, getAllNFTsAPI, getCertificate, setIsLoading } =
     useStateContext();
 
-  const evault = async () => {
+  const evault = async (userEmail) => {
     try {
-      const resp = await getUser("gaana.srinivas@gmail.com"); // Replace with Dynamic Email
-      if (resp.data.status == "OK") {
+      const resp = await getUser(userEmail);
+      if (resp.data.status === "OK") {
         const response = await getAllNFTsAPI(resp.data.user.userEmails);
 
         if (response.data.status === "Success") {
@@ -32,8 +34,6 @@ const PortfolioNonAcademic = () => {
             response.data.data.nftsByEmails.map(async (nftsByEmail) => {
               const email = Object.keys(nftsByEmail)[0];
               const nfts = nftsByEmail[email];
-
-              console.log(nftsByEmail);
 
               await Promise.all(
                 nfts.map(async (nft) => {
@@ -47,16 +47,13 @@ const PortfolioNonAcademic = () => {
           );
 
           setUser(resp.data.user);
-
           return fetchedCertificates;
         }
       } else {
-        toast.error(error.response?.data?.message || "Internal Server Error");
-        setError(error.response?.data?.message || "Internal Server Error");
-        console.error("Error in fetching All certificate:", error);
+        throw new Error(resp.data?.message || "Internal Server Error");
       }
     } catch (error) {
-      setError(error.response?.data?.message || "Internal Server Error");
+      toast.error(error.message || "Internal Server Error");
       console.error("Error in fetching All certificate:", error);
     } finally {
       setIsLoading(false);
@@ -65,41 +62,45 @@ const PortfolioNonAcademic = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const userData = localStorage.getItem("user-info");
-      // const authData = localStorage.getItem("auth-info");
+      setLoading(true);
+      setIsLoading(true);
+      const userData = localStorage.getItem("portfolio-user");
+      const viewerData = localStorage.getItem("user-info");
 
-      try {
-        const certificates = await evault();
-        console.log(certificates);
-        if (certificates.length > 0) {
-          setCertificates(certificates);
-        } else {
-          setIsLoading(false);
-          toast.error("Certificates not found");
+      if (!userData || !viewerData) {
+        setIsLoading(false);
+        setLoading(false);
+        router.replace("/portfolio");
+        if (!toastShownRef.current) {
+          toast("Please Provide the Email ID of the User", {
+            icon: "🚫",
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
+          toastShownRef.current = true;
         }
-      } catch (error) {
-        console.log(
-          "Error in fetching User Data in Portfolio Non academic: ",
-          error
-        );
+      } else {
+        try {
+          const certificates = await evault(
+            JSON.parse(userData)?.userEmails[0]
+          );
+          setCertificates(certificates || []);
+          setUser(JSON.parse(userData));
+          setViewer(JSON.parse(viewerData));
+          useUpgradeHook.getState().initialize();
+        } catch (error) {
+          console.log(
+            "Error in fetching User Data in Portfolio Non academic: ",
+            error
+          );
+        } finally {
+          setIsLoading(false);
+          setLoading(false);
+        }
       }
-
-      // if (!user) {
-      //   router.replace("/user-login");
-      //   if (!toastShownRef.current) {
-      //     toast("Please Login First", {
-      //       icon: "🚫",
-      //       style: {
-      //         borderRadius: "10px",
-      //         background: "#333",
-      //         color: "#fff",
-      //       },
-      //     });
-      //     toastShownRef.current = true;
-      //   }
-      // } else {
-      //   useUpgradeHook.getState().initialize();
-      // }
     };
 
     fetchData();
@@ -127,7 +128,7 @@ const PortfolioNonAcademic = () => {
     usePortfolio.getState().initialize(page);
   }, [router.pathname]);
 
-  if (!user) {
+  if (loading) {
     return (
       <div className="loader">
         <Logo />
@@ -141,7 +142,7 @@ const PortfolioNonAcademic = () => {
       <div className="pt-20 h-[100vh]">
         <Row className="pr-10">
           <Col lg={7}>
-            <PortfolioBasic user={user} />
+            <PortfolioBasic user={user} viewer={viewer} />
           </Col>
           <Col lg={14} className="flex justify-end items-end w-full">
             <Row className="flex w-full">
@@ -152,7 +153,6 @@ const PortfolioNonAcademic = () => {
                   </div>
                   <div className="py-0 h-1 rounded-full bg-gradient-to-r from-[#FF9C1A] to-[#E80505] w-1/6"></div>
                 </div>
-                {/* <div className="flex flex-col gap-y-20 px-40"> */}
                 <Row className="flex flex-grow justify-center align-middle overflow-y-scroll w-full h-full px-14">
                   <Col span={24} className="hidden lg:block lg:pb-8">
                     {certificates.length > 0 ? (
@@ -185,10 +185,10 @@ const PortfolioNonAcademic = () => {
                       &nbsp;{user.name}
                     </div>
                   </Col>
-                  {certificates?.map((certificate, qIndex) => (
+                  {certificates.map((certificate, qIndex) => (
                     <Col
                       key={qIndex}
-                      lg={12} 
+                      lg={12}
                       className="w-full lg:px-4 lg:py-4 px-5 py-5"
                     >
                       <Card
@@ -208,8 +208,6 @@ const PortfolioNonAcademic = () => {
                     </Col>
                   ))}
                 </Row>
-
-                {/* </div> */}
               </div>
             </Row>
           </Col>

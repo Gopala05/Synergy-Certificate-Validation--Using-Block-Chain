@@ -4,29 +4,31 @@ import Logo from "../../Components/Logo/Logo";
 import { useRouter } from "next/router";
 import { useStateContext } from "../../Context/NFTs";
 import { useUpgradeHook } from "@/hooks/upgrade-model";
-import { Col, Menu, Row } from "antd";
+import { Col, Row } from "antd";
 import { usePortfolio } from "@/hooks/usePortfolio";
 import PortfolioNav from "../../Components/Portfolio/PortfolioNav";
 import PortfolioBasic from "../../Components/Portfolio/PortfolioBasic";
 import ResumeCard from "../../Components/Portfolio/ResumeCard";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 const PortfolioExperience = () => {
   const router = useRouter();
   const toastShownRef = useRef(false);
 
   const [user, setUser] = useState(null);
-  const [auth, setAuth] = useState(null);
-  const { isLoading } = useStateContext();
+  const [viewer, setViewer] = useState(null);
+  const { isLoading, setIsLoading } = useStateContext();
 
   useEffect(() => {
     const fetchData = async () => {
-      const userData = localStorage.getItem("user-info");
-      const authData = localStorage.getItem("auth-info");
+      const userData = localStorage.getItem("portfolio-user");
+      const viewerData = localStorage.getItem("user-info");
 
-      if (!userData && !authData) {
-        router.replace("/user-login");
+      if (!userData || !viewerData) {
+        router.replace("/portfolio");
         if (!toastShownRef.current) {
-          toast("Please Login First", {
+          toast("Please Provide the Email ID of the User", {
             icon: "🚫",
             style: {
               borderRadius: "10px",
@@ -36,11 +38,11 @@ const PortfolioExperience = () => {
           });
           toastShownRef.current = true;
         }
-      } else if (userData) {
-        setUser(JSON.parse(userData));
-        useUpgradeHook.getState().initialize();
       } else {
-        setAuth(JSON.parse(authData));
+        setIsLoading(false);
+        setUser(JSON.parse(userData));
+        setViewer(JSON.parse(viewerData));
+        useUpgradeHook.getState().initialize();
       }
     };
 
@@ -69,7 +71,7 @@ const PortfolioExperience = () => {
     usePortfolio.getState().initialize(page);
   }, [router.pathname]);
 
-  if (!auth && !user) {
+  if (!user || !viewer) {
     return (
       <div className="loader">
         <Logo />
@@ -77,63 +79,13 @@ const PortfolioExperience = () => {
     );
   }
 
-  const Workskills = [
-    "Next.js",
-    "React.js",
-    "HTML5",
-    "CSS3",
-    "Tailwind CSS",
-    "Figma",
-    "JavaScript",
-    "MongoDB",
-    "SQL",
-    "Angular",
-    "Flutter",
-    "Git",
-  ];
-
-  const projects = [
-    {
-      label: "Synergy - Certificate Validation System",
-      link: "https://synergy-certificate-validation-using.onrender.com",
-    },
-    {
-      label: "CRM",
-      link: "https://github.com/Gopala05",
-    },
-    {
-      label: "Chat-Application",
-      link: "https://chatforever.onrender.com",
-    },
-    {
-      label: "AWS IOT Core Project",
-      link: "https://github.com/Gopala05",
-    },
-    {
-      label: "Tour Management System",
-      link: "https://github.com/Gopala05/Tour-Management_Frontend.git",
-    },
-    {
-      label: "Quiz App with Timer",
-      link: "https://github.com/Gopala05/Quiz-App-Full-Stack.git",
-    },
-  ];
-
-  const menu = (
-    <Menu className="flex flex-col gap-y-2 border-none">
-      <Menu.Item key="0" className="border-none">
-        <div className="flex w-full flex-col text-2xl p-5 bg-[#282a2c] rounded-md text-white"></div>
-      </Menu.Item>
-    </Menu>
-  );
-
   return (
     <div>
       <DashNav />
       <div className="pt-20 h-[100vh]">
         <Row className="pr-10">
           <Col lg={7}>
-            <PortfolioBasic user={user} />
+            <PortfolioBasic user={user} viewer={viewer} />
           </Col>
           <Col lg={14} className="flex justify-end items-end w-full">
             <Row className="flex w-full">
@@ -161,48 +113,23 @@ const PortfolioExperience = () => {
                     </Col>
                   </Row>
 
-                  <Row className="py-5 flex w-full justify-between">
-                    {/* Skill 1 */}
-                    <Col lg={11} className="flex justify-center">
-                      <ResumeCard
-                        bgColor={"bg-[#FFEED9]"}
-                        year={"6 Months"}
-                        title={"Web Developer"}
-                        subtitle={"Quinx Innovation Pvt. Ltd."}
-                      />
-                    </Col>
-
-                    {/* Skill 2 */}
-                    <Col lg={11} className="flex justify-center">
-                      <ResumeCard
-                        bgColor={"bg-[#FFFFFF]"}
-                        year={"1 Months"}
-                        title={"DevOps Enginner"}
-                        subtitle={"Xcel Corp"}
-                      />
-                    </Col>
-                  </Row>
-
-                  <Row className="py-5 flex w-full justify-between">
-                    {/* Skill 3 */}
-                    <Col lg={11} className="flex justify-center">
-                      <ResumeCard
-                        bgColor={"bg-[#FFFFFF]"}
-                        year={"1 Year"}
-                        title={"Junior Software Developer"}
-                        subtitle={"Tvast IT Solutions"}
-                      />
-                    </Col>
-
-                    {/* Skill 4 */}
-                    <Col lg={11} className="flex justify-center">
-                      <ResumeCard
-                        bgColor={"bg-[#FFEED9]"}
-                        year={"2 Months"}
-                        title={"IOT Gateway"}
-                        subtitle={"Cranes Varsity"}
-                      />
-                    </Col>
+                  <Row className="py-5 flex w-full justify-between gap-y-6">
+                    {user?.experienceTitles?.map((exp, index) => (
+                      <Col lg={11} className="flex justify-center" key={index}>
+                        <ResumeCard
+                          bgColor={
+                            index == 1
+                              ? "bg-[#FFFFFF]"
+                              : index == 2
+                              ? "bg-[#FFFFFF]"
+                              : "bg-[#FFEED9]"
+                          }
+                          year={user?.experiencePeriods[index]}
+                          title={exp}
+                          subtitle={user?.experiencesFrom[index]}
+                        />
+                      </Col>
+                    ))}
                   </Row>
                   <Row className="flex justify-between mt-6">
                     {/* Work Skills */}
@@ -211,7 +138,7 @@ const PortfolioExperience = () => {
                         Work Skills
                       </div>
                       <div className="flex flex-wrap gap-3 gap-x-3">
-                        {Workskills?.map((skill, index) => (
+                        {user?.workSkills?.map((skill, index) => (
                           <div
                             key={index}
                             className="bg-[#E1E8EF] rounded-lg py-2 px-5 font-medium text-gray-700 text-sm shadow-sm"
@@ -228,26 +155,28 @@ const PortfolioExperience = () => {
                         Projects
                       </div>
                       <div className="flex flex-wrap gap-4">
-                        {projects?.map((project, index) => (
-                          // <div className="h-[40rem] w-full flex items-center justify-center ">
-                          // <PinContainer
-                          //   title="/ui.aceternity.com"
-                          //   href="https://twitter.com/mannupaaji"
-                          // >
-                          //   <div
-                          //     key={index}
-                          //     className="bg-[#E1E8EF] cursor-pointer rounded-lg py-2 px-5 font-medium text-gray-700 text-sm shadow-sm"
-                          //   >
-                          //     {project.label}
-                          //   </div>
-                          // </PinContainer>
-                          // </div>
-                          <div
+                        {user?.projects?.map((project, index) => (
+                          <Link
+                            href={user?.projectsURL[index]}
+                            target="_blank"
                             key={index}
-                            className="bg-[#E1E8EF] cursor-pointer rounded-lg py-2 px-5 font-medium text-gray-700 text-sm shadow-sm"
                           >
-                            {project.label}
-                          </div>
+                            <div className="dropdown dropdown-hover">
+                              <div
+                                tabindex="0"
+                                role="button"
+                                className="bg-[#E1E8EF] cursor-pointer rounded-lg py-2 px-5 font-medium text-gray-700 text-sm shadow-sm"
+                              >
+                                {project}
+                              </div>
+                              <ul
+                                tabindex="0"
+                                className="dropdown-content menu bg-[#E1E8EF] rounded-box z-[1] p-2 shadow"
+                              >
+                                <li>{user?.projectsURL[index]}</li>
+                              </ul>
+                            </div>
+                          </Link>
                         ))}
                       </div>
                     </Col>

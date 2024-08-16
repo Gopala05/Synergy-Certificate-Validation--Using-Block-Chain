@@ -16,7 +16,7 @@ const PortfolioContact = () => {
   const toastShownRef = useRef(false);
 
   const [user, setUser] = useState(null);
-  const [auth, setAuth] = useState(null);
+  const [viewer, setViewer] = useState(null);
   const { isLoading, setIsLoading } = useStateContext();
   const [sender, setSender] = useState({
     name: "",
@@ -26,18 +26,18 @@ const PortfolioContact = () => {
   const [isEmailInValid, setIsEmailInValid] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [isInValid, setIsInValid] = useState(false);
-  
+
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   useEffect(() => {
     const fetchData = async () => {
-      const userData = localStorage.getItem("user-info");
-      const authData = localStorage.getItem("auth-info");
+      const userData = localStorage.getItem("portfolio-user");
+      const viewerData = localStorage.getItem("user-info");
 
-      if (!userData && !authData) {
-        router.replace("/user-login");
+      if (!userData || !viewerData) {
+        router.replace("/portfolio");
         if (!toastShownRef.current) {
-          toast("Please Login First", {
+          toast("Please Provide the Email ID of the User", {
             icon: "🚫",
             style: {
               borderRadius: "10px",
@@ -47,11 +47,11 @@ const PortfolioContact = () => {
           });
           toastShownRef.current = true;
         }
-      } else if (userData) {
-        setUser(JSON.parse(userData));
-        useUpgradeHook.getState().initialize();
       } else {
-        setAuth(JSON.parse(authData));
+        setIsLoading(false);
+        setUser(JSON.parse(userData));
+        setViewer(JSON.parse(viewerData));
+        useUpgradeHook.getState().initialize();
       }
     };
 
@@ -80,7 +80,7 @@ const PortfolioContact = () => {
     usePortfolio.getState().initialize(page);
   }, [router.pathname]);
 
-  if (!auth && !user) {
+  if (!user || !viewer) {
     return (
       <div className="loader">
         <Logo />
@@ -121,8 +121,8 @@ const PortfolioContact = () => {
       }
 
       const MailParams = {
-        from_name: auth ? `${auth.firstName} ${auth.lastName}` : user.name,
-        email_id: auth ? auth.authEmail : user.userEmails[0],
+        from_name: sender.name,
+        email_id: sender.email,
         message: query,
         year: new Date().getFullYear(),
       };
@@ -157,7 +157,7 @@ const PortfolioContact = () => {
       <div className="pt-20 h-[100vh]">
         <Row className="pr-10">
           <Col lg={7}>
-            <PortfolioBasic user={user} />
+            <PortfolioBasic user={user} viewer={viewer} />
           </Col>
           <Col lg={14} className="flex justify-end items-end w-full">
             <Row className="flex w-full">
@@ -175,8 +175,8 @@ const PortfolioContact = () => {
                         width={"w-6 pt-1"}
                         bgColor={"bg-[#FFEED9]"}
                         year={"Phone"}
-                        title={"+91 6360318731"}
-                        subtitle={"+91 8073342330"}
+                        title={user?.mobileNumber}
+                        subtitle={user?.alternativeMobile || ""}
                       />
                     </Col>
 
@@ -187,8 +187,8 @@ const PortfolioContact = () => {
                         width={"w-9"}
                         bgColor={"bg-[#FFFFFF]"}
                         year={"Email ID"}
-                        title={"gopigopala05vkbrg@gmail.com"}
-                        subtitle={""}
+                        title={user?.userEmails[0]}
+                        subtitle={user?.userEmails[1] || ""}
                       />
                     </Col>
                   </Row>
@@ -327,7 +327,7 @@ const PortfolioContact = () => {
                             onClick={(e) => handleSubmit(e)}
                             class="hover:scale-110 transition-all text-xl bg-gradient-to-r px-8 py-3 from-[#FF9C1A] to-[#E80505] text-white font-mediium rounded-full"
                           >
-                              Submit
+                            Submit
                           </button>
                         </div>
                       </div>

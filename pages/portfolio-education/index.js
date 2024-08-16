@@ -9,24 +9,25 @@ import { usePortfolio } from "@/hooks/usePortfolio";
 import PortfolioNav from "../../Components/Portfolio/PortfolioNav";
 import PortfolioBasic from "../../Components/Portfolio/PortfolioBasic";
 import ResumeCard from "../../Components/Portfolio/ResumeCard";
+import toast from "react-hot-toast";
 
 const PortfolioEducation = () => {
   const router = useRouter();
   const toastShownRef = useRef(false);
 
   const [user, setUser] = useState(null);
-  const [auth, setAuth] = useState(null);
-  const { isLoading } = useStateContext();
+  const [viewer, setViewer] = useState(null);
+  const { isLoading, setIsLoading } = useStateContext();
 
   useEffect(() => {
     const fetchData = async () => {
-      const userData = localStorage.getItem("user-info");
-      const authData = localStorage.getItem("auth-info");
+      const userData = localStorage.getItem("portfolio-user");
+      const viewerData = localStorage.getItem("user-info");
 
-      if (!userData && !authData) {
-        router.replace("/user-login");
+      if (!userData || !viewerData) {
+        router.replace("/portfolio");
         if (!toastShownRef.current) {
-          toast("Please Login First", {
+          toast("Please Provide the Email ID of the User", {
             icon: "🚫",
             style: {
               borderRadius: "10px",
@@ -36,11 +37,11 @@ const PortfolioEducation = () => {
           });
           toastShownRef.current = true;
         }
-      } else if (userData) {
-        setUser(JSON.parse(userData));
-        useUpgradeHook.getState().initialize();
       } else {
-        setAuth(JSON.parse(authData));
+        setIsLoading(false);
+        setUser(JSON.parse(userData));
+        setViewer(JSON.parse(viewerData));
+        useUpgradeHook.getState().initialize();
       }
     };
 
@@ -69,22 +70,13 @@ const PortfolioEducation = () => {
     usePortfolio.getState().initialize(page);
   }, [router.pathname]);
 
-  if (!auth && !user) {
+  if (!user || !viewer) {
     return (
       <div className="loader">
         <Logo />
       </div>
     );
   }
-
-  const hobbies = [
-    "Swimming",
-    "Gully Cricket",
-    "Vollybal",
-    "Reading Books and Novels",
-    "Singing",
-    "Dancing"
-  ];
 
   const softSkills = [
     "Time Management",
@@ -101,7 +93,7 @@ const PortfolioEducation = () => {
       <div className="pt-20 h-[100vh]">
         <Row className="pr-10">
           <Col lg={7}>
-            <PortfolioBasic user={user} />
+            <PortfolioBasic user={user} viewer={viewer} />
           </Col>
           <Col lg={14} className="flex justify-end items-end w-full">
             <Row className="flex w-full">
@@ -113,7 +105,7 @@ const PortfolioEducation = () => {
                 <div className="flex flex-col">
                   <Row className="py-0.5 flex w-full justify-start">
                     {/* Education */}
-                    <Col lg={11} className="flex justify-start">
+                    <Col lg={24} className="flex justify-start">
                       <div className="flex items-center gap-x-5">
                         <div>
                           <img
@@ -129,57 +121,31 @@ const PortfolioEducation = () => {
                     </Col>
                   </Row>
 
-                  <Row className="py-5 flex w-full justify-between">
-                    {/* Primary School */}
-                    <Col lg={11} className="flex justify-center">
-                      <ResumeCard
-                        bgColor={"bg-[#FFEED9]"}
-                        year={"2012 - 2016"}
-                        title={"Primary School"}
-                        subtitle={"Govt School"}
-                      />
-                    </Col>
-
-                    {/* High School */}
-                    <Col lg={11} className="flex justify-center">
-                      <ResumeCard
-                        bgColor={"bg-[#FFFFFF]"}
-                        year={"2016 - 2019"}
-                        title={"High School"}
-                        subtitle={"Govt School"}
-                      />
-                    </Col>
-                  </Row>
-
-                  <Row className="py-5 flex w-full justify-between">
-                    {/* Pre University */}
-                    <Col lg={11} className="flex justify-center">
-                      <ResumeCard
-                        bgColor={"bg-[#FFFFFF]"}
-                        year={"2019 - 2021"}
-                        title={"Pre University"}
-                        subtitle={"SGPTA PU College"}
-                      />
-                    </Col>
-
-                    {/* Graduation */}
-                    <Col lg={11} className="flex justify-center">
-                      <ResumeCard
-                        bgColor={"bg-[#FFEED9]"}
-                        year={"2021 - Present"}
-                        title={"Graduation"}
-                        subtitle={"KSIT"}
-                      />
-                    </Col>
+                  <Row className="py-5 flex w-full justify-between gap-y-6">
+                    {/* Education Cards */}
+                    {user?.qualificationTitles?.map((qualification, index) => (
+                      <Col lg={11} className="flex justify-center" key={index}>
+                        <ResumeCard
+                          bgColor={
+                            index == 1
+                              ? "bg-[#FFFFFF]"
+                              : index == 2
+                              ? "bg-[#FFFFFF]"
+                              : "bg-[#FFEED9]"
+                          }
+                          year={user?.qualificationYears[index]}
+                          title={qualification}
+                          subtitle={user?.qualificationsFrom[index]}
+                        />
+                      </Col>
+                    ))}
                   </Row>
                   <Row className="flex justify-between mt-6">
                     {/* Hobbies */}
                     <Col lg={11} className="flex flex-col">
-                      <div className="text-4xl font-semibold mb-6">
-                        Hobbies
-                      </div>
+                      <div className="text-4xl font-semibold mb-6">Hobbies</div>
                       <div className="flex flex-wrap gap-3 gap-x-3">
-                        {hobbies?.map((hobby, index) => (
+                        {user?.hobbies?.map((hobby, index) => (
                           <div
                             key={index}
                             className="bg-[#E1E8EF] rounded-lg py-2 px-5 font-medium text-gray-700 text-sm shadow-sm"
@@ -196,7 +162,7 @@ const PortfolioEducation = () => {
                         Soft Skills
                       </div>
                       <div className="flex flex-wrap gap-4">
-                        {softSkills?.map((skill, index) => (
+                        {user?.softSkills?.map((skill, index) => (
                           <div
                             key={index}
                             className="bg-[#E1E8EF] rounded-lg py-2 px-5 font-medium text-gray-700 text-sm shadow-sm"

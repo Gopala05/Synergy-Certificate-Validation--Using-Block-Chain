@@ -8,26 +8,26 @@ import { Col, Row } from "antd";
 import { usePortfolio } from "@/hooks/usePortfolio";
 import PortfolioNav from "../../Components/Portfolio/PortfolioNav";
 import PortfolioBasic from "../../Components/Portfolio/PortfolioBasic";
-import ResumeCard from "../../Components/Portfolio/ResumeCard";
-import AcademicButton from "../../Components/Portfolio/AcademicButton";
+import toast from "react-hot-toast";
+import { cn } from "../../utils/utils";
 
 const PortfolioResume = () => {
   const router = useRouter();
   const toastShownRef = useRef(false);
 
   const [user, setUser] = useState(null);
-  const [auth, setAuth] = useState(null);
-  const { isLoading } = useStateContext();
+  const [viewer, setViewer] = useState(null);
+  const { isLoading, setIsLoading } = useStateContext();
 
   useEffect(() => {
     const fetchData = async () => {
-      const userData = localStorage.getItem("user-info");
-      const authData = localStorage.getItem("auth-info");
+      const userData = localStorage.getItem("portfolio-user");
+      const viewerData = localStorage.getItem("user-info");
 
-      if (!userData && !authData) {
-        router.replace("/user-login");
+      if (!userData || !viewerData) {
+        router.replace("/portfolio");
         if (!toastShownRef.current) {
-          toast("Please Login First", {
+          toast("Please Provide the Email ID of the User", {
             icon: "🚫",
             style: {
               borderRadius: "10px",
@@ -37,11 +37,11 @@ const PortfolioResume = () => {
           });
           toastShownRef.current = true;
         }
-      } else if (userData) {
-        setUser(JSON.parse(userData));
-        useUpgradeHook.getState().initialize();
       } else {
-        setAuth(JSON.parse(authData));
+        setIsLoading(false);
+        setUser(JSON.parse(userData));
+        setViewer(JSON.parse(viewerData));
+        useUpgradeHook.getState().initialize();
       }
     };
 
@@ -70,7 +70,7 @@ const PortfolioResume = () => {
     usePortfolio.getState().initialize(page);
   }, [router.pathname]);
 
-  if (!auth && !user) {
+  if (!user || !viewer) {
     return (
       <div className="loader">
         <Logo />
@@ -84,7 +84,7 @@ const PortfolioResume = () => {
       <div className="pt-20 h-[100vh]">
         <Row className="pr-10">
           <Col lg={7}>
-            <PortfolioBasic user={user} />
+            <PortfolioBasic user={user} viewer={viewer} />
           </Col>
           <Col lg={14} className="flex justify-end items-end w-full">
             <Row className="flex w-full">
@@ -109,22 +109,36 @@ const PortfolioResume = () => {
                       />
                     </div>
                     <div className="flex w-full">
-                      <button class="flex hover:scale-110 transition-all w-full bg-gradient-to-r from-[#FF9C1A] to-[#E80505] text-white font-mediium rounded-3xl p-1  ">
-                        <div class="flex w-full px-6 pl-16 justify-start bg-[#EBB9F8] text-black rounded-3xl py-2 text-4xl">
+                      <button
+                        disabled={!user?.sslcCertificate}
+                        className={cn(
+                          "flex cursor-not-allowed w-full bg-gradient-to-r from-[#FF9C1A] to-[#E80505] text-white font-mediium rounded-3xl p-1",
+                          user?.sslcCertificate &&
+                            "hover:scale-110 transition-all cursor-pointer"
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "flex w-full px-6 pl-16 justify-start bg-[#EBB9F8] text-black rounded-3xl py-2 text-4xl",
+                            !user?.sslcCertificate && "bg-gray-500 text-white"
+                          )}
+                        >
                           <div className="flex w-full justify-start gap-x-16">
                             <div className="p-2 px-0">10th Marks </div>
                             <div>
-                              <div className="bg-gradient-to-r h-full rounded-full py-6 from-[#FF9C1A] to-[#E80505] px-[2px] "></div>
+                              <div className="bg-gradient-to-r h-full rounded-full py-6 from-[#FF9C1A] to-[#E80505] px-[2px]"></div>
                             </div>
                             <div className="p-2 px-0">ICSE</div>
                           </div>
-                          <div className="p-2 px-0">
-                            <img
-                              src="./Icons/Verified.png"
-                              alt="Verified Icon"
-                              className="w-10"
-                            />
-                          </div>
+                          {user?.sslcCertificate && (
+                            <div className="p-2 px-0">
+                              <img
+                                src="./Icons/Verified.png"
+                                alt="Verified Icon"
+                                className="w-10"
+                              />
+                            </div>
+                          )}
                         </div>
                       </button>
                     </div>
@@ -143,22 +157,36 @@ const PortfolioResume = () => {
                       />
                     </div>
                     <div className="flex w-full">
-                      <button class="flex hover:scale-110 transition-all shadow-lg shadow-black/30 w-full bg-gradient-to-r from-[#FF9C1A] to-[#E80505] text-white font-mediium rounded-3xl p-1  ">
-                        <div class="flex w-full px-6 pl-16 justify-start bg-[#EBB9F8] text-black rounded-3xl py-2 text-4xl">
+                      <button
+                        disabled={!user?.puCertificate}
+                        className={cn(
+                          "flex cursor-not-allowed w-full bg-gradient-to-r from-[#FF9C1A] to-[#E80505] text-white font-mediium rounded-3xl p-1",
+                          user?.puCertificate &&
+                            "hover:scale-110 transition-all cursor-pointer"
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "flex w-full px-6 pl-16 justify-start bg-[#EBB9F8] text-black rounded-3xl py-2 text-4xl",
+                            !user?.puCertificate && "bg-gray-500 text-white"
+                          )}
+                        >
                           <div className="flex w-full justify-start gap-x-16">
                             <div className="p-2 px-0">12th Marks </div>
                             <div>
-                              <div className="bg-gradient-to-r h-full rounded-full py-6 from-[#FF9C1A] to-[#E80505] px-[2px] "></div>
+                              <div className="bg-gradient-to-r h-full rounded-full py-6 from-[#FF9C1A] to-[#E80505] px-[2px]"></div>
                             </div>
                             <div className="p-2 px-0">PUC</div>
                           </div>
-                          <div className="p-2 px-0">
-                            <img
-                              src="./Icons/Verified.png"
-                              alt="Verified Icon"
-                              className="w-10"
-                            />
-                          </div>
+                          {user?.puCertificate && (
+                            <div className="p-2 px-0">
+                              <img
+                                src="./Icons/Verified.png"
+                                alt="Verified Icon"
+                                className="w-10"
+                              />
+                            </div>
+                          )}
                         </div>
                       </button>
                     </div>
@@ -177,22 +205,35 @@ const PortfolioResume = () => {
                       />
                     </div>
                     <div className="flex w-full">
-                      <button class="flex hover:scale-110 transition-all shadow-lg shadow-black/30 w-full bg-gradient-to-r from-[#FF9C1A] to-[#E80505] text-white font-mediium rounded-3xl p-1  ">
-                        <div class="flex w-full px-6 pl-16 justify-start bg-[#EBB9F8] text-black rounded-3xl py-2 text-4xl">
+                      <button
+                        className={cn(
+                          "flex cursor-not-allowed w-full bg-gradient-to-r from-[#FF9C1A] to-[#E80505] text-white font-mediium rounded-3xl p-1",
+                          user?.ugCertificate &&
+                            "hover:scale-110 transition-all cursor-pointer"
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "flex w-full px-6 pl-16 justify-start bg-[#EBB9F8] text-black rounded-3xl py-2 text-4xl",
+                            !user?.ugCertificate && "bg-gray-500 text-white"
+                          )}
+                        >
                           <div className="flex w-full justify-start gap-x-12">
                             <div className="p-2 px-0">Engineering</div>
                             <div>
-                              <div className="bg-gradient-to-r h-full rounded-full py-6 from-[#FF9C1A] to-[#E80505] px-[2px] "></div>
+                              <div className="bg-gradient-to-r h-full rounded-full py-6 from-[#FF9C1A] to-[#E80505] px-[2px]"></div>
                             </div>
                             <div className="p-2 px-0">VTU</div>
                           </div>
-                          <div className="p-2 px-0">
-                            <img
-                              src="./Icons/Verified.png"
-                              alt="Verified Icon"
-                              className="w-10"
-                            />
-                          </div>
+                          {user?.ugCertificate && (
+                            <div className="p-2 px-0">
+                              <img
+                                src="./Icons/Verified.png"
+                                alt="Verified Icon"
+                                className="w-10"
+                              />
+                            </div>
+                          )}
                         </div>
                       </button>
                     </div>
