@@ -27,8 +27,13 @@ const handle = nextServer.getRequestHandler();
 
 // Initialize Express
 const app = express();
-// app.use(express.json()); // Apply JSON parsing middleware globally
-app.use(cors()); // Cross-Origin Resource Sharing
+
+const corsOptions = {
+  origin: '*', // Replace with your frontend origin
+  credentials: true, // Allow credentials
+};
+
+app.use(cors(corsOptions));
 
 // Connect to MongoDB
 const DB = process.env.DATABASE.replace(
