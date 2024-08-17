@@ -29,8 +29,15 @@ const handle = nextServer.getRequestHandler();
 const app = express();
 
 const corsOptions = {
-  origin: '*', // Replace with your frontend origin
-  credentials: true, // Allow credentials
+  origin: (origin, callback) => {
+    const allowedOrigins = ['http://localhost', 'http://localhost:3000'];
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'), false);
+    }
+  },
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
