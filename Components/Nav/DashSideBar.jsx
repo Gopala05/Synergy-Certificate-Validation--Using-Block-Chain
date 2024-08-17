@@ -12,9 +12,8 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog";
 
 const DashSideBar = () => {
   const [auth, setAuth] = React.useState("");
