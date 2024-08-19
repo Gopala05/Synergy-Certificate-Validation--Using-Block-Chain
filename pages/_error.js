@@ -11,7 +11,7 @@ const Error = () => {
         <div className="bg-white w-full flex pr-3 lg:px-5 pt-2 pb-0 justify-start items-center z-50">
           <div className="flex justify-start items-center font-bold text-2xl md:text-3xl">
             <span>
-              <img src="./Logo.png" alt="Logo" className="lg:w-24 w-40" />
+              <img src="/Logo.png" alt="Logo" className="lg:w-24 w-40" />
             </span>
             Synergy
           </div>
