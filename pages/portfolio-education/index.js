@@ -109,7 +109,7 @@ const PortfolioEducation = () => {
                       <div className="flex items-center gap-x-5">
                         <div>
                           <img
-                            src="./Icons/Education.png"
+                            src="/Icons/Education.png"
                             alt="Education Icon"
                             className="w-10"
                           />

@@ -109,12 +109,12 @@ const PortfolioProfile = () => {
                         <ProfileInfoCard
                           image={
                             index == 0
-                              ? "./Icons/Coding.png"
+                              ? "/Icons/Coding.png"
                               : index == 1
-                              ? "./Icons/Android.png"
+                              ? "/Icons/Android.png"
                               : index == 2
-                              ? "./Icons/UI-UX.png"
-                              : "./Icons/Mentorship.png"
+                              ? "/Icons/UI-UX.png"
+                              : "/Icons/Mentorship.png"
                           }
                           imageWidth={"w-8"}
                           title={user?.careerTitles[index]}

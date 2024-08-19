@@ -6,7 +6,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { RiHome4Fill } from "react-icons/ri";
-import { Edit2Icon, Edit3Icon, UserIcon } from "lucide-react";
+import { Edit3Icon, UserIcon } from "lucide-react";
+import { PinataSDK } from "pinata";
+import { useStateContext } from "../../Context/NFTs";
 
 const UserSignUp = () => {
   const router = useRouter();
@@ -33,14 +35,17 @@ const UserSignUp = () => {
     password: "",
     confirmPassword: "",
   });
+  const [aadharUser, setAadharUser] = React.useState(null);
+  const { setIsLoading, createUserDetails } = useStateContext();
+
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   // Key Board Event Listener
   const handleEnterKeyPress = (event) => {
     if (event.key === "Enter") {
-      if (!verified && firstField == "OTP") handleOTPVerification();
-      if (!verified && firstField == "Aadhar Number") handleOTP();
+      if (!verified && firstField == "OTP") handleOTP(event);
+      if (!verified && firstField == "Aadhar Number") handleAadhar(event);
       if (verified) handleSignUp(event);
     }
   };
@@ -101,9 +106,77 @@ const UserSignUp = () => {
     setUser({ ...user, [fieldName]: e.target.value });
   };
 
+  // Handling Aadhar Verification
+  const handleAadhar = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      if (!user?.aadhar) {
+        setIsLoading(false);
+        return toast.error("Plese Provide the aadhar number");
+      }
+      const aadharValid = await axios.post("/api/v1/aadhar/check-aadhar", {
+        aadhar: user?.aadhar,
+      });
+
+      if (aadharValid.status == 200) {
+        setFirstField("OTP");
+        setButtonName("Verify");
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        toast.error(aadharValid?.data?.message || "Invalid Aadhar");
+        return;
+      }
+    } catch (error) {
+      setIsLoading(false);
+      toast.error(error.response?.data?.message || "Internal Server Error");
+      console.log("Error in the Aadhar Verification: ", error);
+    }
+  };
+
+  // Handling OTP Verification
+  const handleOTP = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      if (!user?.otp) {
+        setIsLoading(false);
+        return toast.error("Plese Provide the OTP");
+      }
+      const aadharOTPValid = await axios.post(
+        "/api/v1/aadhar/check-aadhar-otp",
+        {
+          aadhar: user?.aadhar,
+          otp: user?.otp,
+        }
+      );
+
+      // Replace this with aadharValid.data.user
+      if (aadharOTPValid.status == 200) {
+        const aadharUser = aadharOTPValid.data.user;
+        setAadharUser(aadharUser);
+        setFirstField("Aadhar number");
+        setButtonName("Verified");
+        setVerified(true);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        toast.error(aadharOTPValid?.data?.message || "Invalid Aadhar");
+        return;
+      }
+    } catch (error) {
+      setIsLoading(false);
+      toast.error(error.response?.data?.message || "Internal Server Error");
+      console.log("Error in the Aadhar Verification: ", error);
+    }
+  };
+
   // Handling Sign Up
   const handleSignUp = async (e) => {
     e.preventDefault();
+    setAadharInvalid(false);
+    setIsLoading(true);
 
     try {
       if (
@@ -115,18 +188,27 @@ const UserSignUp = () => {
         user.confirmPassword === ""
       ) {
         setIsInValid(true);
+        setIsLoading(false);
         setError("Please Provide the");
         toast.error("Please Fill All Mandatory Fields");
         return;
       }
 
-      if (user.aadhar !== 12) {
+      if (!aadharUser) {
+        toast.error("User not Verified");
+        setIsLoading(false);
+        return;
+      }
+
+      if (user.aadhar.length !== 12) {
         setAadharInvalid(true);
+        setIsLoading(false);
         setAadharError("Aadhar Should be 12 characters numeric only");
       }
 
-      if (!emailRegex.test(user.email)) {
+      if (!emailRegex.test(user.userEmails)) {
         toast.error("Provide the proper Email");
+        setIsLoading(false);
         return;
       }
 
@@ -134,48 +216,158 @@ const UserSignUp = () => {
         toast.error(
           "Password must be minimum 8 characters and include at least 1 digit, 1 uppercase letter, 1 lowercase letter, and 1 special character"
         );
+        setIsLoading(false);
         return;
       }
 
       if (user.password !== user.confirmPassword) {
         toast.error("Password and Confirm Password do not match");
+        setIsLoading(false);
         return;
       }
 
-      const response = await axios({
-        method: "POST",
-        url: "/api/v1/users/sign-up",
-        withCredentials: true,
-        data: {
-          name: user.name,
-          userName: user.userName,
-          userEmails: user.userEmails,
-          password: user.password,
-          confirmPassword: user.confirmPassword,
-        },
-      });
-
-      if (response.data.status === "Success") {
-        setUser({
-          name: "",
-          userName: "",
-          userEmails: "",
-          password: "",
-          confirmPassword: "",
+      if (file) {
+        //Pinata SDK
+        const pinata = new PinataSDK({
+          pinataJwt: process.env.PINATA_JWT,
+          pinataGateway: process.env.PINATA_GATEWAY,
         });
-        localStorage.setItem(
-          "user-info",
-          JSON.stringify(response.data.data.user)
+
+        // Form Data
+        const formData = new FormData();
+
+        formData.append("file", file);
+
+        const pinataMetadata = JSON.stringify({
+          name: `${user?.userName} Profile Image`,
+        });
+        formData.append("pinataMetadata", pinataMetadata);
+
+        const pinataOptions = JSON.stringify({
+          cidVersion: 1,
+        });
+        formData.append("pinataOptions", pinataOptions);
+
+        // Pinata Request
+        const request = await fetch(
+          "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${process.env.PINATA_JWT}`,
+            },
+            body: formData,
+          }
         );
-        localStorage.setItem("User-Token", response.data.token);
-        toast.success("Registered Successfully");
-        router.push("/user-home");
-      } else if (response.data.status === "Bad Request") {
-        toast.error(response.data.message);
+        const imageUpload = await request.json();
+
+        // Adding to the Group
+        const group = await pinata.groups.addCids({
+          groupId: process.env.PINATA_GROUP_ID,
+          cids: [imageUpload.IpfsHash],
+        });
+
+        if (group == "OK") {
+          const response = await axios({
+            method: "POST",
+            url: "/api/v1/users/sign-up",
+            withCredentials: true,
+            data: {
+              aadhar: user.aadhar,
+              name:
+                aadharUser?.first_name +
+                (aadharUser?.middle_name !== ""
+                  ? +" " + aadharUser?.middle_name + " "
+                  : " ") +
+                aadharUser?.last_name,
+              userName: user.userName,
+              userEmails: user.userEmails,
+              profile: `https://gateway.pinata.cloud/ipfs/${imageUpload.IpfsHash}`,
+              password: user.password,
+              confirmPassword: user.confirmPassword,
+            },
+          });
+
+          if (response.data.status === "Success") {
+            setUser({
+              aadhar: "",
+              name: "",
+              userName: "",
+              userEmails: "",
+              password: "",
+              confirmPassword: "",
+            });
+            setFile(null);
+            setAvatarImage("/User_Name.jpg");
+            localStorage.setItem(
+              "user-info",
+              JSON.stringify(response.data.data.user)
+            );
+            localStorage.setItem("User-Token", response.data.token);
+            toast.success("Registered Successfully");
+            setIsLoading(false);
+            router.push("/user-home");
+          } else if (response.data.status === "Bad Request") {
+            toast.error(response.data.message);
+            setIsLoading(false);
+          } else {
+            toast.error("Unknown response status");
+            setIsLoading(false);
+          }
+        } else {
+          toast.error("Something went wrong, try again later!");
+          setIsLoading(false);
+          return;
+        }
       } else {
-        toast.error("Unknown response status");
+        const response = await axios({
+          method: "POST",
+          url: "/api/v1/users/sign-up",
+          withCredentials: true,
+          data: {
+            aadhar: user.aadhar,
+            name:
+              aadharUser?.first_name +
+              (aadharUser?.middle_name !== ""
+                ? +" " + aadharUser?.middle_name + " "
+                : " ") +
+              aadharUser?.last_name,
+            userName: user.userName,
+            userEmails: user.userEmails,
+            profile: "",
+            password: user.password,
+            confirmPassword: user.confirmPassword,
+          },
+        });
+
+        if (response.data.status === "Success") {
+          await createUserDetails(response.data.data.user);
+          setUser({
+            aadhar: "",
+            name: "",
+            userName: "",
+            userEmails: "",
+            password: "",
+            confirmPassword: "",
+          });
+          localStorage.setItem(
+            "user-info",
+            JSON.stringify(response.data.data.user)
+          );
+          localStorage.setItem("User-Token", response.data.token);
+          toast.success("Registered Successfully");
+          setIsLoading(false);
+          router.push("/user-home");
+        } else if (response.data.status === "Bad Request") {
+          toast.error(response.data.message);
+          setIsLoading(false);
+        } else {
+          toast.error("Unknown response status");
+          setIsLoading(false);
+        }
       }
     } catch (error) {
+      setIsLoading(false);
       toast.error(error.response?.data?.message || "Internal Server Error");
       console.error("Error in Sign Up: ", error);
     }
@@ -190,31 +382,12 @@ const UserSignUp = () => {
     };
   };
 
-  const handleOTP = async () => {
-    if (!user.aadhar) return toast.error("Plese Provide the aadhar number");
-    // const aadharExists = await checkAadhar(user.aadhar);
-    if (true) {
-      setFirstField("OTP");
-      setButtonName("Verify");
-    }
-  };
-
-  const handleOTPVerification = async () => {
-    if (!user.otp) return toast.error("Plese Provide the OTP");
-    // const otpValid = await checkOTP(user.aadhar, user.otp);
-    if (true) {
-      setFirstField("Aadhar number");
-      setButtonName("Verified");
-      setVerified(true);
-    }
-  };
-
   return (
     <div className="h-full lg:h-[100vh] bg-white">
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./User_SignUp.png"
+            src="/User_SignUp.png"
             alt="Sign Up Image"
             className="h-[100vh] w-full rounded-[10rem] rounded-s-none"
           />
@@ -276,14 +449,14 @@ const UserSignUp = () => {
                   },
                 ]}
                 validateStatus={
-                  isInValid && !user.aadhar
+                  isInValid && !user.aadhar && !verified
                     ? "error"
                     : aadharInvalid
                     ? "error"
                     : ""
                 }
                 help={
-                  isInValid && !user.aadhar ? (
+                  isInValid && !user.aadhar && !verified ? (
                     <p className="text-red-600 text-base font-bold">{`${error} Aadhar Number`}</p>
                   ) : aadharInvalid ? (
                     <p className="text-red-600 text-base font-bold">
@@ -314,8 +487,8 @@ const UserSignUp = () => {
               </Form.Item>
               <button
                 disabled={verified || user.aadhar.length == 0 || aadharInvalid}
-                onClick={() =>
-                  firstField == "OTP" ? handleOTPVerification() : handleOTP()
+                onClick={(e) =>
+                  firstField == "OTP" ? handleOTP(e) : handleAadhar(e)
                 }
                 className="btn mt-1 disabled:from-gray-500 disabled:to-gray-500 disabled:hover:cursor-not-allowed disabled:text-white bg-gradient-to-r from-green-400 to-green-600 text-xl border-0 text-black hover:text-white rounded-2xl font-bold hover:shadow-green-600"
               >
@@ -420,7 +593,6 @@ const UserSignUp = () => {
               <br />
               <Input.Password
                 disabled={!verified}
-                type="password"
                 className="w-full mt-1 text-black h-10 rounded-2xl pr-10 border-2 border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
                 placeholder="Password..."
                 value={user.password}
@@ -458,7 +630,6 @@ const UserSignUp = () => {
               </label>
               <br />
               <Input.Password
-                type="password"
                 disabled={user.password ? false : true}
                 className="w-full mt-1 text-black h-10 rounded-2xl pr-10 border-2 border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
                 placeholder="Confirm Password..."

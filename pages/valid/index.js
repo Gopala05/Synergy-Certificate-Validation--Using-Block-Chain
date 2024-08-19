@@ -64,7 +64,7 @@ const Valid = () => {
       <DashNav />
       {sayCongrats && (
         <img
-          src="./Congrats.gif"
+          src="/Congrats.gif"
           alt="Congrats GIF"
           className="fixed h-full w-full inset-0 grid place-content-center z-50"
         />
@@ -112,7 +112,7 @@ const Valid = () => {
               className="text-white"
             >
               <img
-                src="./Download_Icon.png"
+                src="/Download_Icon.png"
                 alt="Download Icon"
                 className="w-14 pt-2"
               />

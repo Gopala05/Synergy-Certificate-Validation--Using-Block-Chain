@@ -101,7 +101,7 @@ const PortfolioExperience = () => {
                       <div className="flex items-center gap-x-5">
                         <div>
                           <img
-                            src="./Icons/Experience.png"
+                            src="/Icons/Experience.png"
                             alt="Experience Icon"
                             className="w-8"
                           />

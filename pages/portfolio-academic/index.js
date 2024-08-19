@@ -103,7 +103,7 @@ const PortfolioResume = () => {
                     </div>
                     <div>
                       <img
-                        src="./Icons/Line.png"
+                        src="/Icons/Line.png"
                         alt="Line Icon"
                         className="w-72"
                       />
@@ -133,7 +133,7 @@ const PortfolioResume = () => {
                           {user?.sslcCertificate && (
                             <div className="p-2 px-0">
                               <img
-                                src="./Icons/Verified.png"
+                                src="/Icons/Verified.png"
                                 alt="Verified Icon"
                                 className="w-10"
                               />
@@ -151,7 +151,7 @@ const PortfolioResume = () => {
                     </div>
                     <div>
                       <img
-                        src="./Icons/Line.png"
+                        src="/Icons/Line.png"
                         alt="Line Icon"
                         className="w-72"
                       />
@@ -181,7 +181,7 @@ const PortfolioResume = () => {
                           {user?.puCertificate && (
                             <div className="p-2 px-0">
                               <img
-                                src="./Icons/Verified.png"
+                                src="/Icons/Verified.png"
                                 alt="Verified Icon"
                                 className="w-10"
                               />
@@ -199,7 +199,7 @@ const PortfolioResume = () => {
                     </div>
                     <div>
                       <img
-                        src="./Icons/Line.png"
+                        src="/Icons/Line.png"
                         alt="Line Icon"
                         className="w-72"
                       />
@@ -228,7 +228,7 @@ const PortfolioResume = () => {
                           {user?.ugCertificate && (
                             <div className="p-2 px-0">
                               <img
-                                src="./Icons/Verified.png"
+                                src="/Icons/Verified.png"
                                 alt="Verified Icon"
                                 className="w-10"
                               />

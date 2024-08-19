@@ -57,7 +57,7 @@ const AuthLogin = () => {
       const response = await axios({
         method: "POST",
         url: "/api/v1/auth/sign-in",
-        withCredentials: true,
+        // withCredentials: true,
         data: {
           authID: auth.authID,
           password: auth.password,
@@ -89,7 +89,7 @@ const AuthLogin = () => {
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./Auth_SignIn.png"
+            src="/Auth_SignIn.png"
             alt="Login Image"
             className="h-[100vh] w-full rounded-s-none rounded-[10rem]"
           />

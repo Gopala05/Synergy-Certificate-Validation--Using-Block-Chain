@@ -21,7 +21,7 @@ const Block = () => {
       const response = await axios({
         method: "GET",
         url: `/api/v1/link/check/${id}`,
-        withCredentials: true,
+        // withCredentials: true,
       });
       if (response.data.status == "OK") {
         setID(router.query.id);
@@ -73,7 +73,7 @@ const Block = () => {
         const response = await axios({
           method: "PUT",
           url: `/api/v1/link/block/${request._id}`,
-          withCredentials: true,
+          // withCredentials: true,
         });
 
         if (response.data.status === "OK") {
@@ -136,7 +136,7 @@ const Block = () => {
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./Block_Metamask.png"
+            src="/Block_Metamask.png"
             alt="Block Image"
             className="h-[100vh] text-black w-full rounded-full rounded-s-none"
           />

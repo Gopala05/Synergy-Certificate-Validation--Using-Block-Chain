@@ -106,8 +106,6 @@ const Portfolio = () => {
           userPresent.data.user.userName
         );
 
-        console.log(userDetails)
-
         if (userDetails) {
           setIsLoading(false);
 
@@ -163,7 +161,7 @@ const Portfolio = () => {
           className="flex flex-col w-full gap-y-20 lg:gap-y-10 justify-center items-center lg:pr-20 pt-10 lg:pt-20 xl:pr-32 lg:mt-0"
         >
           <Row className="text-white lg:block flex lg:w-auto w-full text-5xl justify-center lg:justify-start md:text-5xl xl:text-6xl font-semibold">
-            Find &nbsp;<span className="text-[#f6851b]">Portfolio</span>!
+            Find&nbsp;<span className="text-[#f6851b]">Portfolio</span>!
           </Row>
           <div className="flex lg:w-full justify-start flex-row">
             <div className="max-w-[90vw] lg:w-[80vw] xl:h-[40vh] flex flex-col justify-center border-dashed border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
