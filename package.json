@@ -10,7 +10,9 @@
     "install:force": "npm install --force"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.1.5",
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
     "@emailjs/browser": "^4.3.3",
     "@next/font": "13.4.4",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -36,6 +38,7 @@
     "mongoose": "^5.5.2",
     "next": "^13.5.6",
     "nodemon": "^3.1.0",
+    "pinata": "^0.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.9.0",
