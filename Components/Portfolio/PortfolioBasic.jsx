@@ -3,7 +3,6 @@ import Link from "next/link";
 import { cn } from "../../utils/utils";
 
 const PortfolioBasic = ({ user, viewer }) => {
-  console.log(user?.userName, viewer?.userName)
   return (
     <div
       className={cn(
@@ -13,7 +12,7 @@ const PortfolioBasic = ({ user, viewer }) => {
     >
       <div className="bg-white flex justify-center rounded-2xl w-60 absolute z-20 top-10 border-2 border-black">
         <img
-          src="./GK.jpg"
+          src={user?.profile ? user.profile : "/User_Name.jpg"}
           alt="User Image"
           className="w-52 h-48 flex justify-center"
         />
@@ -31,7 +30,7 @@ const PortfolioBasic = ({ user, viewer }) => {
               <Link href={user?.gitHub} target="_blank">
                 <button className="bg-[#F2F7FC] btn hover:bg-[#F2F7FC] border-none rounded-lg py-2 px-3 flex items-center">
                   <img
-                    src="./Icons/GitHub.png"
+                    src="/Icons/GitHub.png"
                     alt="GitHub Icon"
                     className="w-8"
                   />
@@ -42,7 +41,7 @@ const PortfolioBasic = ({ user, viewer }) => {
               <Link href={user?.linkedIn} target="_blank">
                 <button className="bg-[#F2F7FC] btn hover:bg-[#F2F7FC] border-none rounded-lg py-2 px-3 flex items-center">
                   <img
-                    src="./Icons/LinkedIn.png"
+                    src="/Icons/LinkedIn.png"
                     alt="LinkedIn Icon"
                     className="w-6"
                   />
@@ -53,7 +52,7 @@ const PortfolioBasic = ({ user, viewer }) => {
               <Link href={user?.slack} target="_blank">
                 <button className="bg-[#F2F7FC] btn hover:bg-[#F2F7FC] border-none rounded-lg py-2 px-3 flex items-center">
                   <img
-                    src="./Icons/Slack.png"
+                    src="/Icons/Slack.png"
                     alt="Slack Icon"
                     className="w-6"
                   />
@@ -64,7 +63,7 @@ const PortfolioBasic = ({ user, viewer }) => {
               <Link href={user?.leetCode} target="_blank">
                 <button className="bg-[#F2F7FC] btn hover:bg-[#F2F7FC] border-none rounded-lg py-2 px-3 flex items-center">
                   <img
-                    src="./Icons/LeetCode.png"
+                    src="/Icons/LeetCode.png"
                     alt="LeetCode Icon"
                     className="w-6"
                   />
@@ -77,7 +76,7 @@ const PortfolioBasic = ({ user, viewer }) => {
           {/* Phone */}
           <div className="flex flex-row w-full justify-start gap-x-3 items-center">
             <div className="w-8 flex justify-center">
-              <img src="./Icons/Phone.png" alt="Phone Icon" className="w-4" />
+              <img src="/Icons/Phone.png" alt="Phone Icon" className="w-4" />
             </div>
             <div className="flex flex-col justify-center text-start">
               <div className="text-gray-500 flex justify-start w-full font-semibold">
@@ -93,7 +92,7 @@ const PortfolioBasic = ({ user, viewer }) => {
           {/* Email */}
           <div className="flex flex-row w-full justify-start gap-x-3 items-center">
             <div className="w-8 flex justify-center">
-              <img src="./Icons/Email.png" alt="Email Icon" className="w-6" />
+              <img src="/Icons/Email.png" alt="Email Icon" className="w-6" />
             </div>
             <div className="flex flex-col justify-center text-start ">
               <div className="text-gray-500 flex justify-start w-full font-semibold">
@@ -110,7 +109,7 @@ const PortfolioBasic = ({ user, viewer }) => {
           <div className="flex flex-row w-full justify-start gap-x-3 items-center">
             <div className="w-8 flex justify-center">
               <img
-                src="./Icons/Location.png"
+                src="/Icons/Location.png"
                 alt="Location Icon"
                 className="w-5"
               />

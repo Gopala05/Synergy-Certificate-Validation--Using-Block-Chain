@@ -15,7 +15,7 @@ const AcademicButton = ({ title, board, verified }) => {
         <div className="p-2 px-0">
           {verified && (
             <img
-              src="./Icons/Verified.png"
+              src="/Icons/Verified.png"
               alt="Verified Icon"
               className="w-10"
             />
