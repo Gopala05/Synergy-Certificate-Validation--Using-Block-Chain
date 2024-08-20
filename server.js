@@ -11,6 +11,7 @@ const authRouter = require("./Api/Routers/authRouter");
 const requestRouter = require("./Api/Routers/requestRouter");
 const subscriptionRouter = require("./Api/Routers/subscriptionRouter");
 const userDetailsRouter = require("./Api/Routers/userDetailsRouter");
+const aadharRouter = require("./Api/Routers/aadharRouter");
 const SubscriptionModal = require("./Api/Model/subscriptionModal");
 const userModal = require("./Api/Model/userModal");
 
@@ -60,6 +61,7 @@ app.use("/api/v1/nfts", express.json(), nftRouter);
 app.use("/api/v1/link", express.json(), requestRouter);
 app.use("/api/v1/stripe", express.json(), subscriptionRouter);
 app.use("/api/v1/userdetails", express.json(), userDetailsRouter);
+app.use("/api/v1/aadhar", express.json(), aadharRouter);
 
 // Webhook route with raw body handling
 app.post(
