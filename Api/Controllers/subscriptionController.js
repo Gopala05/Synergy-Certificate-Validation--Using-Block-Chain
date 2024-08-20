@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   typescript: false,
 });
 
-const settingsUrl = `${process.env.NEXT_PUBLIC_WEB_URL_1}/settings`;
+const settingsUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/settings`;
 const Gold_Price_ID = process.env.STRIPE_GOLD_PRICE_ID;
 const Platinum_Price_ID = process.env.STRIPE_PLATINUM_PRICE_ID;
 const DAY_IN_MS = 86_400_00;

@@ -33,7 +33,15 @@ const createToken = (user, status, req, res) => {
 
 // Create the "SignUp" method
 exports.SignUp = async (req, res, next) => {
-  const { name, userName, userEmails, password, confirmPassword } = req.body;
+  const {
+    aadhar,
+    name,
+    userName,
+    userEmails,
+    profile,
+    password,
+    confirmPassword,
+  } = req.body;
 
   // Check if any user already exists with the provided email or userName
   const existingUser = await UserModal.findOne({
@@ -54,9 +62,11 @@ exports.SignUp = async (req, res, next) => {
 
   // Create new user if email and userName are not already in use
   const newUser = await UserModal.create({
+    aadhar,
     name,
     userName,
     userEmails: [userEmails], // Store as an array with a single email
+    profile,
     password,
     confirmPassword,
   });
@@ -66,30 +76,34 @@ exports.SignUp = async (req, res, next) => {
 
 exports.SignIn = async (req, res, next) => {
   const { userName, password } = req.body;
+  try {
+    // Check if userName and password are passed from user
+    if (!userName || !password) {
+      res.status(400).json({
+        status: "Bad Request",
+        message: "Pleasen provide the email and password!",
+      });
+    }
 
-  // Check if userName and password are passed from user
-  if (!userName || !password) {
-    res.status(400).json({
-      status: "Bad Request",
-      message: "Pleasen provide the email and password!",
-    });
+    // Checking if the user exists or not
+    let user = await UserModal.findOne({
+      userName: userName.toLowerCase(),
+    }).select("+password");
+
+    // Check if user exists and Password and user.password are valid
+    if (!user || !(await user.validatePassword(password, user.password))) {
+      return res.status(401).json({
+        status: "Unauthorized",
+        message: "Invalid Username or Password.",
+      });
+    }
+
+    // Check if everything is OK, send Token to the Client
+    createToken(user, 200, req, res);
+  } catch (error) {
+    console.log("Error in User Sign In:", error);
+    next(error);
   }
-
-  // Checking if the user exists or not
-  let user = await UserModal.findOne({ userName: userName.toLowerCase() }).select(
-    "+password"
-  );
-
-  // Check if user exists and Password and user.password are valid
-  if (!user || !(await user.validatePassword(password, user.password))) {
-    return res.status(401).json({
-      status: "Unauthorized",
-      message: "Invalid Username or Password.",
-    });
-  }
-
-  // Check if everything is OK, send Token to the Client
-  createToken(user, 200, req, res);
 };
 
 // Get the User

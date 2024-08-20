@@ -6,10 +6,14 @@ const userDetailsSchema = new mongoose.Schema({
     lowercase: true,
     unique: true,
     sparse: true,
-    required: true,
+    required: [true, "Please provide UserName!"],
   },
   name: {
     type: String,
+  },
+  aadhar: {
+    type: String,
+    required: [true, "Please provide Aadhar Number!"],
   },
   profile: {
     type: String,
