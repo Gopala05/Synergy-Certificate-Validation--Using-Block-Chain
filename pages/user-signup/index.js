@@ -289,6 +289,7 @@ const UserSignUp = () => {
           });
 
           if (response.data.status === "Success") {
+            await createUserDetails(response.data.data.user);
             setUser({
               aadhar: "",
               name: "",
@@ -394,7 +395,7 @@ const UserSignUp = () => {
         </Col>
         <Col
           lg={12}
-          className="p-5 lg:p-7 xl:p-20 xl:pt-3 pt-5 h-full lg:h-[100vh] w-full justify-start flex flex-col"
+          className="p-5 lg:p-7 xl:px-14 xl:pt-3 pt-5 h-full lg:h-[100vh] w-full justify-start flex flex-col"
         >
           <div className="flex justify-end items-start">
             <button
@@ -656,7 +657,7 @@ const UserSignUp = () => {
             <div className="flex justify-center">
               <button
                 onClick={handleSignUp}
-                className="mt-8 lg:mt-3 xl:mt-8 btn bg-gradient-to-r from-green-400 to-green-600 text-xl w-full border-0 text-white hover:text-black rounded-2xl font-bold transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-green-600 hover:-translate-y-2"
+                className="mt-8 lg:mt-3 xl:mt-5 btn bg-gradient-to-r from-green-400 to-green-600 text-xl w-full border-0 text-white hover:text-black rounded-2xl font-bold transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-green-600 hover:-translate-y-2"
               >
                 Register
               </button>
