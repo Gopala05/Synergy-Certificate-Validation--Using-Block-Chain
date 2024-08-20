@@ -10,11 +10,11 @@ const PortfolioBasic = ({ user, viewer }) => {
         user?.userName !== viewer?.userName && "pb-[60px]"
       )}
     >
-      <div className="bg-white flex justify-center rounded-2xl w-60 absolute z-20 top-10 border-2 border-black">
+      <div className="bg-white flex justify-center rounded-2xl min-w-52 w-fit max-w-60 absolute z-20 top-10 border-2 border-black">
         <img
           src={user?.profile ? user.profile : "/User_Name.jpg"}
           alt="User Image"
-          className="w-52 h-48 flex justify-center"
+          className="w-52 h-48 flex justify-center rounded-2xl"
         />
       </div>
       <div className="bg-[#FFFFFF] gap-y-8 text-black flex flex-col w-96 rounded-3xl justify-start items-center mt-44 pt-20 pb-5">
