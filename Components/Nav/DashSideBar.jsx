@@ -94,7 +94,7 @@ const DashSideBar = () => {
         ></label>
         <div className="menu bg-base-200 text-white text-2xl min-h-full w-80 px-4 py-2 gap-y-5">
           <div className="flex items-center w-full justify-start">
-            <img src="./Logo.png" alt="Logo" className="w-32" />
+            <img src="/Logo.png" alt="Logo" className="w-32" />
             <span className="text-3xl font-extrabold">SYNERGY</span>
           </div>
           <hr className="border-1" />
@@ -240,11 +240,23 @@ const DashSideBar = () => {
                     </span>
 
                     <img
-                      src={auth ? "./Admin.png" : "./User_Name.jpg"}
+                      src={
+                        auth
+                          ? auth?.profile
+                            ? auth.profile
+                            : "/Admin.png"
+                          : user?.profile
+                          ? user.profile
+                          : "/User_Name.jpg"
+                      }
                       alt={auth ? "Auth Icon" : "User Icon"}
-                      className={`${
-                        auth ? "w-14" : "w-14 rounded-full"
-                      } flex justify-end items-center ml-5`}
+                      className={cn(
+                        `${
+                          auth ? "w-14 xl:w-16" : "w-14 xl:w-16 rounded-full"
+                        } flex justify-end items-center ml-3`,
+                        user?.profile ||
+                          (auth?.profile && "border-black border")
+                      )}
                     />
                   </div>
                 </DialogTrigger>
@@ -262,11 +274,23 @@ const DashSideBar = () => {
                           <div className="flex justify-center items-center flex-col gap-y-5 w-full">
                             <div className="flex justify-center w-full">
                               <img
-                                src={auth ? "./Admin.png" : "./User_Name.jpg"}
+                                src={
+                                  auth
+                                    ? auth?.profile
+                                      ? auth.profile
+                                      : "/Admin.png"
+                                    : user?.profile
+                                    ? user.profile
+                                    : "/User_Name.jpg"
+                                }
                                 alt={auth ? "Auth Icon" : "User Icon"}
-                                className={`${
-                                  auth ? "w-24" : "w-24 rounded-full"
-                                } flex justify-end items-center`}
+                                className={cn(
+                                  `${
+                                    auth ? "w-24" : "w-24 rounded-full"
+                                  } flex justify-end items-center`,
+                                  (user?.profile || auth?.profile) &&
+                                    "border-black border"
+                                )}
                               />
                             </div>
                             <div className="text-xl">
