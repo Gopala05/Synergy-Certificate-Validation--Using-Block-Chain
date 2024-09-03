@@ -1,16 +1,17 @@
-// pages/_error.js
 import React from "react";
-import PropTypes from "prop-types";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Error = () => {
+  const router = useRouter();
   return (
     <div className="h-[100vh] flex flex-col bg-white text-[#073E2A]">
       <div className="w-full fixed items-baseline z-50 bg-[#02291B]">
         <div className="bg-white w-full flex pr-3 lg:px-5 pt-2 pb-0 justify-start items-center z-50">
           <div className="flex justify-start items-center font-bold text-2xl md:text-3xl">
             <span>
-              <img src="./Logo.png" alt="Logo" className="lg:w-24 w-40" />
+              <img src="/Logo.png" alt="Logo" className="lg:w-24 w-40" />
             </span>
             Synergy
           </div>
@@ -30,12 +31,22 @@ const Error = () => {
           alt="Error Image"
           className="w-96 md:w-96 lg:w-auto"
         />
+        <button
+          onClick={() => router.back()}
+          className="btn hover:scale-110 transition-all bg-gradient-to-r w-96 md:w-96 lg:w-[30vw] from-green-400 to-green-600 text-base md:text-xl border-0 text-black hover:text-white rounded-full font-bold hover:shadow-green-600"
+        >
+          <RiArrowGoBackFill />
+          Click here to return to the previous page
+        </button>
       </div>
-      <footer className="bg-[#02291B] p-3 relative text-center cursor-pointer">
-        <p className="font-semibold text-white m-1 text-sm md:text-xl flex items-center justify-center lg:tracking-wider">
+      <div className="flex justify-center">
+        <hr className="border-black border-1 w-[90vw]" />
+      </div>
+      <footer className="bg-white p-3 relative text-center cursor-pointer">
+        <p className="font-semibold m-1 text-sm md:text-xl flex items-center justify-center lg:tracking-wide">
           <span className="flex items-start text-sm m-0 p-0">©&nbsp;</span>{" "}
-          Copyright 2024 |<span className="ml-1">All Rights Reserved</span> |
-          SYNERGY
+          Copyright 2024 |<span className="ml-1">All Rights Reserved</span>
+          &nbsp;| SYNERGY
         </p>
       </footer>
     </div>

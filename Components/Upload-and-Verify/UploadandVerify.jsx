@@ -1,6 +1,7 @@
 import { Button, Col, Row } from "antd";
 import Link from "next/link";
 import React from "react";
+import { motion } from "framer-motion";
 
 const UploadandVerify = () => {
   return (
@@ -18,18 +19,32 @@ const UploadandVerify = () => {
           <div className="flex w-full justify-between lg:justify-start">
             <Link href="/user-login">
               <Button className="hover:scale-110 transition-all mt-8 btn bg-[#15C586] border-0 text-black font-bold">
-                Validate Certificate
+                Verify Certificates
               </Button>
             </Link>
             <Link href="/auth-login">
               <Button className="hover:scale-110 transition-all lg:ml-8 btn mt-8 bg-[#15C586] border-0 text-black font-bold">
-                Upload Certificate
+                Upload Certificates
               </Button>
             </Link>
           </div>
         </Col>
         <Col lg={8} className="lg:flex hidden justify-center">
-          <img src="/Robot.png" alt="Robot Image" className="w-56" />
+          <motion.img
+            src="/Robot.png"
+            alt="Robot Image"
+            className="w-56"
+            animate={{
+              x: [0, 10, 0],
+              y: [0, 20, 0],
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut",
+            }}
+          />
         </Col>
       </Row>
     </div>

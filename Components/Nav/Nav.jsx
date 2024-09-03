@@ -68,7 +68,7 @@ const Nav = ({ sectionRefs }) => {
         <div className="bg-[#02291B] w-full flex px-5 xl:px-20 pt-2 pb-0 justify-between items-center z-50">
           <div className="flex flex-grow justify-start items-center font-extrabold text-3xl uppercase">
             <span>
-              <img src="./Logo.png" alt="Logo" className="w-24" />
+              <img src="/Logo.png" alt="Logo" className="w-24" />
             </span>
             Synergy
           </div>
@@ -121,7 +121,7 @@ const Nav = ({ sectionRefs }) => {
         <div className="bg-[#02291B] w-full flex p-2 pb-0 justify-between items-center z-50">
           <div className="flex flex-grow justify-start items-center font-extrabold text-2xl">
             <span>
-              <img src="./Logo.png" alt="Logo" className="w-20" />
+              <img src="/Logo.png" alt="Logo" className="w-20" />
             </span>
             Synergy
           </div>

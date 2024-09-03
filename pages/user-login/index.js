@@ -58,15 +58,15 @@ const UserLogin = () => {
 
       const response = await axios({
         method: "POST",
-        url: "/api/v1/users/sign-in",
-        withCredentials: true,
+        url: `/api/v1/users/sign-in`,
+        // withCredentials: true,
         data: {
           userName: user.userName,
           password: user.password,
         },
       });
 
-      if (response.data.status === "Success") {
+      if (response.status == 200) {
         setUser({ userName: "", password: "" });
         localStorage.setItem(
           "user-info",
@@ -91,7 +91,7 @@ const UserLogin = () => {
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./User_Sign_In.png"
+            src="/User_Sign_In.png"
             alt="Login Image"
             className="h-[100vh] w-full rounded-s-none rounded-[10rem]"
           />

@@ -1,10 +1,11 @@
 import React from "react";
 import DashNav from "../../Components/Nav/DashNav";
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import Footer from "../../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Logo from "../../Components/Logo/Logo";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Valid = () => {
   const [info, setInfo] = React.useState("");
@@ -16,7 +17,7 @@ const Valid = () => {
   React.useEffect(() => {
     const NFTdata = localStorage.getItem("NFT");
     if (!NFTdata) {
-      router.replace("/validation");
+      router.replace("/verification");
       if (!toastShownRef.current) {
         toast("Verify the Certificate", {
           icon: "🚫",
@@ -51,7 +52,7 @@ const Valid = () => {
   const handleBack = () => {
     try {
       localStorage.removeItem("NFT");
-      router.push("/validation");
+      router.back();
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal Server Error");
       console.error("Error in Login: ", error);
@@ -63,7 +64,7 @@ const Valid = () => {
       <DashNav />
       {sayCongrats && (
         <img
-          src="./Congrats.gif"
+          src="/Congrats.gif"
           alt="Congrats GIF"
           className="fixed h-full w-full inset-0 grid place-content-center z-50"
         />
@@ -74,9 +75,14 @@ const Valid = () => {
           className="flex items-center h-full lg:h-[93vh] justify-center flex-col lg:pl-16 pt-10 lg:p-0 p-5"
         >
           <div className="flex justify-start w-full lg:mt-5 mt-16">
-            <Button onClick={handleBack} type="primary">
+            <button
+              onClick={handleBack}
+              type="primary"
+              className="btn bg-gradient-to-r from-green-400 to-green-600 text-black font-bold text-lg"
+            >
+              <RiArrowGoBackFill />
               Back
-            </Button>
+            </button>
           </div>
 
           <div className="border-dashed border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl mb-10 mt-5 lg:mt-0">
@@ -106,7 +112,7 @@ const Valid = () => {
               className="text-white"
             >
               <img
-                src="./Download_Icon.png"
+                src="/Download_Icon.png"
                 alt="Download Icon"
                 className="w-14 pt-2"
               />

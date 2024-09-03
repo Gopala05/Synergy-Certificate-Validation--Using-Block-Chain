@@ -2,6 +2,8 @@ import { Button, Col, Row } from "antd";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { motion } from "framer-motion";
+import TypewriterComponent from "typewriter-effect";
 
 const Home = () => {
   return (
@@ -19,7 +21,13 @@ const Home = () => {
               className="flex h-full flex-col justify-center xl:pt-20"
             >
               <h1 className="text-6xl xl:text-7xl font-bold text-center lg:text-left">
-                SYNERGY
+                <TypewriterComponent
+                  options={{
+                    strings: ["SYNERGY"],
+                    autoStart: true,
+                    loop: true,
+                  }}
+                />
               </h1>
               <p className="mt-10 text-baseline text-center xl:text-[1.5rem] lg:text-justify xl:text-justify tracking-wide">
                 A Block Chain Based System to Store and verify the Certificates
@@ -42,10 +50,21 @@ const Home = () => {
               sm={24}
               className="items-center justify-center flex"
             >
-              <img
+              <motion.img
                 src="/Astronaut.png"
                 alt="Astronaut Image"
-                className="xl:w-[25vw]"
+                className="xl:w-[25vw] mr-14 md:mr-0"
+                animate={{
+                  x: [0, 60, 0],
+                  y: [0, -10, 0],
+                  scale: [1, 0.9, 1],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                }}
               />
             </Col>
           </Row>
@@ -55,10 +74,10 @@ const Home = () => {
         <img
           src="/Grass.png"
           alt="Grass Image"
-          className="absoulte xl:w-[70vw] w-full h-28 lg:w-[80vw] lg:h-full"
+          className="absoulte xl:w-[70vw] w-[150vw] mt-5 h-[10rem] lg:w-[80vw] lg:h-full max-w-[150vw] lg:max-w-[100vw] lg:mt-0"
         />
       </Row>
-      <div className="lg:flex justify-center hidden relative -top-20 lg:-top-14">
+      <div className="lg:flex justify-center hidden relative -top-20 lg:-top-14 xl:-top-8">
         <div className="xl:w-[85vw] lg:w-[90vw] bg-[#02291B] border-[#22674E] border-4 p-2 xl:p-5 rounded-xl">
           <Row className="justify-center items-center">
             <Col

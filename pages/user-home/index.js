@@ -6,21 +6,24 @@ import HomeButton from "../../Components/Button/HomeButton";
 import { useRouter } from "next/router";
 import Logo from "../../Components/Logo/Logo";
 import toast from "react-hot-toast";
-import { upgradeHook } from "../../hooks/upgrade-model";
+import { useUpgradeHook } from "@/hooks/upgrade-model";
 import Footer from "../../Components/Footer/Footer";
+import { LucideEdit3 } from "lucide-react";
+import { cn } from "../../utils/utils";
 
 const backgroundImages = {
   verify: "/Verify.png",
   upload: "/Upload.png",
   blog: "/Blog.jpeg",
   support: "/Support.png",
+  portfolio: "/Portfolio.jpg",
 };
 
 const UserHome = () => {
   const [user, setUser] = useState(null);
   const toastShownRef = useRef(false);
   const router = useRouter();
-  const plansHook = upgradeHook();
+  const plansHook = useUpgradeHook();
 
   useEffect(() => {
     const userData = localStorage.getItem("user-info");
@@ -39,6 +42,7 @@ const UserHome = () => {
       router.replace("/user-login");
     } else {
       setUser(JSON.parse(userData));
+      useUpgradeHook.getState().initialize();
     }
   }, [router]);
 
@@ -58,18 +62,21 @@ const UserHome = () => {
           lg={11}
           className="flex w-full justify-center flex-col items-center gap-y-10 lg:pl-16 px-2 lg:p-0"
         >
-          <Row className="flex w-full justify-center">
+          <Row className="flex w-full justify-center ">
             <img
-              src="./User_Name.jpg"
+              src={user?.profile ? user.profile : "/User_Name.jpg"}
               alt="User Icon"
-              className="w-36 bg-white rounded-full"
+              className={cn(
+                "w-36 bg-white rounded-full",
+                user?.profile && "border-black border"
+              )}
             />
           </Row>
           {/* Name */}
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 px-2">
             <Col lg={2} className="flex justify-center">
               <img
-                src="./User_Name.jpg"
+                src="/User_Name.jpg"
                 alt="User Name"
                 className="w-10 z-10 relative"
               />
@@ -85,7 +92,7 @@ const UserHome = () => {
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 px-2">
             <Col lg={2} className="flex justify-center">
               <img
-                src="./User_ID.jpg"
+                src="/User_ID.jpg"
                 alt="User ID"
                 className="w-10 z-10 relative"
               />
@@ -101,7 +108,7 @@ const UserHome = () => {
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 px-2">
             <Col lg={2} className="flex justify-center">
               <img
-                src="./Mail.jpg"
+                src="/Mail.jpg"
                 alt="User Mail"
                 className="w-10 z-10 relative"
               />
@@ -138,7 +145,7 @@ const UserHome = () => {
         >
           <div className="flex-1 flex flex-col items-center rounded-2xl gap-y-10">
             <HomeButton
-              navigate="/validation"
+              navigate="/verification"
               backgroundImage={backgroundImages.verify}
             >
               VERIFY
@@ -157,7 +164,7 @@ const UserHome = () => {
             </HomeButton>
             <HomeButton
               navigate="/portfolio"
-              backgroundImage={backgroundImages.upload}
+              backgroundImage={backgroundImages.portfolio}
             >
               PORTFOLIO
             </HomeButton>

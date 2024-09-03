@@ -64,7 +64,7 @@ const LinkNow = () => {
         const response = await axios({
           method: "POST",
           url: "/api/v1/users/sign-in",
-          withCredentials: true,
+          // withCredentials: true,
           data: {
             userName: user.userName,
             password: user.password,
@@ -79,7 +79,7 @@ const LinkNow = () => {
           const res = await axios({
             method: "POST",
             url: "/api/v1/link/create/",
-            withCredentials: true,
+            // withCredentials: true,
             data: {
               senderEmail: emailDecrypt,
               receiverEmail: response.data.data.user.userEmails[0],
@@ -119,16 +119,14 @@ const LinkNow = () => {
             }
           } else {
             setIsLoading(false);
-            toast.error(
-              error.response?.data?.message || "Internal Server Error"
-            );
+            toast.error(res.data?.message || "Internal Server Error");
           }
         } else if (response.data.status === "Bad Request") {
           setIsLoading(false);
-          toast.error(response.data.message);
+          toast.error(response.data?.message);
         } else {
           setIsLoading(false);
-          toast.error(error.response?.data?.message || "Internal Server Error");
+          toast.error(response.data?.message || "Internal Server Error");
         }
       } catch (error) {
         setIsLoading(false);
@@ -286,7 +284,7 @@ const LinkNow = () => {
         </Col>
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./Link_Now_Metamask.png"
+            src="/Link_Now_Metamask.png"
             alt="Link Now Image"
             className="h-[100vh] text-black w-full rounded-3xl rounded-e-none"
           />
