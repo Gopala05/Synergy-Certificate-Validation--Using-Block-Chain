@@ -21,7 +21,7 @@ const Reject = () => {
       const response = await axios({
         method: "GET",
         url: `/api/v1/link/check/${id}`,
-        withCredentials: true,
+        // withCredentials: true,
       });
       if (response.data.status == "OK") {
         setID(router.query.id);
@@ -73,7 +73,7 @@ const Reject = () => {
         const response = await axios({
           method: "PUT",
           url: `/api/v1/link/reject/${request._id}`,
-          withCredentials: true,
+          // withCredentials: true,
         });
 
         if (response.data.status === "OK") {
@@ -86,7 +86,7 @@ const Reject = () => {
           toast.error(response.data.message);
         } else {
           setIsLoading(false);
-          toast.error(error.response?.data?.message || "Internal Server Error");
+          toast.error(response.data?.message || "Internal Server Error");
         }
       } catch (error) {
         setIsLoading(false);
@@ -136,7 +136,7 @@ const Reject = () => {
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./Reject_Metamask.png"
+            src="/Reject_Metamask.png"
             alt="Reject Image"
             className="h-[100vh] text-black w-full rounded-full rounded-s-none"
           />

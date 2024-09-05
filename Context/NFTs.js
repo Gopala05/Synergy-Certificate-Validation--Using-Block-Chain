@@ -406,7 +406,7 @@ export const StateContextProvider = ({ children }) => {
           query: { statusCode: error.response?.status || 500 },
         });
       }
-      console.log(`Error in Checking Certificate ID: ${error}`);
+      console.log(`Error in Stripe Subscription: ${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -429,7 +429,7 @@ export const StateContextProvider = ({ children }) => {
           query: { statusCode: error.response?.status || 500 },
         });
       }
-      console.log(`Error in Checking Certificate ID: ${error}`);
+      console.log(`Error in Checking Subscription: ${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -450,7 +450,51 @@ export const StateContextProvider = ({ children }) => {
           query: { statusCode: error.response?.status || 500 },
         });
       }
-      console.log(`Error in Checking Certificate ID: ${error}`);
+      console.log(`Error in Fetching Current Plan: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Create User Details
+  const createUserDetails = async (data) => {
+    try {
+      const response = await axios.post(`/api/v1/userdetails/create`, data);
+      if (response.status == 200) return response.data.userDetails;
+    } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push("/404");
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
+      console.log(`Error in Fetching User Details: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Get the User Details
+  const getUserDetails = async (userName) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/userdetails/getdetails/${userName}`
+      );
+      if (response.status == 200) return response.data.userDetails;
+    } catch (error) {
+      setIsLoading(false);
+      if (error.response?.status === 404) {
+        router.push("/404");
+      } else {
+        router.push({
+          pathname: "/_error",
+          query: { statusCode: error.response?.status || 500 },
+        });
+      }
+      console.log(`Error in Fetching User Details: ${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -482,6 +526,8 @@ export const StateContextProvider = ({ children }) => {
         stripeSubscription,
         checkSubscription,
         getPlan,
+        createUserDetails,
+        getUserDetails,
       }}
     >
       {children}

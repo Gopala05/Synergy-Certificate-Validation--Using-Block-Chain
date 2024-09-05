@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">synergy</string>
+    <string name="title_activity_main">synergy</string>
+    <string name="package_name">com.synergy.app</string>
+    <string name="custom_url_scheme">com.synergy.app</string>
+</resources>

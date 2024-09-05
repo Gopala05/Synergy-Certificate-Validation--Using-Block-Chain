@@ -1,10 +1,11 @@
 import React from "react";
 import DashNav from "../../Components/Nav/DashNav";
-import { Button, Card, Col, Input, Row } from "antd";
+import { Card, Col, Row } from "antd";
 import Footer from "../../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Logo from "../../Components/Logo/Logo";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Evault = () => {
   const [certificates, setCertificates] = React.useState("");
@@ -19,7 +20,7 @@ const Evault = () => {
     const NFTsdata = localStorage.getItem("NFTs");
     const user = localStorage.getItem("cert-user");
     if (!NFTsdata || !user) {
-      router.replace("/validation");
+      router.replace("/verification");
       if (!toastShownRef.current) {
         toast("Verify the Certificate", {
           icon: "🚫",
@@ -66,20 +67,40 @@ const Evault = () => {
       <DashNav />
       {sayCongrats && (
         <img
-          src="./Congrats.gif"
+          src="/Congrats.gif"
           alt="Congrats GIF"
           className="fixed h-full w-full inset-0 grid place-content-center z-50"
         />
       )}
       {!selected && (
-        <Row className="lg:pl-10 pt-32 lg:pt-28 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-[100vh]">
-          <Col span={24} className="hidden lg:block lg:pb-8">
+        <Row className="lg:pl-10 pt-24 lg:pt-28 flex flex-grow justify-center justify-items-center align-middle overflow-y-scroll h-full lg:min-h-[100vh]">
+          <Col span={24} className="hidden lg:flex lg:pb-8">
+            <div className="flex justify-start mt-5">
+              <button
+                onClick={() => router.back()}
+                type="primary"
+                className=" btn bg-gradient-to-r from-green-400 to-green-600 text-black font-bold text-lg"
+              >
+                <RiArrowGoBackFill />
+                Back
+              </button>
+            </div>
             <div className="flex w-full h-full justify-center items-center text-5xl text-center text-white">
               Verified Certifications of
               <strong className="text-[#f6851b]">&nbsp;{user.name}</strong>
             </div>
           </Col>
           <Col span={24} className="flex flex-col lg:hidden">
+            <div className="flex justify-start mb-5 ml-8">
+              <button
+                onClick={() => router.back()}
+                type="primary"
+                className="btn bg-gradient-to-r from-green-400 to-green-600 text-black font-bold text-lg"
+              >
+                <RiArrowGoBackFill />
+                Back
+              </button>
+            </div>
             <div className="flex w-full h-full justify-center items-center text-3xl text-center text-white">
               Verified Certifications of
             </div>
@@ -96,7 +117,7 @@ const Evault = () => {
             >
               <Card
                 onClick={() => setSelected(certificate)}
-                className="lg:w-fit items-center flex-row border-none bg-gradient-to-br from-[#ec533a] to-[#fbd524] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2"
+                className="lg:w-fit items-center max-h-[30vh] min-h-[30vh] lg:max-h-[35vh] lg:min-h-[35vh] flex-row border-none bg-gradient-to-r from-[#FF9C1A] to-[#E80505] text-white flex justify-center text-2xl font-bold rounded-2xl transition-transform duration-300 ease-in-out hover:shadow-2xl hover:shadow-yellow-600 hover:-translate-y-2"
               >
                 <h2 className="text-xl text-center font-bold mb-4">
                   {certificate.title}
@@ -120,9 +141,14 @@ const Evault = () => {
               className="flex items-center h-full lg:h-[93vh] justify-center flex-col lg:pl-16 pt-10 lg:p-0 p-5"
             >
               <div className="flex justify-start w-full lg:mt-5 mt-16">
-                <Button onClick={handleBack} type="primary">
+                <button
+                  onClick={handleBack}
+                  type="primary"
+                  className="btn bg-gradient-to-r from-green-400 to-green-600 text-black font-bold text-lg"
+                >
+                  <RiArrowGoBackFill />
                   Back
-                </Button>
+                </button>
               </div>
 
               <div className="border-dashed border-2 border-[#0080DC] bg-white/10 p-5 rounded-3xl mb-10 mt-5 lg:mt-0">
@@ -152,7 +178,7 @@ const Evault = () => {
                   className="text-white"
                 >
                   <img
-                    src="./Download_Icon.png"
+                    src="/Download_Icon.png"
                     alt="Download Icon"
                     className="w-14 pt-2"
                   />

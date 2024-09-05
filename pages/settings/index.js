@@ -43,7 +43,9 @@ const SettingsPage = () => {
           const resp = await getUser(email);
           if (resp.data.status == "OK") {
             localStorage.setItem("user-info", resp.data.user);
-            useUpgradeHook.getState().setSubscription(resp.data.user.subscription);
+            useUpgradeHook
+              .getState()
+              .setSubscription(resp.data.user.subscription);
             setUser(resp.data.user);
           }
         } catch (error) {

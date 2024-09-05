@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import DashSideBar from "./DashSideBar";
 import { useUpgradeHook } from "@/hooks/upgrade-model";
 import { CreditCard, LogOut, Settings } from "lucide-react";
+import { cn } from "../../utils/utils";
 
 const DashNav = () => {
   const router = useRouter();
@@ -44,6 +45,17 @@ const DashNav = () => {
       if (localStorage.getItem("NFT")) localStorage.removeItem("NFT");
       if (localStorage.getItem("NFTs")) localStorage.removeItem("NFTs");
     }
+    if (
+      router.pathname !== "/portfolio-profile" &&
+      router.pathname !== "/portfolio-education" &&
+      router.pathname !== "/portfolio-experience" &&
+      router.pathname !== "/portfolio-academic" &&
+      router.pathname !== "/portfolio-non-academic" &&
+      router.pathname !== "/portfolio-contact"
+    ) {
+      if (localStorage.getItem("portfolio-user"))
+        localStorage.removeItem("portfolio-user");
+    }
     if (localStorage.getItem("auth-info")) {
       const authData = localStorage.getItem("auth-info");
       setAuth(JSON.parse(authData));
@@ -72,11 +84,22 @@ const DashNav = () => {
             <div className="flex justify-center items-center flex-col gap-y-5">
               <div className="flex justify-center w-full">
                 <img
-                  src={auth ? "./Admin.png" : "./User_Name.jpg"}
+                  src={
+                    auth
+                      ? auth?.profile
+                        ? auth.profile
+                        : "/Admin.png"
+                      : user?.profile
+                      ? user.profile
+                      : "/User_Name.jpg"
+                  }
                   alt={auth ? "Auth Icon" : "User Icon"}
-                  className={`${
-                    auth ? "w-24" : "w-24 rounded-full"
-                  } flex justify-end items-center`}
+                  className={cn(
+                    `${
+                      auth ? "w-24" : "w-24 rounded-full"
+                    } flex justify-end items-center`,
+                    (user?.profile || auth?.profile) && "border-black border"
+                  )}
                 />
               </div>
               <div className="text-3xl">
@@ -95,26 +118,31 @@ const DashNav = () => {
                 </button>
               </div>
               <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-1">
-                <div
-                  onClick={plansHook.onOpen}
-                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
-                >
-                  <CreditCard className="w-5 h-5" />
-                  <span>Billing</span>
-                </div>
-                {/* <hr className="border-white/10 border-2 w-full"/> */}
-                <div
-                  onClick={() => router.push("/settings")}
-                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-[#1b1b1b]"
-                >
-                  <Settings className="w-5 h-5" />
-                  <span>Settings</span>
-                </div>
-                {/* <hr className="border-white/10 border-2 w-full"/> */}
+                {!auth && (
+                  <>
+                    <div
+                      onClick={plansHook.onOpen}
+                      className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 rounded-t-2xl rounded-md text-lg bg-[#1b1b1b]"
+                    >
+                      <CreditCard className="w-5 h-5" />
+                      <span>Billing</span>
+                    </div>
+                    <div
+                      onClick={() => router.push("/settings")}
+                      className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md bg-[#1b1b1b]"
+                    >
+                      <Settings className="w-5 h-5" />
+                      <span>Settings</span>
+                    </div>
+                  </>
+                )}
 
                 <div
                   onClick={(e) => handleLogout(e)}
-                  className="py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-[#1b1b1b]"
+                  className={cn(
+                    "py-3 hover:scale-110 transition-all flex w-full justify-center items-center gap-x-3 text-lg rounded-md rounded-b-2xl bg-[#1b1b1b]",
+                    auth && "rounded-2xl"
+                  )}
                 >
                   <LogOut className="w-5 h-5" />
                   <span>Log out</span>
@@ -129,20 +157,21 @@ const DashNav = () => {
 
   return (
     <>
-      <div className="bg-[#02291B] w-full hidden lg:flex px-5 pt-2 pb-2 items-center z-50 fixed border-b-2 border-gray-500 xl:pr-16">
+      <div className="bg-[#02291B] w-full hidden lg:flex px-5 pt-2 pb-2 items-center z-50 fixed border-b-2 border-gray-500 xl:pr-5">
         <div
-          className={`flex flex-grow justify-start items-center font-extrabold text-3xl uppercase tracking-wider`}
+          className={`flex flex-grow cursor-pointer justify-start items-center font-extrabold text-3xl uppercase tracking-wider`}
+          onClick={() => router.push("/")}
         >
           <span>
-            <img src="./Logo.png" alt="Logo" className="w-24" />
+            <img src="/Logo.png" alt="Logo" className="w-24" />
           </span>
           Synergy
         </div>
 
         {router.pathname == "/user-home" ||
         router.pathname == "/auth-home" ? null : (
-          <nav className="flex flex-grow text-md xl:text-2xl justify-center">
-            <div className="flex justify-center gap-10 font-bold">
+          <nav className="flex flex-grow text-md xl:text-2xl justify-end">
+            <div className="flex justify-center gap-x-10 font-bold xl:mr-16">
               <Link
                 className={`relative cursor-pointer ${
                   (!plansHook.isOpen && activeSection === "/auth-home") ||
@@ -185,17 +214,25 @@ const DashNav = () => {
               ) : null}
               <Link
                 className={`relative cursor-pointer ${
-                  !plansHook.isOpen && activeSection === "/validation"
+                  (!plansHook.isOpen && activeSection === "/verification") ||
+                  (!plansHook.isOpen &&
+                    activeSection == "/academic-certificates") ||
+                  (!plansHook.isOpen &&
+                    activeSection == "/non-academic-certificates")
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
-                href="/validation"
+                href="/verification"
                 duration={500}
               >
-                Validate
+                Verification
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    !plansHook.isOpen && activeSection === "/validation"
+                    (!plansHook.isOpen && activeSection === "/verification") ||
+                    (!plansHook.isOpen &&
+                      activeSection == "/academic-certificates") ||
+                    (!plansHook.isOpen &&
+                      activeSection == "/non-academic-certificates")
                       ? "scale-x-100"
                       : "scale-x-0"
                   }`}
@@ -222,7 +259,11 @@ const DashNav = () => {
               </Link>
               <Link
                 className={`relative cursor-pointer ${
-                  !plansHook.isOpen && activeSection === "/guide"
+                  (!plansHook.isOpen && activeSection === "/guide") ||
+                  (!plansHook.isOpen && activeSection === "/upload-flow") ||
+                  (!plansHook.isOpen &&
+                    activeSection === "/verification-flow") ||
+                  (!plansHook.isOpen && activeSection === "/support-flow")
                     ? "text-green-500"
                     : "text-white/80"
                 }`}
@@ -232,7 +273,11 @@ const DashNav = () => {
                 Guide
                 <span
                   className={`absolute left-0 bottom-0 w-full h-[2px] bg-green-500 transition-transform duration-300 ease-in-out transform ${
-                    !plansHook.isOpen && activeSection === "/guide"
+                    (!plansHook.isOpen && activeSection === "/guide") ||
+                    (!plansHook.isOpen && activeSection === "/upload-flow") ||
+                    (!plansHook.isOpen &&
+                      activeSection === "/verification-flow") ||
+                    (!plansHook.isOpen && activeSection === "/support-flow")
                       ? "scale-x-100"
                       : "scale-x-0"
                   }`}
@@ -259,7 +304,7 @@ const DashNav = () => {
         )}
 
         <div className="flex flex-grow justify-end items-center">
-          <span className="text-white text-xl xl:text-3xl font-bold">
+          <span className="text-white text-xl xl:text-2xl font-bold">
             {user?.name} {auth?.firstName}&nbsp;
             <span className="text-[#f6851b]">{auth?.lastName}</span>
           </span>
@@ -269,14 +314,26 @@ const DashNav = () => {
             trigger={["hover"]}
           >
             <a
-              className={`flex justify-end font-bold align-middle text-white items-center ant-dropdown-link`}
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
             >
               <img
-                src={auth ? "./Admin.png" : "./User_Name.jpg"}
+                src={
+                  auth
+                    ? auth?.profile
+                      ? auth.profile
+                      : "/Admin.png"
+                    : user?.profile
+                    ? user.profile
+                    : "/User_Name.jpg"
+                }
                 alt={auth ? "Auth Icon" : "User Icon"}
-                className={`${
-                  auth ? "w-14 xl:w-16" : "w-14 xl:w-16 rounded-full"
-                } flex justify-end items-center ml-5`}
+                className={cn(
+                  `${
+                    auth ? "w-14 xl:w-16" : "w-14 xl:w-16 rounded-full"
+                  } flex justify-end items-center ml-3`,
+                  (user?.profile || auth?.profile) && "border-black border"
+                )}
               />
             </a>
           </Dropdown>
@@ -286,7 +343,7 @@ const DashNav = () => {
         <div className="bg-[#02291B] w-full flex p-2 pb-0 justify-between items-center z-50">
           <div className="flex flex-grow justify-start items-center font-extrabold text-2xl">
             <span>
-              <img src="./Logo.png" alt="Logo" className="w-20" />
+              <img src="/Logo.png" alt="Logo" className="w-20" />
             </span>
             Synergy
           </div>

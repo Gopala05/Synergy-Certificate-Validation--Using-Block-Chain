@@ -31,7 +31,7 @@ const Blog = () => {
           <Col lg={6}>
             <div className="bg-[#02291B] rounded-lg hover:shadow-2xl hover:shadow-green-600 transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
-                src="./Blog1.jpg"
+                src="/Blog1.jpg"
                 alt="Blog 1 Image"
                 className="w-full bg-white"
               />
@@ -56,7 +56,7 @@ const Blog = () => {
           <Col lg={6}>
             <div className="bg-[#02291B] rounded-lg hover:shadow-2xl hover:shadow-green-600 transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
-                src="./Blog2.jpg"
+                src="/Blog2.jpg"
                 alt="Blog 2 Image"
                 className="w-full bg-white"
               />
@@ -81,7 +81,7 @@ const Blog = () => {
           <Col lg={6}>
             <div className="bg-[#02291B] rounded-lg hover:shadow-2xl hover:shadow-green-600 transition-transform duration-300 ease-in-out hover:-translate-y-2">
               <img
-                src="./Blog3.jpg"
+                src="/Blog3.jpg"
                 alt="Blog 3 Image"
                 className="w-full bg-white"
               />

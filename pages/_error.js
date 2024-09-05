@@ -1,8 +1,7 @@
-// pages/_error.js
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/router";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Error = () => {
   const router = useRouter();
@@ -12,7 +11,7 @@ const Error = () => {
         <div className="bg-white w-full flex pr-3 lg:px-5 pt-2 pb-0 justify-start items-center z-50">
           <div className="flex justify-start items-center font-bold text-2xl md:text-3xl">
             <span>
-              <img src="./Logo.png" alt="Logo" className="lg:w-24 w-40" />
+              <img src="/Logo.png" alt="Logo" className="lg:w-24 w-40" />
             </span>
             Synergy
           </div>
@@ -36,7 +35,7 @@ const Error = () => {
           onClick={() => router.back()}
           className="btn hover:scale-110 transition-all bg-gradient-to-r w-96 md:w-96 lg:w-[30vw] from-green-400 to-green-600 text-base md:text-xl border-0 text-black hover:text-white rounded-full font-bold hover:shadow-green-600"
         >
-          <ArrowLeft />
+          <RiArrowGoBackFill />
           Click here to return to the previous page
         </button>
       </div>

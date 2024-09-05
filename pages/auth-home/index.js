@@ -14,7 +14,6 @@ const backgroundImages = {
   upload: "/Upload.png",
   blog: "/Blog.jpeg",
   support: "/Support.png",
-  portfolio: "/Portfolio.jpg"
 };
 
 const AuthHome = () => {
@@ -60,7 +59,7 @@ const AuthHome = () => {
         >
           <Row className="flex w-full justify-center">
             <img
-              src="./Admin.png"
+              src="/Admin.png"
               alt="Auth Icon"
               className="lg:w-40 w-32 pt-5 lg:pt-0"
             />
@@ -69,7 +68,7 @@ const AuthHome = () => {
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
             <Col lg={2} className="flex justify-center">
               <img
-                src="./User_Name.jpg"
+                src="/User_Name.jpg"
                 alt="User Name"
                 className="w-10 z-10 relative"
               />
@@ -85,7 +84,7 @@ const AuthHome = () => {
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
             <Col lg={2} className="flex justify-center">
               <img
-                src="./User_ID.jpg"
+                src="/User_ID.jpg"
                 alt="User ID"
                 className="w-10 z-10 relative"
               />
@@ -101,7 +100,7 @@ const AuthHome = () => {
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
             <Col lg={2} className="flex justify-center">
               <img
-                src="./Mail.jpg"
+                src="/Mail.jpg"
                 alt="User Mail"
                 className="w-10 z-10 relative"
               />
@@ -117,7 +116,7 @@ const AuthHome = () => {
           <Row className="flex w-full bg-white items-center rounded-2xl h-16 p-2">
             <Col lg={2} className="flex justify-center">
               <img
-                src="./Role.jpg"
+                src="/Role.jpg"
                 alt="User Role"
                 className="w-12 z-10 relative"
               />
@@ -152,7 +151,7 @@ const AuthHome = () => {
         >
           <div className="flex-1 flex flex-col items-center rounded-2xl gap-y-10">
             <HomeButton
-              navigate="/validation"
+              navigate="/verification"
               backgroundImage={backgroundImages.verify}
             >
               VERIFY
@@ -168,12 +167,6 @@ const AuthHome = () => {
               backgroundImage={backgroundImages.support}
             >
               SUPPORT
-            </HomeButton>
-            <HomeButton
-              navigate="/portfolio"
-              backgroundImage={backgroundImages.portfolio}
-            >
-              PORTFOLIO
             </HomeButton>
             <HomeButton
               navigate="/guide"

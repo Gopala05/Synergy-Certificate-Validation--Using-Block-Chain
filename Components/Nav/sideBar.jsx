@@ -94,7 +94,7 @@ const Sidebar = ({ sectionRefs }) => {
         ></label>
         <div className="menu bg-base-200 text-white text-2xl min-h-full w-80 px-4 py-2 gap-y-5">
           <div className="flex items-center w-full justify-start">
-            <img src="./Logo.png" alt="Logo" className="w-32" />
+            <img src="/Logo.png" alt="Logo" className="w-32" />
             <span className="text-3xl font-extrabold">SYNERGY</span>
           </div>
           <hr className="border-1" />
