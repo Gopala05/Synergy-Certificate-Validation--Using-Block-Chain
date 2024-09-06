@@ -6,7 +6,7 @@ import style from "./Upload.module.css";
 
 const Upload = ({ display, retrieveFile, onImageChange }) => {
   return (
-    <div className="flex lg:w-auto w-full justify-center items-center">
+    <div className="flex lg:w-auto w-full justify-center lg:text-2xl items-center">
       <div className={`${style.container} lg:w-[40vw] w-full`}>
         <div className={style.header}>
           {display == null ? (

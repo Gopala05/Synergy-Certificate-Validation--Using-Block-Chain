@@ -7,7 +7,7 @@ const Button = ({ disconnect, connect, address, file }) => {
     <>
       {address ? (
         <button onClick={() => disconnect()} className={style.button}>
-          <span className={style.button_content}>
+          <span className={`${style.button_content} lg:text-3xl text-xl`}>
             {file ? "Upload" : "Disconnect"}
           </span>
         </button>

@@ -3,12 +3,14 @@ import DashNav from "../../Components/Nav/DashNav";
 import { Col, Row } from "antd";
 import FlowButton from "../../Components/Button/FlowButton";
 import { useRouter } from "next/router";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
+import Footer from "../../Components/Footer/Footer";
 
 const backgroundImages = {
   verify: "/Verify.png",
   upload: "/Upload.png",
   support: "/Support.png",
+  portfolio: "/Portfolio.jpg",
 };
 
 const Guide = () => {
@@ -64,32 +66,43 @@ const Guide = () => {
         </Col>
         <Col
           lg={12}
-          className="flex flex-col items-center gap-y-20 justify-center text-white lg:p-0 p-5"
+          className="flex flex-col h-full items-center gap-y-10 text-white lg:p-14 p-5"
         >
-          <div className="text-6xl lg:text-8xl font-bold bg-gradient-to-br from-white to-[#f6851b] bg-clip-text text-white">
-            SYNERGY
+          <div className="text-6xl lg:text-7xl font-bold bg-gradient-to-br from-white to-[#f6851b] bg-clip-text text-white">
+            GUIDE
           </div>
-          <div className="flex-1 flex flex-col items-center gap-y-10">
+          <div className="uppercase flex-1 flex flex-col items-center gap-y-10">
             <FlowButton
-              navigate="/comming-soon"
+              navigate="/verification-flow"
               backgroundImage={backgroundImages.verify}
             >
-              Certificate Verification Flow
+              Verification Flow
             </FlowButton>
             <FlowButton
-              navigate="/comming-soon"
+              navigate="/upload-flow"
               backgroundImage={backgroundImages.upload}
             >
-              Certificate Upload Flow
+              Upload Flow
             </FlowButton>
             <FlowButton
-              navigate="/comming-soon"
+              navigate="/support-flow"
               backgroundImage={backgroundImages.support}
             >
               Support Flow
             </FlowButton>
+            <FlowButton
+              navigate="/portfolio-flow"
+              backgroundImage={backgroundImages.portfolio}
+            >
+              Portfolio Flow
+            </FlowButton>
           </div>
         </Col>
+        <Row className="flex w-full bottom-0 lg:absolute">
+          <Col lg={24} className="flex flex-col w-full">
+            <Footer />
+          </Col>
+        </Row>
       </Row>
     </div>
   );

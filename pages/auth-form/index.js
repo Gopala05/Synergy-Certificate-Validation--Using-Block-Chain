@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { RiHome4Fill } from "react-icons/ri";
 import emailjs from "@emailjs/browser";
-import { Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
 import { useStateContext } from "../../Context/NFTs";
 
 const AuthForm = () => {
@@ -132,7 +132,7 @@ const AuthForm = () => {
       <Row className="flex justify-center items-center">
         <Col lg={12} className="h-[100vh] hidden lg:block">
           <img
-            src="./Request_Metamask.png"
+            src="/Request_Metamask.png"
             alt="Request Image"
             className="h-[100vh] w-full rounded-s-none rounded-[10rem]"
           />

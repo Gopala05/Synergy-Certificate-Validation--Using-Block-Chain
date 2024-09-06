@@ -8,12 +8,12 @@ const About = () => {
     <>
       <div
         id="about"
-        className="xl:h-[100vh] hidden lg:flex flex-col lg:px-0 lg:pt-28 lg:pb-5 xl:p-20 justify-center"
+        className="xl:h-[100vh] hidden lg:flex flex-col lg:px-0 lg:pt-28 lg:pb-5 xl:p-20 xl:pt-28 justify-center"
       >
         <label className="flex justify-center text-5xl font-extrabold">
           About
         </label>
-        <p className="flex justify-center xl:mt-2">
+        <p className="flex justify-center xl:mt-2 xl:text-xl">
           A Block Chain based System to Store and Verify the Certificates.
         </p>
 
@@ -137,7 +137,7 @@ const About = () => {
             <div className="flex justify-start items-center px-10">
               <img
                 src="/Validation_Icon.png"
-                alt="Validation Icon"
+                alt="Verification Icon"
                 className="w-14"
               />
               <span className="ml-2 font-extrabold text-xl">Validation</span>

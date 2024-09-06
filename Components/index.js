@@ -6,7 +6,7 @@ import Logo from "./Logo/Logo";
 import Form from "./Form/Form";
 import CheckBox from "./CheckBox/CheckBox";
 
-export {
+export default {
   Card,
   Upload,
   Button,

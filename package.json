@@ -1,5 +1,5 @@
 {
-  "name": "createnft",
+  "name": "synergy",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,35 +10,54 @@
     "install:force": "npm install --force"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.1.5",
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
     "@emailjs/browser": "^4.3.3",
     "@next/font": "13.4.4",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-slot": "^1.1.0",
     "@thirdweb-dev/react": "^3.13.1",
     "@thirdweb-dev/sdk": "^3.10.21",
     "antd": "^5.18.1",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
     "ethers": "^5.7.2",
     "express": "^4.16.4",
+    "express-session": "^1.18.0",
     "file-saver": "^2.0.5",
+    "framer-motion": "^11.3.24",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.424.0",
     "mongoose": "^5.5.2",
     "next": "^13.5.6",
     "nodemon": "^3.1.0",
+    "pinata": "^0.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.9.0",
     "react-scroll": "^1.9.0",
-    "thirdweb": "^5.25.1"
+    "tailwind-merge": "^2.4.0",
+    "thirdweb": "^5.25.1",
+    "typewriter-effect": "^2.21.0",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@types/react": "^18.3.3",
     "autoprefixer": "^10.4.19",
+    "body-parser": "^1.20.2",
+    "crisp-sdk-web": "^1.0.25",
     "daisyui": "^4.12.10",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "react-hot-toast": "^2.4.1",
+    "stripe": "^16.6.0",
     "tailwindcss": "^3.4.4"
   }
 }

@@ -287,3 +287,12 @@ body {
 .cardFlip {
   transform: rotateY(180deg);
 }
+
+.font-fam {
+  font-family: 'Satisfy';
+}
+
+.libre-franklin {
+  font-family: "Libre Franklin", sans-serif;
+  font-optical-sizing: auto;
+}

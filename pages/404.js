@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Footer } from "../Components";
-import { RiHome4Fill } from "react-icons/ri";
+import { RiArrowGoBackFill, RiHome4Fill } from "react-icons/ri";
 
 export default function Custom404() {
   const router = useRouter();
@@ -13,7 +12,7 @@ export default function Custom404() {
         <div className="bg-white w-full flex pr-3 lg:px-5 pt-2 pb-0 justify-start items-center z-50">
           <div className="flex justify-start items-center font-bold text-2xl md:text-3xl">
             <span>
-              <img src="./Logo.png" alt="Logo" className="lg:w-24 w-40" />
+              <img src="/Logo.png" alt="Logo" className="lg:w-24 w-40" />
             </span>
             Synergy
           </div>
@@ -34,10 +33,17 @@ export default function Custom404() {
           {message || "The requested URL was not found"}
         </p>
         <img
-          src="./404_Metamask.png"
+          src="/404_Metamask.png"
           alt="404 Image"
           className="w-96 md:w-96 lg:w-auto"
         />
+        <button
+          onClick={() => router.back()}
+          className="btn hover:scale-110 transition-all bg-gradient-to-r w-96 md:w-96 lg:w-[30vw] from-green-400 to-green-600 text-base md:text-xl border-0 text-black hover:text-white rounded-full font-bold hover:shadow-green-600"
+        >
+          <RiArrowGoBackFill />
+          Click here to return to the previous page
+        </button>
       </div>
       <div className="flex justify-center">
         <hr className="border-black border-1 w-[90vw]" />

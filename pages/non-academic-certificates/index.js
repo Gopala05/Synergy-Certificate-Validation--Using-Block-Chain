@@ -3,11 +3,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { Input, Row, Col, Radio, Card, Form, Button } from "antd";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { Footer, Logo } from "../../Components";
+import Logo from "../../Components/Logo/Logo";
+import Footer from "../../Components/Footer/Footer";
 import DashNav from "../../Components/Nav/DashNav";
 import { useStateContext } from "../../Context/NFTs";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
-const ValidationPage = () => {
+const NonAcademicCertificates = () => {
   const {
     isLoading,
     setIsLoading,
@@ -108,7 +110,6 @@ const ValidationPage = () => {
   const fetchDatabaseData = async (body) => {
     try {
       const response = await getSingleNFTAPI(body);
-
       return response.data;
     } catch (error) {
       setIsInValid(true);
@@ -159,8 +160,8 @@ const ValidationPage = () => {
           return fetchedCertificates;
         }
       } else {
-        toast.error(error.response?.data?.message || "Internal Server Error");
-        setError(error.response?.data?.message || "Internal Server Error");
+        toast.error(resp.data?.message || "Internal Server Error");
+        setError(resp.data?.message || "Internal Server Error");
         console.error("Error in fetching All certificate:", error);
       }
     } catch (error) {
@@ -220,8 +221,8 @@ const ValidationPage = () => {
           } else {
             setIsLoading(false);
             setIsInValid(true);
-            setError(error.response?.data?.message || "Internal Server Error");
-            toast.error("Certificate not found");
+            setError("Certifcate Not found!");
+            toast.error("Certifcate Not found!");
             setID("");
             setEmail("");
           }
@@ -249,7 +250,7 @@ const ValidationPage = () => {
         } else {
           setIsLoading(false);
           setIsInValid(true);
-          setError(error.response?.data?.message || "Internal Server Error");
+          setError(certificates.data?.message || "Internal Server Error");
           toast.error("Certificates not found");
           setEmail("");
         }
@@ -268,36 +269,46 @@ const ValidationPage = () => {
     <div className="h-screen xl:h-full">
       <DashNav />
       <Row className="flex w-full h-full items-center">
+        <div className="absolute top-28 left-4 lg:top-28 z-30">
+          <button
+            onClick={() => router.back()}
+            type="primary"
+            className="btn bg-gradient-to-r from-green-400 to-green-600 text-black font-bold text-lg"
+          >
+            <RiArrowGoBackFill />
+            Back
+          </button>
+        </div>
         <Col
-          lg={13}
-          className="hidden lg:flex items-center h-full lg:h-[93vh] justify-center flex-col gap-y-10 lg:pl-16"
+          lg={12}
+          className="hidden lg:flex items-center h-full lg:h-[93vh] justify-center flex-col gap-y-10 lg:pl-16 xl:pl-40"
         >
           <img
             src="/Verify_Metamask.png"
             alt="Verify Image"
-            className=" lg:w-[35vw]"
+            className=" lg:w-[40vw] mt-[13vh]"
           />
         </Col>
         <Col
           lg={11}
           sm={24}
-          className="flex flex-col w-full gap-y-20 lg:gap-y-10 justify-center items-center lg:pr-20 pt-10 lg:pt-20 lg:mt-0"
+          className="flex flex-col w-full gap-y-20 lg:gap-y-10 justify-center items-center lg:pr-20 pt-10 lg:pt-20 xl:pr-32 lg:mt-0"
         >
-          <Row className="text-white lg:block flex lg:w-auto w-full text-4xl justify-center lg:justify-start md:text-5xl font-semibold">
+          <Row className="text-white lg:block flex lg:w-auto w-full text-4xl justify-center lg:justify-start md:text-5xl xl:text-6xl font-semibold">
             Find your&nbsp;<span className="text-[#f6851b]">Certificate</span>!
           </Row>
-          <div className="flex w-full justify-center flex-row">
-            <div className="max-w-[90vw] lg:w-[30vw] flex flex-col border-dashed border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
+          <div className="flex lg:w-full justify-start">
+            <div className="lg:max-w-[90vw] lg:w-[80vw] xl:h-[40vh] flex flex-col justify-center border-dashed border-2 border-[#0080DC] bg-white/10 p-10 rounded-3xl">
               <div className={`relative Card ${isFlipped ? "cardFlip" : ""}`}>
                 <div className={`${isFlipped ? "back" : "front"}`}>
                   {/* Radio Buttons */}
-                  <div className="mb-5 text-sm md:textarea-md">
+                  <div className="mb-5 text-sm md:text-md lg:text-2xl">
                     <Radio.Group
                       value={option}
                       onChange={(e) => {
                         handleFlip(e), handleClear();
                       }}
-                      className="flex w-full gap-x-5"
+                      className="flex w-full gap-x-32 items-center"
                     >
                       <Radio
                         value="Evault"
@@ -306,6 +317,7 @@ const ValidationPage = () => {
                           color: "white",
                           fontWeight: "normal",
                         }}
+                        className="xl:text-2xl"
                       >
                         Evault
                       </Radio>
@@ -316,6 +328,7 @@ const ValidationPage = () => {
                           color: "white",
                           fontWeight: "normal",
                         }}
+                        className="xl:text-2xl"
                       >
                         Specific Certificate
                       </Radio>
@@ -325,7 +338,7 @@ const ValidationPage = () => {
                   {/* Certificate ID */}
                   {first_field && (
                     <div>
-                      <label className="text-xl font-semibold">
+                      <label className="uppercase text-xl xl:text-2xl font-semibold">
                         {first_field}
                       </label>
                       <Form.Item
@@ -348,7 +361,7 @@ const ValidationPage = () => {
                         <Input
                           placeholder="Provide the Certificate ID"
                           value={id}
-                          className="h-[4vh]"
+                          className="h-[4vh] placeholder:text-gray-700"
                           onChange={(e) => {
                             setID(e.target.value), setIsInValid(false);
                           }}
@@ -359,7 +372,7 @@ const ValidationPage = () => {
 
                   {/* Email ID */}
                   <div>
-                    <label className="text-xl font-semibold">
+                    <label className="uppercase text-xl xl:text-2xl font-semibold">
                       {second_field}
                     </label>
                     <div>
@@ -383,7 +396,7 @@ const ValidationPage = () => {
                         <Input
                           placeholder="Provide the Email ID"
                           value={email}
-                          className="h-[4vh]"
+                          className="h-[4vh] placeholder:text-gray-700"
                           onChange={(e) => {
                             setEmail(e.target.value), setIsInValid(false);
                           }}
@@ -405,7 +418,7 @@ const ValidationPage = () => {
           </div>
         </Col>
       </Row>
-      <Row className="flex w-full bottom-0">
+      <Row className="flex w-full bottom-0 absolute">
         <Col lg={24} className="flex flex-col w-full">
           <Footer />
         </Col>
@@ -419,4 +432,4 @@ const ValidationPage = () => {
   );
 };
 
-export default ValidationPage;
+export default NonAcademicCertificates;
