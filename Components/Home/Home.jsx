@@ -81,8 +81,8 @@ const Home = () => {
         <div className="xl:w-[85vw] lg:w-[90vw] bg-[#02291B] border-[#22674E] border-4 p-2 xl:p-5 rounded-xl">
           <Row className="justify-center items-center">
             <Col
-              lg={9}
-              md={9}
+              lg={8}
+              md={8}
               sm={24}
               className="flex items-center justify-center"
             >
