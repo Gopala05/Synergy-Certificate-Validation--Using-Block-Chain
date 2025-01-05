@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "lint": "next lint",
     "install:force": "npm install --force"
   },
