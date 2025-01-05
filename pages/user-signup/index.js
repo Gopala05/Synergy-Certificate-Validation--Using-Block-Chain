@@ -474,7 +474,7 @@ const UserSignUp = () => {
                 <Input
                   type="number"
                   disabled={verified}
-                  className="w-full text-black mt-1 h-5 rounded-2xl pr-10 border-2 border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
+                  className="w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-black mt-1 h-5 rounded-2xl pr-10 border-2 border-[#22674E] placeholder:font-bold text-xl p-5 placeholder:items-center items-center"
                   placeholder={
                     firstField == "OTP" ? "OTP..." : "Aadhar Number..."
                   }
