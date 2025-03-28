@@ -39,20 +39,22 @@ const SettingsPage = () => {
           toastShownRef.current = true;
         }
       } else if (userData) {
-        try {
-          const resp = await getUser(email);
-          if (resp.data.status == "OK") {
-            localStorage.setItem("user-info", resp.data.user);
-            useUpgradeHook
-              .getState()
-              .setSubscription(resp.data.user.subscription);
-            setUser(resp.data.user);
-          }
-        } catch (error) {
-          console.log("[Error in Fetching user in Settings]: ", error);
-        } finally {
-          setIsLoading(false);
-        }
+        setUser(JSON.parse(userData));
+        // try {
+        //   console.log(userData)
+        //   const resp = await getUser(userData);
+        //   if (resp.data.status == "OK") {
+        //     localStorage.setItem("user-info", resp.data.user);
+        //     useUpgradeHook
+        //       .getState()
+        //       .setSubscription(resp.data.user.subscription);
+        //     setUser(resp.data.user);
+        //   }
+        // } catch (error) {
+        //   console.log("[Error in Fetching user in Settings]: ", error);
+        // } finally {
+        //   setIsLoading(false);
+        // }
       } else {
         setAuth(JSON.parse(authData));
       }
