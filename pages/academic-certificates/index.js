@@ -394,13 +394,20 @@ const AcademicCertificates = () => {
                   </div>
                 </div>
               </div>
-              <Row className="flex justify-center">
+              <Row className="flex justify-center cursor-not-allowed">
                 <button
+                  disabled
+                  onClick={(e) => handleVerification(e)}
+                  className="bg-gradient-to-r from-gray-300 via-gray-400 to-gray-500 disabled:text-black/50 cursor-not-allowed  btn flex items-center font-bold text-xl px-5 rounded-xl"
+                >
+                  Coming Soon...
+                </button>
+                {/* <button
                   onClick={(e) => handleVerification(e)}
                   className="bg-gradient-to-r from-green-400 to-green-600 hover:bg-[#15C586] hover:shadow-green-600 hover:shadow-lg border-none btn flex items-center text-black font-bold text-xl px-5 rounded-xl"
                 >
                   Verify
-                </button>
+                </button> */}
               </Row>
             </div>
           </div>

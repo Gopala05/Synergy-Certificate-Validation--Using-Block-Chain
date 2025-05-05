@@ -20,7 +20,7 @@ const Reject = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: `/api/v1/link/check/${id}`,
+        url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/link/check/${id}`,
         // withCredentials: true,
       });
       if (response.data.status == "OK") {
@@ -72,7 +72,7 @@ const Reject = () => {
       try {
         const response = await axios({
           method: "PUT",
-          url: `/api/v1/link/reject/${request._id}`,
+          url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/link/reject/${request._id}`,
           // withCredentials: true,
         });
 

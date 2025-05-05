@@ -1,8 +1,10 @@
 import { Download, FileEdit } from "lucide-react";
 import Link from "next/link";
 import { cn } from "../../utils/utils";
+import { useRouter } from "next/router";
 
 const PortfolioBasic = ({ user, viewer }) => {
+  const router = useRouter();
   return (
     <div
       className={cn(
@@ -132,7 +134,10 @@ const PortfolioBasic = ({ user, viewer }) => {
             </Link>
           )}
           {user?.userName == viewer?.userName && (
-            <button className="btn hover:scale-110 transition-all w-48 flex justify-start pr-10 border-none bg-gradient-to-r from-[#FF9C1A] to-[#E80505] rounded-full text-white">
+            <button
+              onClick={() => router.push("/profile")}
+              className="btn hover:scale-110 transition-all w-48 flex justify-start pr-10 border-none bg-gradient-to-r from-[#FF9C1A] to-[#E80505] rounded-full text-white"
+            >
               <FileEdit /> <label className="ml-1">Edit Profile</label>
             </button>
           )}

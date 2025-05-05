@@ -63,7 +63,7 @@ const LinkNow = () => {
 
         const response = await axios({
           method: "POST",
-          url: "/api/v1/users/sign-in",
+          url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/users/sign-in`,
           // withCredentials: true,
           data: {
             userName: user.userName,
@@ -78,7 +78,7 @@ const LinkNow = () => {
 
           const res = await axios({
             method: "POST",
-            url: "/api/v1/link/create/",
+            url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/link/create/`,
             // withCredentials: true,
             data: {
               senderEmail: emailDecrypt,

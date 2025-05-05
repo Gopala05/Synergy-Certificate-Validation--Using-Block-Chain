@@ -96,7 +96,7 @@ const DashNav = () => {
                   alt={auth ? "Auth Icon" : "User Icon"}
                   className={cn(
                     `${
-                      auth ? "w-24" : "w-24 rounded-full"
+                      auth ? "w-24 h-24" : "w-24 h-24 object-cover rounded-full"
                     } flex justify-end items-center`,
                     (user?.profile || auth?.profile) && "border-black border"
                   )}
@@ -109,14 +109,14 @@ const DashNav = () => {
                 </span>
                 !
               </div>
-              <div className="flex justify-center w-full">
+              {!auth && <div className="flex justify-center w-full">
                 <button
                   onClick={(e) => router.push("/profile")}
                   className="rounded-full border-white px-8 border-2 text-xl py-2 hover:scale-105 transition-all"
                 >
                   Manage your Profile
                 </button>
-              </div>
+              </div>}
               <div className="flex w-full flex-col items-center justify-center rounded-xl gap-y-1">
                 {!auth && (
                   <>
@@ -330,7 +330,9 @@ const DashNav = () => {
                 alt={auth ? "Auth Icon" : "User Icon"}
                 className={cn(
                   `${
-                    auth ? "w-14 xl:w-16" : "w-14 xl:w-16 rounded-full"
+                    auth
+                      ? "w-14 h-14 xl:w-16 xl:h-16"
+                      : "w-14 h-14 xl:w-16 xl:h-16 object-cover rounded-full"
                   } flex justify-end items-center ml-3`,
                   (user?.profile || auth?.profile) && "border-black border"
                 )}

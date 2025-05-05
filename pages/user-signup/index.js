@@ -115,7 +115,7 @@ const UserSignUp = () => {
         setIsLoading(false);
         return toast.error("Plese Provide the aadhar number");
       }
-      const aadharValid = await axios.post("/api/v1/aadhar/check-aadhar", {
+      const aadharValid = await axios.post(`${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/aadhar/check-aadhar`, {
         aadhar: user?.aadhar,
       });
 
@@ -145,7 +145,7 @@ const UserSignUp = () => {
         return toast.error("Plese Provide the OTP");
       }
       const aadharOTPValid = await axios.post(
-        "/api/v1/aadhar/check-aadhar-otp",
+        `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/aadhar/check-aadhar-otp`,
         {
           aadhar: user?.aadhar,
           otp: user?.otp,
@@ -270,7 +270,7 @@ const UserSignUp = () => {
         if (group == "OK") {
           const response = await axios({
             method: "POST",
-            url: "/api/v1/users/sign-up",
+            url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/users/sign-up`,
             withCredentials: true,
             data: {
               aadhar: user.aadhar,
@@ -323,7 +323,7 @@ const UserSignUp = () => {
       } else {
         const response = await axios({
           method: "POST",
-          url: "/api/v1/users/sign-up",
+          url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/users/sign-up`,
           withCredentials: true,
           data: {
             aadhar: user.aadhar,

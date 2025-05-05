@@ -90,8 +90,8 @@ const PortfolioEducation = () => {
   return (
     <div>
       <DashNav />
-      <div className="pt-20 h-[100vh]">
-        <Row className="pr-10">
+      <div className="pt-20 h-[100vh] w-full flex items-center justify-between">
+        <Row className="pr-10 flex w-full items-center justify-between">
           <Col lg={7}>
             <PortfolioBasic user={user} viewer={viewer} />
           </Col>

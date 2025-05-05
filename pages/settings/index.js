@@ -85,23 +85,23 @@ const SettingsPage = () => {
   return (
     <div>
       <DashNav />
-      <div className="pt-28 h-[100vh]">
+      <div className="pt-28 h-[100vh] flex flex-col items-center justify-center">
         <div className="px-4 lg:px-8 items-center gap-x-3 flex mb-8">
           <div className={cn("p-2 w-fit rounded-md", "bg-gray-700")}>
             <Settings className={cn("w-10 h-10", "text-white")} />
           </div>
           <div>
-            <h2 className="text-3xl lg:text-4xl font-bold">Settings</h2>
-            <p className="text-sm text-muted-foreground">
+            <h2 className="text-3xl lg:text-7xl font-bold">Settings</h2>
+            {/* <p className="text-sm text-muted-foreground">
               Manage account settings
-            </p>
+            </p> */}
           </div>
         </div>
-        <div className="px-4 lg:px-8 space-y-4 text-4xl lg:text-5xl">
+        <div className="px-4 lg:px-8 space-y-4 text-4xl lg:text-7xl text-center">
           <div>
             Hi,&nbsp;<span>{user?.name}</span>
           </div>
-          <div className="text-gray-500 text-xl lg:text-2xl">
+          <div className="text-white text-xl lg:text-6xl">
             {subscription?.valid
               ? `You are currently on ${user.subscription
                   .toString()

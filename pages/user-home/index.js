@@ -67,7 +67,7 @@ const UserHome = () => {
               src={user?.profile ? user.profile : "/User_Name.jpg"}
               alt="User Icon"
               className={cn(
-                "w-36 bg-white rounded-full",
+                "w-36 h-36 bg-white rounded-full object-cover",
                 user?.profile && "border-black border"
               )}
             />

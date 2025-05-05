@@ -35,7 +35,7 @@ const SubscriptionButton = ({ subscription, user }) => {
     <Button
       variant={subscription?.valid ? "default" : "premium"}
       onClick={handleButtonClick}
-      className="uppercase btn text-white rounded-xl text-2xl"
+      className="uppercase btn text-white rounded-xl text-4xl pb-12"
     >
       {subscription?.valid ? "Manage Subscription" : "Upgrade"}
       {!subscription?.valid && <Zap className="w-4 h-4 ml-2 fill-white" />}

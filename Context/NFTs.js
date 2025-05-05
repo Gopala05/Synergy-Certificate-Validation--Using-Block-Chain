@@ -161,7 +161,7 @@ export const StateContextProvider = ({ children }) => {
 
       // console.log(title, description, certificateID, userEmail, organisation, AuthInfo.authID, AuthInfo.authEmail, address, transactionHash, certificate )
 
-      const apiResponse = await axios.post("/api/v1/nfts", {
+      const apiResponse = await axios.post(`${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/nfts`, {
         title: title,
         description: description,
         certificateID: certificateID,
@@ -173,6 +173,8 @@ export const StateContextProvider = ({ children }) => {
         transactionHash: transactionHash,
         certificate: certificate,
       });
+
+      console.log(apiResponse);
 
       if (apiResponse) {
         const encryptedMail = encrypt(userEmail);
@@ -196,6 +198,8 @@ export const StateContextProvider = ({ children }) => {
             MailParams,
             process.env.NEXT_PUBLIC_USER_ID_FOR_UPLOAD
           );
+
+          console.log({response});
 
           if (response.status == 200) {
             setIsLoading(false);
@@ -260,7 +264,7 @@ export const StateContextProvider = ({ children }) => {
     try {
       const response = await axios({
         method: "POST",
-        url: "/api/v1/nfts/fetchAll",
+        url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/nfts/fetchAll`,
         data: {
           emails: emails,
         },
@@ -290,7 +294,7 @@ export const StateContextProvider = ({ children }) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `/api/v1/users/get-user/${email}`,
+        url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/users/get-user/${email}`,
       });
       return response;
     } catch (error) {
@@ -340,7 +344,7 @@ export const StateContextProvider = ({ children }) => {
   const getSingleNFTAPI = async (req) => {
     try {
       const data = JSON.parse(req);
-      const response = await axios.post("/api/v1/nfts/verify", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/nfts/verify`, {
         certificateID: data.certificateID,
         userEmail: data.userEmail,
       });
@@ -371,7 +375,7 @@ export const StateContextProvider = ({ children }) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `/api/v1/nfts/check/${certID}`,
+        url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/nfts/check/${certID}`,
       });
       return response.data.exists;
     } catch (error) {
@@ -391,7 +395,7 @@ export const StateContextProvider = ({ children }) => {
   // Stripe Subscription
   const stripeSubscription = async (user, plan) => {
     try {
-      const response = await axios.post("/api/v1/stripe/subscription", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/stripe/subscription`, {
         user: user,
         subscriptionType: plan,
       });
@@ -415,7 +419,7 @@ export const StateContextProvider = ({ children }) => {
   // Check Stripe Subscription
   const checkSubscription = async (user) => {
     try {
-      const response = await axios.post("/api/v1/stripe/checksubscription", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/stripe/checksubscription`, {
         user: user,
       });
       if (response.status == 200) return response.data;
@@ -438,7 +442,7 @@ export const StateContextProvider = ({ children }) => {
   // Get the Current Plan of the User
   const getPlan = async (userName) => {
     try {
-      const response = await axios.get(`/api/v1/stripe/plan/${userName}`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/stripe/plan/${userName}`);
       if (response.status == 200) return response.data.plan;
     } catch (error) {
       setIsLoading(false);
@@ -459,7 +463,7 @@ export const StateContextProvider = ({ children }) => {
   // Create User Details
   const createUserDetails = async (data) => {
     try {
-      const response = await axios.post(`/api/v1/userdetails/create`, data);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/userdetails/create`, data);
       if (response.status == 200) return response.data.userDetails;
     } catch (error) {
       setIsLoading(false);
@@ -481,7 +485,7 @@ export const StateContextProvider = ({ children }) => {
   const getUserDetails = async (userName) => {
     try {
       const response = await axios.get(
-        `/api/v1/userdetails/getdetails/${userName}`
+        `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/userdetails/getdetails/${userName}`
       );
       if (response.status == 200) return response.data.userDetails;
     } catch (error) {
