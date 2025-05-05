@@ -270,8 +270,8 @@ const UserSignUp = () => {
         if (group == "OK") {
           const response = await axios({
             method: "POST",
-            url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/users/sign-up`,
-            withCredentials: true,
+            url: `/api/v1/users/sign-up`,
+            // withCredentials: true,
             data: {
               aadhar: user.aadhar,
               name:
@@ -323,8 +323,8 @@ const UserSignUp = () => {
       } else {
         const response = await axios({
           method: "POST",
-          url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/users/sign-up`,
-          withCredentials: true,
+          url: `/api/v1/users/sign-up`,
+          // withCredentials: true,
           data: {
             aadhar: user.aadhar,
             name:

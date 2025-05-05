@@ -15,7 +15,8 @@ export const CrispProvider = () => {
 
   return (
     shouldShowChat &&
-    plansHook.subscription === "gold" && (
+    (plansHook.subscription === "gold" ||
+      plansHook.subscription === "platinum") && (
       <div className="flex w-full justify-end">
         <Row className="hidden lg:flex w-[10vw] bg-white items-center rounded-2xl h-10 absolute z-30 bottom-7 right-[75px]">
           <Col className="flex flex-grow pl-2">
