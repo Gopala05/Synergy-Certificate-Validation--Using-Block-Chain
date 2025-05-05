@@ -57,7 +57,7 @@ const AuthLogin = () => {
       const response = await axios({
         method: "POST",
         url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/auth/sign-in`,
-        // withCredentials: true,
+        withCredentials: true,
         data: {
           authID: auth.authID,
           password: auth.password,

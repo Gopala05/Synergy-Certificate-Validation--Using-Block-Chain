@@ -21,7 +21,7 @@ const Block = () => {
       const response = await axios({
         method: "GET",
         url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/link/check/${id}`,
-        // withCredentials: true,
+        withCredentials: true,
       });
       if (response.data.status == "OK") {
         setID(router.query.id);
@@ -73,7 +73,7 @@ const Block = () => {
         const response = await axios({
           method: "PUT",
           url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/link/block/${request._id}`,
-          // withCredentials: true,
+          withCredentials: true,
         });
 
         if (response.data.status === "OK") {

@@ -59,7 +59,7 @@ const UserLogin = () => {
       const response = await axios({
         method: "POST",
         url: `${process.env.NEXT_PUBLIC_WEB_URL}/api/v1/users/sign-in`,
-        // withCredentials: true,
+        withCredentials: true,
         data: {
           userName: user.userName,
           password: user.password,
