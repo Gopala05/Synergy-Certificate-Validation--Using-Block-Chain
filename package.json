@@ -35,7 +35,7 @@
     "framer-motion": "^11.3.24",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.424.0",
-    "mongoose": "^5.5.2",
+    "mongoose": "^6.13.6",
     "next": "^14.2.26",
     "nodemon": "^3.1.0",
     "pinata": "^0.2.0",
